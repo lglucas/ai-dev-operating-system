@@ -1,67 +1,49 @@
 # Attributions
 
-This project is an original public framework assembled from real-world AI-assisted development workflows and external open-source references.
+AI Dev Operating System is created and maintained by **Lucas Galvão**.
 
-It is designed to be attribution-friendly.
+- Website: https://lucasgalvao.com.br
+- LinkedIn: https://www.linkedin.com/in/lucasgalvao/
+- X/Twitter: https://x.com/lg_lucas
+- GitHub: https://github.com/lglucas
 
----
+Selected projects by the maintainer:
 
-## Primary origin
-
-### Boring Co project operating system
-
-- Source: https://github.com/lglucas/boringco
-- Author: Lucas Galvão
-- Role: real-world internal project system that inspired this generalized framework
-- Extracted and generalized:
-  - `CLAUDE.md` project constitution pattern
-  - `.claude/rules` modular rule architecture
-  - `.claude/agents` specialized agent architecture
-  - `.claude/skills` workflow architecture
-  - slash-command workflow style
-  - sprint lifecycle
-  - changelog discipline
-  - session-log decision memory
-
-Specific Boring Co product, business, market, pricing, legal, and strategic content is intentionally excluded.
+- Complian.cc — https://complian.cc
+- ASH — https://ash.app.br
+- Tokenfy — https://tokenfy.me
+- Boring Co — https://github.com/lglucas/boringco *(private/internal project reference; may not be publicly accessible)*
 
 ---
 
-## External repositories and ecosystems
+## Origin
 
-This project references and credits the following sources:
+This repository generalizes an internal AI-assisted SaaS development operating system into a reusable public framework.
 
-- https://github.com/anthropics/skills
-- https://github.com/affaan-m/everything-claude-code
-- https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
-- https://github.com/VoltAgent/awesome-design-md
-- https://getdesign.md
-- https://github.com/trailofbits/skills
-- https://github.com/Jacob-Hegy/CIS-Hardening-Guide
-- https://github.com/Neo23x0/YARA-Style-Guide
-- https://github.com/solanabr/solana-claude
-- https://github.com/gitleaks/gitleaks
+The public framework intentionally separates:
 
-See `UPSTREAM-SOURCES.md` for detailed classification and mapping.
+- reusable project operating system patterns;
+- Claude Code rules, agents, commands, and skills;
+- sprint, changelog, session-log, and documentation workflows;
+- security, privacy, research, design, and prototype workflows;
+- optional stack-specific packs.
+
+Project-specific business data, commercial strategy, private customer information, supplier data, and non-reusable internal details are intentionally excluded.
 
 ---
 
-## Specs and conventions
+## External sources and inspirations
 
-This project uses or references:
+See [`UPSTREAM-SOURCES.md`](UPSTREAM-SOURCES.md) for a complete source map.
 
-- Keep a Changelog: https://keepachangelog.com/
-- Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
-- Semantic Versioning: https://semver.org/
+Key references include:
 
----
-
-## Copying policy
-
-Unless explicitly stated otherwise:
-
-- External sources are credited as inspiration or references.
-- External repos are not vendored by default.
-- Users should install or clone upstream projects directly from their authors.
-- Brand-specific or third-party assets should not be copied into this repository unless their license clearly permits it.
-- When in doubt, link upstream instead of duplicating content.
+- Anthropic Skills — https://github.com/anthropics/skills
+- everything-claude-code — https://github.com/affaan-m/everything-claude-code
+- UI UX Pro Max Skill — https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+- VoltAgent awesome-design-md — https://github.com/VoltAgent/awesome-design-md
+- Trail of Bits Skills — https://github.com/trailofbits/skills
+- Solana Claude — https://github.com/solanabr/solana-claude
+- Keep a Changelog — https://keepachangelog.com/
+- Conventional Commits — https://www.conventionalcommits.org/en/v1.0.0/
+- Semantic Versioning — https://semver.org/

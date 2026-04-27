@@ -1,168 +1,89 @@
 # Origin Map
 
-This document explains where the main ideas in AI Dev Operating System come from and how they map into this repo.
+This document explains where the AI Dev Operating System structure comes from and how each source influences the public framework.
 
 ---
 
-## Summary
+## Core idea
 
-| Source | Role in this repo |
-|---|---|
-| Boring Co internal project system | Real-world validated implementation |
-| Anthropic Skills | Official conceptual foundation for skills |
-| everything-claude-code | Advanced Claude Code ecosystem reference |
-| Trail of Bits Skills | Security workflow reference |
-| UI UX Pro Max Skill | UI/UX workflow reference |
-| awesome-design-md / getdesign.md | Design-system workflow reference |
-| solana-claude | Optional stack-pack reference |
-| CIS Hardening Guide | Advanced infrastructure hardening reference |
-| YARA Style Guide | Advanced security/rule readability reference |
-| Keep a Changelog | Changelog discipline |
-| Conventional Commits | Commit discipline |
-| Semantic Versioning | Versioning discipline |
+The repository was created from a practical observation:
+
+> AI-assisted SaaS development works much better when the project starts with rules, agents, skills, documentation layers, research workflows, changelog discipline, sprint planning, and session logs before coding begins.
+
+The public repo turns that workflow into a reusable starting point.
 
 ---
 
-## Boring Co → AI Dev Operating System
+## Practical origin
 
-The Boring Co repo validated the structure in a real project:
+The workflow was first validated in internal/private SaaS development work, including a project operating system with:
 
-```txt
-CLAUDE.md
-.claude/rules/
-.claude/agents/
-.claude/skills/
-.claude/commands/
-docs/SPRINTS.md
-docs/sprints/
-CHANGELOG.md
-session-log/
-```
+- `CLAUDE.md` as project constitution;
+- `.claude/rules/` as modular operating rules;
+- `.claude/agents/` as specialized AI roles;
+- `.claude/skills/` as reusable workflows;
+- `.claude/commands/` as command entry points;
+- `CHANGELOG.md` for versioned history;
+- `docs/SPRINTS.md` for execution planning;
+- `session-log/` for decision memory.
 
-This repo generalizes that into a reusable operating system.
+Reference: https://github.com/lglucas/boringco *(private/internal project reference; may not be publicly accessible)*.
 
-### What was generalized
-
-- Project-specific instructions became a generic project constitution template.
-- Boring Co rules became reusable core rules.
-- Boring Co agents became generic role-based agents.
-- Boring Co skills became reusable workflow skills.
-- Boring Co sprint docs became a public sprint system.
-- Boring Co session logs became a decision-memory pattern.
-
-### What was excluded
-
-- Product strategy
-- Market research
-- Pricing
-- Competitor analysis
-- Customer details
-- Payment provider specifics
-- WhatsApp provider specifics
-- Legal strategy specific to the business
-- Any private operational material
+Project-specific business data was not imported.
 
 ---
 
-## Anthropic Skills → skill architecture
+## Public source categories
 
-Anthropic’s public skills repo is the official conceptual anchor for the idea of using skills as reusable capabilities.
+### Official Claude / skills foundations
 
-Local mapping:
+- Anthropic Skills: https://github.com/anthropics/skills
 
-```txt
-docs/skill-system.md
-skills/
-templates/project/CLAUDE.md
-```
+Used as official conceptual reference for reusable Agent Skills.
 
 ---
 
-## everything-claude-code → advanced agentic ecosystem
+### Agentic workflow expansion
 
-This upstream project inspired the idea that a serious AI development environment can include:
+- everything-claude-code: https://github.com/affaan-m/everything-claude-code
 
-- skills
-- agents
-- commands
-- hooks
-- MCP configs
-- memory optimization
-- research workflows
-- security scanning
-- external plugin installation
-
-Local mapping:
-
-```txt
-skills/external/affaan-everything-claude-code.md
-docs/skill-system.md
-docs/agent-system.md
-```
+Used as inspiration for advanced Claude Code workflows, external skills, hooks, agents, memory, MCP patterns, and security scanning.
 
 ---
 
-## UI/UX sources → design workflow
+### UI/UX and design workflows
 
-The design workflow is inspired by:
+- UI UX Pro Max Skill: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+- VoltAgent awesome-design-md: https://github.com/VoltAgent/awesome-design-md
+- getdesign.md: https://getdesign.md
 
-- `nextlevelbuilder/ui-ux-pro-max-skill`
-- `VoltAgent/awesome-design-md`
-- `getdesign.md`
-
-The goal is to make UI/UX a first-class project workflow instead of a final polish step.
-
-Local mapping:
-
-```txt
-docs/design-system-workflow.md
-future: skills/design-prototype/
-future: rules/design/
-```
+Used as inspiration for Prototype Lab, design-system-based prompting, and three-direction UI exploration.
 
 ---
 
-## Security sources → security baseline
+### Security and review workflows
 
-Security references include:
+- Trail of Bits Skills: https://github.com/trailofbits/skills
+- Gitleaks: https://github.com/gitleaks/gitleaks
+- CIS Hardening Guide: https://github.com/Jacob-Hegy/CIS-Hardening-Guide
+- YARA Style Guide: https://github.com/Neo23x0/YARA-Style-Guide
 
-- Trail of Bits Skills
-- Gitleaks
-- CIS Hardening Guide
-- YARA Style Guide
-
-The goal is not to turn every SaaS project into a malware research lab.
-
-The goal is to give every AI-assisted SaaS project a sane baseline:
-
-- secrets scanning
-- dependency review
-- secure development prompts
-- privacy review
-- release gates
-- infrastructure hardening references for later stages
-
-Local mapping:
-
-```txt
-docs/security-baseline.md
-rules/security/
-skills/secrets-scan/
-future: skills/security-review/
-```
+Used as inspiration for security review habits, secret scanning, hardening awareness, and advanced security references.
 
 ---
 
-## solana-claude → stack pack model
+### Stack-specific packs
 
-`solanabr/solana-claude` is treated as an example of a specialized stack pack.
+- Solana Claude: https://github.com/solanabr/solana-claude
 
-It is not core to every SaaS project, but it shows how the OS can be extended for a specific ecosystem.
+Used as an example of how this operating system can be extended into specialized stack packs.
 
-Local mapping:
+---
 
-```txt
-stack-packs/solana/README.md
-future: rules/stack-specific/solana.md
-future: skills/solana-*
-```
+### Workflow conventions
+
+- Keep a Changelog: https://keepachangelog.com/
+- Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
+- Semantic Versioning: https://semver.org/
+
+Used for changelog, commit, and release discipline.

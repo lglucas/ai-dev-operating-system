@@ -1,37 +1,21 @@
-# Excluded Boring Co Material
+# Excluded Project-Specific Material
 
-This repo intentionally excludes product-specific Boring Co material.
+This file is kept for compatibility with earlier repository versions.
 
-The objective is to generalize the operating system, not to publish the private strategic substance of a specific SaaS.
+The public AI Dev Operating System intentionally excludes project-specific business data from private/internal SaaS projects.
 
----
+Excluded categories include:
 
-## Excluded categories
+- private business strategy;
+- product-specific pricing;
+- customer or partner information;
+- supplier details;
+- private legal analysis;
+- competitor research tied to one business idea;
+- private sprint decisions that do not generalize;
+- credentials, tokens, API keys, endpoints, or `.env` data.
 
-- Market research
-- Competitor analysis
-- Pricing strategy
-- Business plan content
-- Customer acquisition strategy
-- Payment provider details
-- WhatsApp provider details
-- Local legal strategy
-- Founder-specific operational assignments
-- Product-specific roadmap details
-- Product-specific integrations
-- Product-specific brand assets
-- Any private or sensitive operational notes
+For the current sanitization policy, see:
 
----
-
-## Why
-
-The public repo should be reusable.
-
-It should not leak or depend on a specific project.
-
-The useful part is the operating pattern:
-
-```txt
-rules → agents → skills → commands → sprint → changelog → session-log → review gates
-```
+- [`docs/public-sanitization.md`](public-sanitization.md)
+- [`UPSTREAM-SOURCES.md`](../UPSTREAM-SOURCES.md)

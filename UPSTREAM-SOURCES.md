@@ -2,32 +2,32 @@
 
 This document tracks external sources, inspirations, specs, tools, and upstream repositories used while creating this project.
 
-The goal is to keep this repository auditable, attribution-friendly, and cleanly separated from product-specific material.
+The goal is to keep this repository auditable, attribution-friendly, and cleanly separated from project-specific material.
 
 ---
 
 ## 1. Primary origin
 
-### Boring Co internal project system
+### Internal SaaS project operating system
 
-- Source repo: https://github.com/lglucas/boringco
-- Used as: original internal project operating system
+- Reference: https://github.com/lglucas/boringco
+- Status: private/internal reference; may not be publicly accessible.
+- Used as: real-world implementation that validated the operating-system structure.
 - Extracted concepts:
-  - Project constitution via `CLAUDE.md`
-  - Modular `.claude/rules`
-  - Specialized `.claude/agents`
-  - Local `.claude/skills`
-  - Slash command workflows
-  - Sprint lifecycle
-  - Changelog discipline
-  - Session logs as decision memory
-  - Coordinator and Devil's Advocate review flows
-  - Security pipeline thinking
-  - Design-system workflow thinking
+  - Project constitution via `CLAUDE.md`.
+  - Modular `.claude/rules`.
+  - Specialized `.claude/agents`.
+  - Local `.claude/skills`.
+  - Slash command workflows.
+  - Sprint lifecycle.
+  - Changelog discipline.
+  - Session logs as decision memory.
+  - Coordinator and Devil's Advocate review flows.
+  - Research waves and red-team review before business-plan writing.
 
 This repository generalizes that system into a reusable public framework.
 
-Product-specific Boring Co content, market research, pricing, partners, competitors, customer strategy, legal specifics, and business data are intentionally excluded.
+Product-specific business content, market research, pricing, partners, competitors, customer strategy, legal specifics, and private project data are intentionally excluded.
 
 ---
 
@@ -36,57 +36,39 @@ Product-specific Boring Co content, market research, pricing, partners, competit
 ### Anthropic Skills
 
 - URL: https://github.com/anthropics/skills
-- Role: official public examples and patterns for Agent Skills
-- Classification: `source`, `spec-like reference`, `official ecosystem`
+- Role: official public repository for Agent Skills examples and patterns.
 - Used as:
-  - Reference for how skills can be structured
-  - Official conceptual foundation for agent skills
-  - Public examples of what a skills-based workflow can do
-- Local mapping:
-  - `docs/skill-system.md`
-  - `skills/`
-  - `templates/project/CLAUDE.md`
-- Notes:
-  - This project should link to Anthropic’s repo rather than copying official content unless the license and attribution are clearly respected.
+  - Conceptual reference for skill structure.
+  - Official ecosystem reference for reusable agent workflows.
 
 ---
+
+## 3. External repositories
 
 ### everything-claude-code
 
 - URL: https://github.com/affaan-m/everything-claude-code
 - Git URL: https://github.com/affaan-m/everything-claude-code.git
-- Role: external Claude Code / agent harness ecosystem
-- Classification: `inspiration`, `tool`, `optional upstream`
+- Role: external Claude Code / agent harness ecosystem.
 - Used as:
-  - Inspiration for external skill/plugin integration
-  - Reference for agentic workflow expansion
-  - Optional upstream plugin recommendation
-  - Inspiration for advanced Claude Code workflows, hooks, agents, commands, MCPs, memory optimization, security scanning, and research-first development
+  - Inspiration for external skill/plugin integration.
+  - Reference for advanced agentic workflow expansion.
+  - Optional upstream plugin recommendation.
 - Local mapping:
   - `skills/external/affaan-everything-claude-code.md`
-  - `docs/skill-system.md`
-  - `docs/agent-system.md`
 - Notes:
   - This repository does not vendor the upstream project by default.
   - Users should install it directly from upstream when needed.
 
 ---
 
-## 3. UI/UX and design-system workflows
-
 ### UI UX Pro Max Skill
 
 - URL: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
-- Role: UI/UX design intelligence skill for professional interface generation
-- Classification: `inspiration`, `optional skill`, `design workflow`
+- Role: UI/UX design intelligence skill reference.
 - Used as:
-  - Inspiration for the `design-prototype` skill
-  - Reference for stronger UI/UX review and interface generation workflows
-  - Inspiration for making design a first-class AI-assisted workflow rather than an afterthought
-- Local mapping:
-  - `docs/design-system-workflow.md`
-  - Future: `skills/design-prototype/`
-  - Future: `rules/design/`
+  - Inspiration for the Prototype Lab and design-prototype workflows.
+  - Reference for multi-direction UI exploration before implementation.
 
 ---
 
@@ -94,123 +76,80 @@ Product-specific Boring Co content, market research, pricing, partners, competit
 
 - URL: https://github.com/VoltAgent/awesome-design-md
 - Related site: https://getdesign.md
-- Role: design-system reference source
-- Classification: `inspiration`, `tool`, `design-system reference`
+- Role: design-system reference source.
 - Used as:
-  - Inspiration for design-system based UI prototyping workflows
-  - Reference for external `DESIGN.md` style assets
-  - Inspiration for giving agents a consistent visual language
-- Local mapping:
-  - `docs/design-system-workflow.md`
-  - Future: `skills/design-prototype/`
-  - Future: `docs/design-systems.md`
+  - Inspiration for design-system based UI prototyping workflows.
+  - Reference for external `DESIGN.md` style assets.
 - Notes:
   - Brand-specific design files should not be copied into this repo unless license and attribution are clear.
   - Prefer linking to upstream and documenting how to fetch assets.
 
 ---
 
-## 4. Security, audit and hardening references
-
 ### Trail of Bits Skills
 
 - URL: https://github.com/trailofbits/skills
-- Role: security-focused Claude Code skills marketplace
-- Classification: `source`, `inspiration`, `optional security skill pack`
+- Role: security-focused Claude Code skills marketplace.
 - Used as:
-  - Reference for serious AI-assisted security review workflows
-  - Inspiration for secure development skills
-  - Inspiration for audit, differential review, test verification, code review, and exploit-aware workflows
-- Local mapping:
-  - `docs/security-baseline.md`
-  - `rules/security/`
-  - `skills/secrets-scan/`
-  - Future: `skills/security-review/`
-- Notes:
-  - Treat as a high-quality upstream security reference.
-  - Prefer linking to upstream plugin/skills instead of copying them.
+  - Reference for security analysis, code review, testing, and secure development workflows.
+  - Inspiration for security-oriented agent and skill design.
 
 ---
+
+### Solana Claude
+
+- URL: https://github.com/solanabr/solana-claude
+- Role: stack-specific Claude Code pack for Solana development.
+- Used as:
+  - Optional stack-pack reference.
+  - Example of how an AI development operating system can be specialized for a technical ecosystem.
+
+---
+
+## 4. Security and hardening references
 
 ### CIS Hardening Guide
 
 - URL: https://github.com/Jacob-Hegy/CIS-Hardening-Guide
-- Role: infrastructure and workstation hardening reference
-- Classification: `advanced reference`, `security`, `hardening`
+- Role: hardening reference.
 - Used as:
-  - Reference for future infrastructure hardening guidance
-  - Optional advanced source for VPS, workstation, and self-hosted deployment hardening
-- Local mapping:
-  - `docs/security-baseline.md`
-  - Future: `docs/infra-hardening.md`
-- Notes:
-  - Not core for day-zero SaaS app development.
-  - Useful when moving from app prototype to production infrastructure.
+  - Advanced infrastructure/workstation hardening reference.
+  - Not part of the default SaaS app template.
 
 ---
 
 ### YARA Style Guide
 
 - URL: https://github.com/Neo23x0/YARA-Style-Guide
-- Role: style guide for readable and maintainable YARA rules
-- Classification: `advanced reference`, `security`, `malware detection`
+- Role: malware detection rule style reference.
 - Used as:
-  - Advanced reference for malware detection rule style
-  - Inspiration for rule readability and maintainability principles
-- Local mapping:
-  - `docs/security-baseline.md`
-- Notes:
-  - Not core for typical SaaS project scaffolding.
-  - Useful as an advanced security reference, especially when projects involve threat detection.
+  - Advanced security reference for readable and maintainable YARA rules.
+  - Not part of the default SaaS app template.
 
 ---
 
-### Gitleaks
+### Gitleaks default config
 
-- URL: https://github.com/gitleaks/gitleaks
-- Reference config: https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
-- Role: secrets scanning reference
-- Classification: `tool`, `security baseline`
+- URL: https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+- Role: secrets scanning reference.
 - Used as:
-  - Inspiration for secrets scanning workflow
-  - Reference for future custom rules
+  - Inspiration for secrets scanning workflow.
+  - Reference for future custom rules.
 - Local mapping:
   - `rules/security/secrets.md`
   - `skills/secrets-scan/SKILL.md`
 
 ---
 
-## 5. Stack-specific packs
-
-### solanabr/solana-claude
-
-- URL: https://github.com/solanabr/solana-claude
-- Role: Claude Code configuration pack for Solana builders
-- Classification: `stack-specific pack`, `optional reference`, `web3`
-- Used as:
-  - Reference for how a stack-specific AI dev pack can be organized
-  - Optional Solana/web3 extension path
-  - Inspiration for future `stack-packs/solana/`
-- Local mapping:
-  - `stack-packs/solana/README.md`
-  - Future: `rules/stack-specific/solana.md`
-  - Future: `skills/solana-*`
-- Notes:
-  - Not part of the default generic SaaS baseline.
-  - Should be positioned as an optional advanced stack pack.
-
----
-
-## 6. Specs and conventions
+## 5. Specs and conventions
 
 ### Keep a Changelog
 
 - URL: https://keepachangelog.com/
-- Role: changelog structure reference
-- Classification: `spec`, `workflow convention`
+- Role: changelog structure reference.
 - Used as:
-  - Inspiration for human-readable changelog categories
-  - Release note discipline
+  - Inspiration for human-readable changelog categories.
+  - Release note discipline.
 - Local mapping:
   - `CHANGELOG.md`
   - `skills/sprint-management/`
@@ -221,11 +160,10 @@ Product-specific Boring Co content, market research, pricing, partners, competit
 ### Conventional Commits
 
 - URL: https://www.conventionalcommits.org/en/v1.0.0/
-- Role: commit message convention
-- Classification: `spec`, `workflow convention`
+- Role: commit message convention.
 - Used as:
-  - Git workflow convention
-  - Sprint branch and release discipline
+  - Git workflow convention.
+  - Sprint branch and release discipline.
 - Local mapping:
   - `rules/core/git-workflow.md`
   - `templates/project/CLAUDE.md`
@@ -235,37 +173,36 @@ Product-specific Boring Co content, market research, pricing, partners, competit
 ### Semantic Versioning
 
 - URL: https://semver.org/
-- Role: versioning reference
-- Classification: `spec`, `workflow convention`
+- Role: versioning reference.
 - Used as:
-  - Release and tag strategy inspiration
-  - Version semantics for public packages and templates
+  - Release and tag strategy inspiration.
+  - Version semantics for public packages and templates.
 
 ---
 
-## 7. Product-specific links intentionally excluded
+## 6. Product-specific links intentionally excluded
 
-The original Boring Co audit includes many external links that are specific to that product, market, competitors, legal research, payments, WhatsApp providers, design assets, or local Brazilian business context.
+The original internal project audit included many external links that are specific to one product, market, competitors, legal research, payments, messaging providers, design assets, or local business context.
 
-These are not part of the reusable AI development operating system and should not be copied into this repository except as examples in clearly marked case studies.
+These are not part of the reusable AI development operating system and should not be copied into this repository except as clearly marked case studies or examples.
 
 Excluded categories include:
 
-- Boring Co product URLs
-- Payment provider documentation
-- WhatsApp provider links
-- Competitor links
-- Healthcare-specific legal research
-- Beauty, salon and professional services market research
-- Unsplash, avatar and placeholder image URLs
-- Localhost URLs
-- Supabase placeholder URLs
-- WhatsApp contact links
-- Social media competitor profiles
+- product URLs from private/internal projects;
+- payment provider implementation links;
+- messaging/WhatsApp provider links;
+- competitor research links;
+- vertical-specific legal or regulatory research;
+- market research links tied to a specific business idea;
+- placeholder image URLs;
+- localhost URLs;
+- placeholder Supabase URLs;
+- WhatsApp contact links;
+- social media competitor profiles.
 
 ---
 
-## 8. Attribution policy
+## 7. Attribution policy
 
 When adding new rules, agents, skills, commands, or templates derived from external material:
 
@@ -277,11 +214,10 @@ When adding new rules, agents, skills, commands, or templates derived from exter
    - `spec`
    - `tool`
    - `example`
-   - `optional stack pack`
 3. Explain whether content was:
-   - directly copied
-   - adapted
-   - conceptually inspired
-   - merely referenced
+   - directly copied;
+   - adapted;
+   - only conceptually inspired;
+   - merely referenced.
 4. Avoid vendoring third-party content unless license and attribution are clear.
 5. Prefer linking to upstream documentation instead of duplicating it.

@@ -1,64 +1,49 @@
-# Import Plan from Boring Co
+# Import Plan from Internal Project System
 
-This document tracks what should be imported, generalized, adapted, or excluded from the original Boring Co project system.
+This file is kept for compatibility with earlier repository versions.
 
----
-
-## Import almost directly
-
-- Project constitution pattern
-- Modular rules pattern
-- Agent frontmatter pattern
-- Skill folder structure
-- Command workflow pattern
-- Sprint management pattern
-- Changelog discipline
-- Session-log structure
-- Coordinator review pattern
-- Devil's Advocate review pattern
+The goal is not to copy a private project into this public repository. The goal is to extract reusable operating-system patterns and generalize them.
 
 ---
 
-## Generalize before importing
+## Import allowed
 
-- LGPD rules → privacy-audit rules
-- Multitenancy rules → generic multi-tenant isolation
-- API conventions → generic API conventions
-- cPanel deploy → deployment checklist examples
-- module toggle → feature flag/module flag system
-- business plan update → strategy/update workflow
-- persona flow → user/persona journey workflow
+Reusable patterns:
 
----
-
-## Exclude from the public OS
-
-- Boring Co business strategy
-- Pricing
-- Market research
-- Competitor research
-- Specific founders, customers, partners, or influencers
-- Specific payment provider setup
-- Specific WhatsApp provider setup
-- Specific legal strategy
-- Any private operational material
+- project constitution structure;
+- generic `.claude/rules`;
+- generic agents;
+- reusable skills;
+- command workflows;
+- sprint lifecycle;
+- changelog conventions;
+- session-log discipline;
+- research wave structure;
+- red-team review structure;
+- prototype lab workflow.
 
 ---
 
-## Still worth importing later
+## Import forbidden
 
-- `coo-agent`
-- `copywriter-agent`
-- `commands/feature-new`
-- `commands/lgpd-check` as `privacy-check`
-- `commands/module-toggle` as `feature-flag`
-- `commands/persona-flow` as `journey-flow`
-- `rules/testing`
-- `rules/i18n`
-- `rules/api-conventions`
-- `rules/multitenancy`
-- `skills/module-flag-system`
-- `skills/multi-tenant-test`
-- `skills/design-prototype`
-- `skills/sprint-management/assets/changelog-entry.md`
-- `skills/sprint-management/assets/retro-template.md`
+Project-specific material:
+
+- actual private business plan;
+- customer information;
+- real pricing strategy;
+- supplier or partner details;
+- private legal research;
+- private market research;
+- internal strategy;
+- private credentials or endpoints.
+
+---
+
+## Process
+
+1. Extract the reusable pattern.
+2. Remove project-specific names, numbers, partners, and strategy.
+3. Convert the pattern into a generic template.
+4. Add attribution when external sources influenced the material.
+5. Update `UPSTREAM-SOURCES.md` if needed.
+6. Add a session log explaining the import decision.
