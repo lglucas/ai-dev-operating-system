@@ -1,25 +1,67 @@
-# Attributions and upstream sources
+# Attributions
 
-This project is built from real-world AI-assisted development workflows and should clearly distinguish between:
+This project is an original public framework assembled from real-world AI-assisted development workflows and external open-source references.
 
-1. original local operating rules;
-2. adapted patterns from public specs;
-3. external repos/tools referenced by the system;
-4. third-party skills/plugins used as optional upstream sources.
+It is designed to be attribution-friendly.
 
-## Known upstream/source links
+---
 
-| Source | URL | Role | License/status | Notes |
-|---|---|---|---|---|
-| Boring Co operating repo | https://github.com/lglucas/boringco | Primary source of the initial project-specific rules, agents, skills, sprint flow, changelog/session-log structure | Author-owned | Used as the extraction base for this repo |
-| everything-claude-code | https://github.com/affaan-m/everything-claude-code | Optional external Claude Code plugin reference | MIT, verify upstream before vendoring | Do not vendor blindly; document selected skills and install path |
-| Conventional Commits | https://www.conventionalcommits.org/en/v1.0.0/ | Commit message convention | Public specification | Used for branch/commit/release discipline |
-| Keep a Changelog | https://keepachangelog.com/en/1.1.0/ | Human-readable changelog inspiration | Public guide | Use as changelog structure reference |
-| Semantic Versioning | https://semver.org/ | Versioning convention | Public specification | Recommended for releases and tags |
+## Primary origin
 
-## Attribution policy
+### Boring Co project operating system
 
-- If a file is copied substantially from an external source, keep the upstream link in the file header.
-- If a file is adapted from an external source, state `Adapted from:` in the file header.
-- If a file only references an external tool, list it here and in the relevant `skills/external/*` note.
-- Avoid vendoring external repos unless the license allows it and the original license notice is preserved.
+- Source: https://github.com/lglucas/boringco
+- Author: Lucas Galvão
+- Role: real-world internal project system that inspired this generalized framework
+- Extracted and generalized:
+  - `CLAUDE.md` project constitution pattern
+  - `.claude/rules` modular rule architecture
+  - `.claude/agents` specialized agent architecture
+  - `.claude/skills` workflow architecture
+  - slash-command workflow style
+  - sprint lifecycle
+  - changelog discipline
+  - session-log decision memory
+
+Specific Boring Co product, business, market, pricing, legal, and strategic content is intentionally excluded.
+
+---
+
+## External repositories and ecosystems
+
+This project references and credits the following sources:
+
+- https://github.com/anthropics/skills
+- https://github.com/affaan-m/everything-claude-code
+- https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+- https://github.com/VoltAgent/awesome-design-md
+- https://getdesign.md
+- https://github.com/trailofbits/skills
+- https://github.com/Jacob-Hegy/CIS-Hardening-Guide
+- https://github.com/Neo23x0/YARA-Style-Guide
+- https://github.com/solanabr/solana-claude
+- https://github.com/gitleaks/gitleaks
+
+See `UPSTREAM-SOURCES.md` for detailed classification and mapping.
+
+---
+
+## Specs and conventions
+
+This project uses or references:
+
+- Keep a Changelog: https://keepachangelog.com/
+- Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
+- Semantic Versioning: https://semver.org/
+
+---
+
+## Copying policy
+
+Unless explicitly stated otherwise:
+
+- External sources are credited as inspiration or references.
+- External repos are not vendored by default.
+- Users should install or clone upstream projects directly from their authors.
+- Brand-specific or third-party assets should not be copied into this repository unless their license clearly permits it.
+- When in doubt, link upstream instead of duplicating content.
