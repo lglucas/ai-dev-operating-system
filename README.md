@@ -1,183 +1,98 @@
 # AI Dev Operating System
 
-> A practical starter operating system for serious vibe coding and AI-assisted SaaS development.
+Day-zero operating system for serious vibe coding and AI-assisted SaaS development.
 
-Stop starting every AI-coded SaaS from zero.
+Clone this repo, open it in your IDE, run Claude Code in the terminal, and let the **Project Genesis Wizard** take you from raw idea to product brief, business plan, prototype lab, sprint roadmap, and first coding sprint.
 
-Clone this repo, adapt the project constitution, and start with rules, agents, skills, commands, sprint management, changelog discipline, session logs, security gates, and design workflows already in place.
-
----
-
-## What this is
-
-**AI Dev Operating System** is an opinionated project starter for building SaaS products with AI coding agents, especially Claude Code and agentic IDE workflows.
-
-It gives you a reusable structure for:
-
-- Project constitution via `CLAUDE.md`
-- Modular rules for code, architecture, git, privacy, testing, and security
-- Specialized agents for product, engineering, research, copy, coordination, and adversarial review
-- Skills for repeatable workflows such as sprint management, feature scaffolding, privacy audit, release checks, and secrets scanning
-- Slash-command style workflows for opening/closing sprints, creating features, running audits, and preparing releases
-- Changelog discipline
-- Sprint documentation
-- Session logs to preserve the “why” behind decisions
-- Security gates and attribution discipline
-- UI/design workflow references for faster product prototyping
-
-This repository was born from a real internal project system and generalized into a reusable public framework.
+This repo is not a finished SaaS template. It is the operating layer you put around a new SaaS so AI coding agents do not start from chaos.
 
 ---
 
-## Who this is for
+## Quick start
 
-This repo is for:
+```bash
+git clone https://github.com/lglucas/ai-dev-operating-system.git my-new-saas
+cd my-new-saas
+```
 
-- Solo founders building SaaS with AI coding agents
-- Small technical teams that want structure without bureaucracy
-- Builders using Claude Code, Cursor, Windsurf, Codex, or similar IDE workflows
-- Product-minded developers who want sprint, changelog, session-log, rules, skills, and agents from day zero
-- People who like vibe coding, but do not want vibe chaos
-
----
-
-## Core idea
-
-Vibe coding without structure becomes technical debt.
-
-Vibe coding with rules, agents, skills, changelog, sprint docs, and session logs becomes a lean product factory.
-
-This repo is designed to be your **day-zero project operating system**.
-
----
-
-## Repository structure
+Open the folder in your IDE. Then run Claude Code in the project terminal and paste:
 
 ```txt
-ai-dev-operating-system/
-├── README.md
-├── UPSTREAM-SOURCES.md
-├── ATTRIBUTIONS.md
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── .gitattributes
-│
-├── docs/
-│   ├── what-this-repo-is.md
-│   ├── origin-map.md
-│   ├── philosophy.md
-│   ├── documentation-layers.md
-│   ├── sprint-system.md
-│   ├── agent-system.md
-│   ├── skill-system.md
-│   ├── design-system-workflow.md
-│   ├── security-baseline.md
-│   └── stack-packs.md
-│
-├── templates/
-│   ├── project/
-│   │   └── CLAUDE.md
-│   ├── session-log/
-│   └── sprints/
-│
-├── rules/
-│   ├── core/
-│   ├── architecture/
-│   └── security/
-│
-├── agents/
-├── skills/
-├── commands/
-├── stack-packs/
-│   ├── README.md
-│   ├── generic-saas/
-│   ├── nextjs-supabase-saas/
-│   └── solana/
-└── scripts/
+Claude, vamos iniciar um novo projeto. Leia primeiro o arquivo START-HERE.md e siga exatamente as instruções dele.
 ```
+
+Claude should read the repo structure, understand the operating system, and start the Project Genesis Wizard.
+
+---
+
+## Optional local setup scripts
+
+Windows PowerShell:
+
+```powershell
+.\scripts\init-project.ps1
+```
+
+Mac/Linux/Git Bash:
+
+```bash
+chmod +x ./scripts/init-project.sh
+./scripts/init-project.sh
+```
+
+---
+
+## What this gives you
+
+- A ready-to-use `.claude/` runtime with agents, skills, commands, rules, and settings.
+- A single start file: `START-HERE.md`.
+- A guided wizard for ideation, research, business planning, review, sprint planning, prototyping, and first implementation.
+- Agent workflows for market research, competitor analysis, red team review, technical/security review, coordination, and investor-ready copywriting.
+- Documentation layers: `PRODUCT-BRIEF.md`, `BUSINESS-PLAN.md`, `TECHNICAL-PLAN.md`, `SPRINTS.md`, `CHANGELOG.md`, and `session-log/`.
+- Security, privacy, changelog, sprint, and coding rules from day zero.
+- Optional stack packs for SaaS, Next.js/Supabase, Solana, marketplace products, and other specialized projects.
+
+---
+
+## Core flow
+
+1. Repository comprehension.
+2. Friendly opening and user introduction.
+3. Raw ideation.
+4. Ideation polish and exactly ten strategic questions.
+5. Research plan approval.
+6. Wave 1: competitor and market research.
+7. Wave 2: red team critique.
+8. Wave 3: consolidation and BP writing.
+9. Business Plan v0.0.1.
+10. Human review.
+11. Business Plan v0.0.2 with impact review.
+12. Product Brief and Technical Plan.
+13. 14–20 sprint roadmap.
+14. Prototype Lab with 3 HTML prototype directions.
+15. Sprint 0 / Sprint 1 implementation.
+
+The wizard intentionally prevents coding too early.
 
 ---
 
 ## Documentation layers
 
-This project recommends a clear separation of responsibility:
-
-| Layer | Purpose |
+| Document | Purpose |
 |---|---|
-| `CLAUDE.md` | Project constitution and operating instructions |
-| `.claude/rules/` | Modular rules the AI must follow |
-| `.claude/agents/` | Specialized roles for different kinds of work |
-| `.claude/skills/` | Repeatable workflows and procedures |
-| `.claude/commands/` | Human-friendly workflow triggers |
-| `docs/SPRINTS.md` | Master sprint roadmap and execution state |
-| `docs/sprints/` | Per-sprint planning and retrospectives |
-| `CHANGELOG.md` | What changed in each version |
-| `session-log/` | Why decisions were made in a session |
-| `UPSTREAM-SOURCES.md` | Sources, inspirations, specs, and attribution map |
+| `START-HERE.md` | First file Claude reads. |
+| `WIZARD.md` | Canonical wizard flow. |
+| `docs/product/PRODUCT-BRIEF.md` | Operational product understanding. |
+| `docs/business/BUSINESS-PLAN.md` | Business/investor/hackathon document. |
+| `docs/technical/TECHNICAL-PLAN.md` | Stack, architecture, data, security, test plan. |
+| `docs/SPRINTS.md` | Detailed sprint roadmap. |
+| `CHANGELOG.md` | What changed by version. |
+| `session-log/` | Why decisions were made. |
+| `knowledge-base/` | Research outputs and source summaries. |
+| `prototype-lab/` | Disposable HTML prototypes before building the real app. |
 
 ---
 
-## Recommended day-zero setup
+## Credits and upstream sources
 
-1. Clone or copy this repo into your new SaaS project.
-2. Adapt `templates/project/CLAUDE.md` into the root `CLAUDE.md`.
-3. Copy the relevant rules, agents, skills, and commands into `.claude/`.
-4. Create the first sprint document.
-5. Create your first session log.
-6. Commit the baseline.
-7. Start building with an AI coding agent that has context, rules, and workflow discipline.
-
----
-
-## Credits, inspirations and upstream sources
-
-This project is built as an opinionated operating system for AI-assisted SaaS development.
-
-It was shaped by real-world usage in private projects and by studying the following open-source repositories, specs, and ecosystems.
-
-### Official Claude / Agent Skills foundations
-
-- [anthropics/skills](https://github.com/anthropics/skills) — official public repository for Agent Skills examples and patterns.
-- [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) — large-scale Claude Code / agent harness ecosystem with skills, agents, hooks, MCP configs, memory optimization, research workflows, and security scanning.
-
-### UI/UX and design-system workflows
-
-- [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) — UI/UX design intelligence skill for professional interface generation.
-- [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) — collection of DESIGN.md files inspired by popular brand design systems.
-- [getdesign.md](https://getdesign.md) — CLI-based access point for DESIGN.md-style design system assets.
-
-### Security, audit and hardening references
-
-- [trailofbits/skills](https://github.com/trailofbits/skills) — Trail of Bits Claude Code skills marketplace for security analysis, testing, and secure development workflows.
-- [Jacob-Hegy/CIS-Hardening-Guide](https://github.com/Jacob-Hegy/CIS-Hardening-Guide) — CIS hardening guide reference, useful for infrastructure and workstation hardening.
-- [Neo23x0/YARA-Style-Guide](https://github.com/Neo23x0/YARA-Style-Guide) — style guide for readable and maintainable YARA rules.
-- [gitleaks/gitleaks](https://github.com/gitleaks/gitleaks) — reference for secret scanning workflows.
-
-### Stack-specific packs
-
-- [solanabr/solana-claude](https://github.com/solanabr/solana-claude) — Claude Code configuration pack for expert Solana development, including agents, commands, hooks, rules, skills, and settings.
-
-### Workflow conventions
-
-- [Keep a Changelog](https://keepachangelog.com/) — human-readable changelog format.
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) — structured commit convention.
-- [Semantic Versioning](https://semver.org/) — versioning semantics.
-
-For a more detailed attribution map, see [`UPSTREAM-SOURCES.md`](./UPSTREAM-SOURCES.md).
-
----
-
-## Attribution policy
-
-This project does not claim ownership over upstream ideas, public repos, specs, or tools.
-
-When a concept is inspired by or derived from external work, it should be documented in `UPSTREAM-SOURCES.md` or `ATTRIBUTIONS.md`.
-
-The goal is to build a clean, reusable operating system while respecting original authors and avoiding silent copying.
-
----
-
-## License
-
-MIT.
+This project is based on real-world AI-assisted development workflows and informed by several open-source repositories and public specs. See `UPSTREAM-SOURCES.md`, `ATTRIBUTIONS.md`, and `docs/origin-map.md`.
