@@ -55,7 +55,7 @@ Product-specific business content, market research, pricing, partners, competito
   - Reference for advanced agentic workflow expansion.
   - Optional upstream plugin recommendation.
 - Local mapping:
-  - `skills/external/affaan-everything-claude-code.md`
+  - `.claude/skills/external/affaan-everything-claude-code.md`
 - Notes:
   - This repository does not vendor the upstream project by default.
   - Users should install it directly from upstream when needed.
@@ -136,8 +136,8 @@ Product-specific business content, market research, pricing, partners, competito
   - Inspiration for secrets scanning workflow.
   - Reference for future custom rules.
 - Local mapping:
-  - `rules/security/secrets.md`
-  - `skills/secrets-scan/SKILL.md`
+  - `.claude/rules/secrets.md`
+  - `.claude/skills/secrets-scan/SKILL.md`
 
 ---
 
@@ -152,7 +152,7 @@ Product-specific business content, market research, pricing, partners, competito
   - Release note discipline.
 - Local mapping:
   - `CHANGELOG.md`
-  - `skills/sprint-management/`
+  - `.claude/skills/sprint-management/`
   - `templates/sprints/changelog-entry-template.md`
 
 ---
@@ -165,7 +165,7 @@ Product-specific business content, market research, pricing, partners, competito
   - Git workflow convention.
   - Sprint branch and release discipline.
 - Local mapping:
-  - `rules/core/git-workflow.md`
+  - `.claude/rules/git-workflow.md`
   - `templates/project/CLAUDE.md`
 
 ---

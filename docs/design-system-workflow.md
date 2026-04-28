@@ -67,8 +67,8 @@ Avoid:
 ## Future local mapping
 
 ```txt
-rules/design/
-skills/design-prototype/
+.claude/rules/design/
+.claude/skills/design-prototype/
 docs/design-systems.md
 templates/design/DESIGN.md
 ```

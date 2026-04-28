@@ -26,7 +26,7 @@ A skill tells the agent how to execute a workflow.
 ## Recommended skill file structure
 
 ```txt
-skills/
+.claude/skills/
 └── skill-name/
     ├── SKILL.md
     └── assets/
