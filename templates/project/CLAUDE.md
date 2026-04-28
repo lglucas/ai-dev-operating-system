@@ -3,7 +3,7 @@
 > Main instructions for AI coding agents in this repository.
 > Personal overrides should go in `CLAUDE.local.md` and remain gitignored.
 
-**Version:** 0.1.0  
+**Version:** 0.0.1  
 **Current sprint:** Sprint 0  
 **Last updated:** YYYY-MM-DD
 

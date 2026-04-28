@@ -83,11 +83,11 @@ Always review generated output before committing or deploying. In particular, ve
 
 The project includes a baseline approach for safer AI-assisted development:
 
-- `rules/security/secrets.md`
-- `rules/security/privacy-audit.md`
-- `skills/secrets-scan/`
-- `skills/privacy-audit/`
-- `skills/release-check/`
+- `.claude/rules/secrets.md`
+- `.claude/rules/privacy-audit.md`
+- `.claude/skills/secrets-scan/`
+- `.claude/skills/privacy-audit/`
+- `.claude/skills/release-check/`
 - `docs/security-baseline.md`
 - `technical-red-team-agent` style workflows
 - release and changelog discipline

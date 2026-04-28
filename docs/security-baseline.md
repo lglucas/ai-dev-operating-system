@@ -46,11 +46,11 @@ At minimum, every SaaS project should include:
 ## Recommended local mapping
 
 ```txt
-rules/security/secrets.md
-rules/security/privacy-audit.md
-skills/secrets-scan/
-skills/privacy-audit/
-future: skills/security-review/
+.claude/rules/secrets.md
+.claude/rules/privacy-audit.md
+.claude/skills/secrets-scan/
+.claude/skills/privacy-audit/
+future: .claude/skills/security-review/
 future: docs/infra-hardening.md
 ```
 
