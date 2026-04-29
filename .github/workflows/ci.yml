@@ -1,0 +1,63 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-docs:
+    runs-on: ubuntu-latest
+    name: Markdown structure & links
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check canonical structure
+        run: |
+          echo "Verifying canonical .claude/ structure..."
+          for d in .claude/agents .claude/rules .claude/skills .claude/commands; do
+            if [ ! -d "$d" ]; then
+              echo "::error::Missing canonical directory: $d"
+              exit 1
+            fi
+          done
+          for f in CLAUDE.md START-HERE.md WIZARD.md README.md CHANGELOG.md LICENSE; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing required file: $f"
+              exit 1
+            fi
+          done
+          echo "Canonical structure OK."
+
+      - name: Reject root duplicates of .claude/ folders
+        run: |
+          for d in agents rules skills commands; do
+            if [ -d "$d" ] && [ -d ".claude/$d" ]; then
+              echo "::error::Root duplicate detected: ./$d (canonical lives in .claude/$d)"
+              exit 1
+            fi
+          done
+
+      - name: Reject committed secrets / archives / OS junk
+        run: |
+          set -e
+          if git ls-files | grep -E '\.(env|env\.local|env\.production)$' ; then
+            echo "::error::.env file committed."
+            exit 1
+          fi
+          if git ls-files | grep -E '\.(zip|tar\.gz|7z|rar)$' ; then
+            echo "::error::Archive file committed."
+            exit 1
+          fi
+          if git ls-files | grep -E '(^|/)(\.DS_Store|Thumbs\.db|desktop\.ini)$' ; then
+            echo "::error::OS junk file committed."
+            exit 1
+          fi
+          echo "Hygiene check OK."
+
+      - name: Lychee link checker
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude-loopback --exclude 'github.com/lglucas/boringco' '**/*.md'
+          fail: true
