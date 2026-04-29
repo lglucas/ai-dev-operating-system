@@ -1,0 +1,35 @@
+# CLAUDE.local.md — Personal overrides
+
+> Copy this file to `CLAUDE.local.md` and edit. The real `CLAUDE.local.md` is gitignored. Use it for personal preferences, local secrets context, machine-specific paths, and anything you don't want to share with collaborators.
+
+## Personal preferences
+
+- **Language for explanations:** (e.g. "always explain in Portuguese, even if technical terms are in English")
+- **Verbosity:** (e.g. "be terse" / "show me the reasoning")
+- **Diff format:** (e.g. "show full file after edits, not just the diff")
+
+## Local environment
+
+- **Working dir:** describe your local project layout if it differs from the team default.
+- **Tools available:** (e.g. "I have Docker, Postgres locally, no Redis")
+- **OS / shell:** (e.g. "Windows 11, bash via Git Bash" — affects path conventions)
+
+## Personal guardrails
+
+Things YOU want Claude to always do, but the team rules don't enforce:
+
+- "Never run `npm install` without asking first."
+- "Always show me what you'll change before changing it."
+- "Default to Portuguese in commit messages and PR descriptions."
+- "Pause every 30 min and summarize what we did."
+
+## Personal context Claude should know
+
+- Your role / experience level (e.g. "I'm a vibe coder, not a dev — explain in plain language").
+- Your goal for THIS project specifically.
+- Any constraints (budget, deadline, audience) Claude should weigh.
+- Things that frustrate you so Claude can avoid them.
+
+## Notes for next session
+
+(Free-form scratchpad. Anything you want to remember next time you open this project with Claude.)

@@ -6,6 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.3.0] — 2026-04-28 — Vibe Coder Non-Dev Pack
+
+This version introduces the **Vibe Coder Non-Dev Pack**: a coordinated set of agents, skills, and templates focused on protecting, guiding, and unblocking non-developers building SaaS with AI.
+
+### Added — Defensive layer (Phase 1)
+
+- `.env.example` with vibe-coder-friendly inline guidance for every common integration.
+- `CLAUDE.local.md.example` for personal overrides without leaking to the team.
+- `.claude/skills/secrets-discipline` — safe handling of API keys, blocks accidental commits.
+- `.claude/skills/cost-watchdog` — flags expensive technical choices before they ship.
+- `.claude/skills/plain-portuguese-explainer` — translates jargon and errors into plain Portuguese.
+- `.claude/skills/daily-standup` — 4-bullet "where we left off" briefing for solo non-dev sessions.
+- `.claude/skills/os-self-test` — verifies the OS is internally coherent.
+- `.github/pull_request_template.md` with OS coherence + vibe-coder impact checklist.
+- `.github/ISSUE_TEMPLATE/` bug + feature templates tuned for both devs and non-devs.
+- `.github/workflows/ci.yml` enforcing canonical structure, hygiene, and link integrity.
+
+### Added — Active-help layer (Phase 2)
+
+- `.claude/agents/bug-triage-agent` — first responder when something breaks.
+- `.claude/agents/launch-agent` — coordinates public launch with a pre-launch gate and 3 launch tracks.
+- `.claude/agents/legal-compliance-agent` — Privacy Policy, Terms, LGPD/GDPR baseline drafts.
+- `.claude/skills/rollback-safe` — safely undoes the last AI change.
+- `.claude/skills/verify-build-works` — smoke-test ladder for build + dev server + golden path.
+- `.claude/skills/usage-monitor` — tracks cost across LLM, hosting, DB, email after launch.
+- `.claude/skills/deploy-vercel-supabase` — first Vercel + Supabase production deploy walkthrough.
+- `.claude/skills/first-100-users` — early-stage acquisition playbook without paid ads.
+- `examples/nextjs-supabase-saas/README.md` — canonical Next.js + Supabase layout reference.
+- `RELEASE-NOTES-v0.3.0.md`.
+- Vibe Coder Non-Dev Pack session log entry.
+
+### Changed
+
+- `README.md` features the Vibe Coder Non-Dev Pack on the front page and links to all new agents and skills; status badge bumped to v0.3.0.
+
+---
+
 ## [0.2.0] — 2026-04-28 — Project Genesis Wizard + Public Release Polish
 
 ### Added

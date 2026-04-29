@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-ready-7B61FF)](START-HERE.md)
-[![Status](https://img.shields.io/badge/status-v0.2.0%20genesis--wizard-green)](RELEASE-NOTES-v0.2.0.md)
+[![Status](https://img.shields.io/badge/status-v0.3.0%20vibe--coder--pack-green)](RELEASE-NOTES-v0.3.0.md)
 [![Made for SaaS](https://img.shields.io/badge/made%20for-SaaS%20builders-111827)](#what-this-gives-you)
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
@@ -42,6 +42,40 @@ Claude should read the repo structure, understand the operating system, and star
 - A disposable `prototype-lab/` for 3 HTML prototype directions before building the real app.
 - Security, privacy, changelog, sprint, and coding rules from day zero.
 - Optional stack packs for SaaS, Next.js/Supabase, Solana, marketplace products, and other specialized projects.
+
+---
+
+## 🧰 Vibe Coder Non-Dev Pack (v0.3.0)
+
+A coordinated set of agents, skills, and templates designed for **non-developers building SaaS with AI**. Two layers, both opt-in but on by default:
+
+### Defensive layer — protects you before things go wrong
+
+| Component | What it does |
+|---|---|
+| [`.env.example`](.env.example) | Documents every secret your app may need with vibe-coder explanations. |
+| [`CLAUDE.local.md.example`](CLAUDE.local.md.example) | Personal overrides without leaking to the team. |
+| [`secrets-discipline`](.claude/skills/secrets-discipline/SKILL.md) | Blocks accidental commits of API keys. |
+| [`cost-watchdog`](.claude/skills/cost-watchdog/SKILL.md) | Flags expensive choices (Opus loops, paid tiers, scale-poor DB) before they ship. |
+| [`plain-portuguese-explainer`](.claude/skills/plain-portuguese-explainer/SKILL.md) | Translates jargon and errors into plain Portuguese with non-tech analogies. |
+| [`daily-standup`](.claude/skills/daily-standup/SKILL.md) | 4-bullet "where we left off" briefing every session. |
+| [`os-self-test`](.claude/skills/os-self-test/SKILL.md) | Verifies the OS is internally coherent. |
+| [`.github/`](.github) | PR + issue templates with vibe-coder dimension and CI workflow enforcing canon. |
+
+### Active-help layer — helps you when something happens
+
+| Component | Activates when |
+|---|---|
+| [`bug-triage-agent`](.claude/agents/bug-triage-agent.md) | Build breaks, deploy crashes, "deu erro" / "quebrou". |
+| [`rollback-safe`](.claude/skills/rollback-safe/SKILL.md) | "desfaz isso" / "volta o que você fez". |
+| [`verify-build-works`](.claude/skills/verify-build-works/SKILL.md) | After every non-trivial edit, before commits, before push. |
+| [`usage-monitor`](.claude/skills/usage-monitor/SKILL.md) | "tô gastando muito" / "quanto custa" / weekly post-launch. |
+| [`launch-agent`](.claude/agents/launch-agent.md) | "vamos lançar" / "tá pronto pra mostrar". |
+| [`deploy-vercel-supabase`](.claude/skills/deploy-vercel-supabase/SKILL.md) | "vamos publicar" / "como coloca no ar". |
+| [`first-100-users`](.claude/skills/first-100-users/SKILL.md) | "ninguém tá usando" / post-launch acquisition. |
+| [`legal-compliance-agent`](.claude/agents/legal-compliance-agent.md) | Before public launch, before collecting user data, before charging. |
+
+> See [`examples/nextjs-supabase-saas/`](examples/nextjs-supabase-saas/README.md) for the canonical layout the wizard generates from.
 
 ---
 
