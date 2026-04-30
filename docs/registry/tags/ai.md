@@ -20,6 +20,8 @@ Packs related to generative AI, LLMs, agents, and AI-powered applications.
 | [`vibe-trading`](../packs/vibe-trading.md) | Multi-agent finance workspace |
 | [`open-higgsfield-ai`](../packs/open-higgsfield-ai.md) | Open-source media generation studio |
 | [`hyperframes`](../packs/hyperframes.md) | HTML-to-video for agents |
+| [`open-design`](../packs/open-design.md) | Local-first AI design generation across 10 agent CLIs |
+| [`tradingagents`](../packs/tradingagents.md) | Multi-agent LLM trading framework (research) |
 
 ## When this tag is relevant
 

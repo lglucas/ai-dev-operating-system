@@ -6,6 +6,7 @@ Packs and resources for research-oriented work: replicating papers, literature r
 |----------|------|-------|
 | [`google-research`](../packs/google-research.md) | pack | Google Research code monorepo |
 | [`feynman-is`](../external-resources/feynman-is.md) | external | AI research agent (papers + cited claims) |
+| [`tradingagents`](../packs/tradingagents.md) | pack | Multi-agent LLM trading framework (paper-backed) |
 
 ## When this tag is relevant
 

@@ -6,7 +6,7 @@ For how the registry works, see [`README.md`](README.md).
 For per-pack detail, click the slug in the first column.
 For non-installable websites and live tools, see the **External resources** section below.
 
-Last index update: 2026-04-30
+Last index update: 2026-04-30 (v0.4.1 — registry batch 2)
 
 ---
 
@@ -16,6 +16,7 @@ Last index update: 2026-04-30
 |------|------|------|--------|---------|---------------|
 | [`agentic-inbox`](packs/agentic-inbox.md) | Agentic Inbox (Cloudflare) | `productivity` `agents` `stack-pack` | active | Apache 2.0 | 2026-04-30 |
 | [`anthropics-skills`](packs/anthropics-skills.md) | Anthropic Skills | `foundations` | active | MIT | 2026-04-30 |
+| [`antigravity-awesome-skills`](packs/antigravity-awesome-skills.md) | Antigravity Awesome Skills | `ecosystem` `agents` `tooling` | active | MIT + CC BY 4.0 | 2026-04-30 |
 | [`autohedge`](packs/autohedge.md) | AutoHedge | `experimental` `fintech` `agents` | experimental | MIT | 2026-04-30 |
 | [`awesome-design-md`](packs/awesome-design-md.md) | VoltAgent awesome-design-md | `design` | active | check upstream | 2026-04-30 |
 | [`bark`](packs/bark.md) | Bark (Suno) | `ai` `audio` | active | MIT | 2026-04-30 |
@@ -30,6 +31,7 @@ Last index update: 2026-04-30
 | [`fireworks-tech-graph`](packs/fireworks-tech-graph.md) | Fireworks Tech Graph | `design` `ai` `tooling` | active | MIT | 2026-04-30 |
 | [`gitleaks`](packs/gitleaks.md) | Gitleaks | `security` `tooling` | active | MIT | 2026-04-30 |
 | [`google-research`](packs/google-research.md) | Google Research | `ai` `ml` `research` | active | Apache 2.0 + CC BY 4.0 | 2026-04-30 |
+| [`gstack`](packs/gstack.md) | gstack ⭐ | `ecosystem` `agents` `foundations` | active | MIT | 2026-04-30 |
 | [`hyperframes`](packs/hyperframes.md) | HyperFrames | `ai` `design` `tooling` | active | Apache 2.0 | 2026-04-30 |
 | [`llms-from-scratch`](packs/llms-from-scratch.md) | LLMs from Scratch (Raschka) | `learning` `ai` | active | see upstream | 2026-04-30 |
 | [`made-with-ml`](packs/made-with-ml.md) | Made With ML | `learning` `ml` | active | MIT | 2026-04-30 |
@@ -38,6 +40,8 @@ Last index update: 2026-04-30
 | [`microsoft-data-science-for-beginners`](packs/microsoft-data-science-for-beginners.md) | MS Data Science for Beginners | `learning` `data-engineering` `ml` | active | MIT | 2026-04-30 |
 | [`microsoft-generative-ai-for-beginners`](packs/microsoft-generative-ai-for-beginners.md) | MS Generative AI for Beginners | `learning` `ai` | active | MIT | 2026-04-30 |
 | [`microsoft-ml-for-beginners`](packs/microsoft-ml-for-beginners.md) | MS ML for Beginners | `learning` `ml` | active | MIT | 2026-04-30 |
+| [`nellavio`](packs/nellavio.md) | Nellavio ⭐ | `stack-pack` `design` | active | MIT | 2026-04-30 |
+| [`open-design`](packs/open-design.md) | Open Design (Nexu) | `design` `ai` `ecosystem` | active | Apache-2.0 | 2026-04-30 |
 | [`open-higgsfield-ai`](packs/open-higgsfield-ai.md) | Open Higgsfield AI | `ai` `vision` `experimental` | active | MIT | 2026-04-30 |
 | [`openai-cookbook`](packs/openai-cookbook.md) | OpenAI Cookbook | `cookbook` `foundations` `ai` | active | MIT | 2026-04-30 |
 | [`pathway-llm-app`](packs/pathway-llm-app.md) | Pathway LLM App | `ai` `data-engineering` `tooling` | active | MIT | 2026-04-30 |
@@ -49,9 +53,12 @@ Last index update: 2026-04-30
 | [`st3gg`](packs/st3gg.md) | ST3GG | `security` `tooling` | active | AGPL-3.0 + commercial | 2026-04-30 |
 | [`stable-diffusion`](packs/stable-diffusion.md) | Stable Diffusion (CompVis) | `ai` `vision` | archived in practice | OpenRAIL-M | 2026-04-30 |
 | [`system-design-primer`](packs/system-design-primer.md) | System Design Primer | `learning` `foundations` | active | MIT + CC-BY 4.0 | 2026-04-30 |
+| [`tegaki`](packs/tegaki.md) | Tegaki | `design` `tooling` | active | MIT | 2026-04-30 |
 | [`tensorflow-examples`](packs/tensorflow-examples.md) | TensorFlow Examples | `learning` `ml` | archived in practice | see upstream | 2026-04-30 |
+| [`tradingagents`](packs/tradingagents.md) | TradingAgents (Tauric) ⭐ | `fintech` `agents` `ai` `research` | active | Apache-2.0 | 2026-04-30 |
 | [`trailofbits-skills`](packs/trailofbits-skills.md) | Trail of Bits Skills | `security` | active | check upstream | 2026-04-30 |
 | [`ui-ux-pro-max`](packs/ui-ux-pro-max.md) | UI UX Pro Max Skill | `design` | active | check upstream | 2026-04-30 |
+| [`unity-mcp`](packs/unity-mcp.md) | Unity-MCP | `stack-pack` `agents` `tooling` | active | Apache-2.0 | 2026-04-30 |
 | [`vibe-trading`](packs/vibe-trading.md) | Vibe-Trading | `fintech` `agents` `ai` | active | MIT | 2026-04-30 |
 | [`yara-style-guide`](packs/yara-style-guide.md) | YARA Style Guide | `security` `malware` | active | check upstream | 2026-04-30 |
 

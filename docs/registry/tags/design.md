@@ -8,6 +8,9 @@ Packs in this category address UI/UX exploration, design systems, and visual pro
 | [`awesome-design-md`](../packs/awesome-design-md.md) | Design-system-as-prompt assets |
 | [`fireworks-tech-graph`](../packs/fireworks-tech-graph.md) | NL-to-SVG technical diagrams |
 | [`hyperframes`](../packs/hyperframes.md) | HTML-to-video for agents |
+| [`open-design`](../packs/open-design.md) | Local-first AI design generation (10 agent CLIs) |
+| [`tegaki`](../packs/tegaki.md) | Animated handwriting from any font |
+| [`nellavio`](../packs/nellavio.md) | Next.js dashboard starter (90+ shadcn components) |
 
 ## External resources (not installable)
 

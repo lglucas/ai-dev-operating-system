@@ -5,6 +5,10 @@ Broad, opinionated expansions of the Claude Code / agentic workflow ecosystem. T
 | Pack | Focus |
 |------|-------|
 | [`everything-claude-code`](../packs/everything-claude-code.md) | Community ecosystem of skills, agents, hooks, harness patterns |
+| [`ruflo`](../packs/ruflo.md) | Multi-agent orchestration on top of Claude Code |
+| [`antigravity-awesome-skills`](../packs/antigravity-awesome-skills.md) | 1,441+ playbooks across multiple coding-agent IDEs |
+| [`gstack`](../packs/gstack.md) | ⭐ 23-agent virtual engineering team (Garry Tan / YC) |
+| [`open-design`](../packs/open-design.md) | Local-first AI design generation across 10 agent CLIs |
 
 ## When this tag is relevant
 
