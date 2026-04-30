@@ -4,6 +4,9 @@ This document tracks external sources, inspirations, specs, tools, and upstream 
 
 The goal is to keep this repository auditable, attribution-friendly, and cleanly separated from project-specific material.
 
+> **Looking for a curated catalog of repos to install ON TOP of a project running this OS?**
+> See [`docs/registry/INDEX.md`](docs/registry/INDEX.md) — the External Repo Registry. This file (`UPSTREAM-SOURCES.md`) is the **origin/audit map** of what built this OS. The registry is the **shelf of installable packs** to pick per project.
+
 ---
 
 ## 1. Primary origin

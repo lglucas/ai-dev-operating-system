@@ -1,0 +1,22 @@
+# Tag: ecosystem
+
+Broad, opinionated expansions of the Claude Code / agentic workflow ecosystem. These packs typically bundle many skills, agents, hooks, and harness patterns.
+
+| Pack | Focus |
+|------|-------|
+| [`everything-claude-code`](../packs/everything-claude-code.md) | Community ecosystem of skills, agents, hooks, harness patterns |
+
+## When this tag is relevant
+
+- Team is past the basics and wants advanced agentic workflows.
+- Project explores hooks, harness orchestration, autonomous loops, or multi-agent flows.
+- There is appetite to audit and selectively adopt many skills.
+
+## When this tag is NOT relevant
+
+- First-time Claude Code users — start with `#foundations` first.
+- Compliance-sensitive projects without time to audit each skill.
+
+## Notes
+
+Ecosystem packs are opinionated. Always cross-check against `#foundations` (canonical) and `#security` (review) packs before adopting wholesale.
