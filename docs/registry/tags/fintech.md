@@ -9,6 +9,7 @@ Packs related to finance, trading, quant analysis, and financial data tooling.
 | [`vibe-trading`](../packs/vibe-trading.md) | Multi-agent finance workspace (simulation only) |
 | [`fincept-terminal`](../packs/fincept-terminal.md) | Desktop finance terminal with CFA analytics |
 | [`autohedge`](../packs/autohedge.md) | Multi-agent autonomous trading (experimental) |
+| [`tradingagents`](../packs/tradingagents.md) | ⭐ Multi-agent debate-based LLM trading framework (research) |
 
 ## When this tag is relevant
 
@@ -26,3 +27,4 @@ Packs related to finance, trading, quant analysis, and financial data tooling.
 - Pure research / simulation → `vibe-trading` (mature, simulation-only, explicit risk warnings).
 - Desktop terminal / CFA-level analytics → `fincept-terminal`.
 - Multi-agent trading research only → `autohedge` (⚠️ experimental, no formal releases).
+- Academic/paper-grounded multi-agent debate framework → `tradingagents` (LangGraph, pre-1.0).

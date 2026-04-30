@@ -5,6 +5,7 @@ Packs in this category are official or canonical references for Claude Code, Age
 | Pack | Focus |
 |------|-------|
 | [`anthropics-skills`](../packs/anthropics-skills.md) | Official Anthropic Skills reference |
+| [`gstack`](../packs/gstack.md) | ⭐ Opinionated 23-agent virtual team (Garry Tan / YC) |
 
 ## When this tag is relevant
 

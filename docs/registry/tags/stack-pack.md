@@ -5,6 +5,9 @@ Packs specialized for a specific technical stack — language, framework, blockc
 | Pack | Stack |
 |------|-------|
 | [`solana-claude`](../packs/solana-claude.md) | Solana / Anchor / SPL |
+| [`unity-mcp`](../packs/unity-mcp.md) | Unity Engine (game / 3D dev via MCP) |
+| [`nellavio`](../packs/nellavio.md) | Next.js dashboard / SaaS / admin panel |
+| [`agentic-inbox`](../packs/agentic-inbox.md) | Cloudflare Workers (self-hosted email + AI) |
 
 ## When this tag is relevant
 
