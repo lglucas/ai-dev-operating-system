@@ -45,6 +45,24 @@ Claude should read the repo structure, understand the operating system, and star
 
 ---
 
+## 📦 External Repo Registry (v0.4.0)
+
+A curated, on-demand catalog of trusted external repository packs that can plug into any project running this OS. Instead of pre-installing everything, the WIZARD recommends packs per project based on stack, domain, and compliance.
+
+| Layer | What it does |
+|---|---|
+| [`docs/registry/INDEX.md`](docs/registry/INDEX.md) | Sortable master table of every pack — license, status, tags, last reviewed. |
+| [`docs/registry/packs/`](docs/registry/packs) | One-pager per repo: when to install, when NOT to install, install command, fit signals, conflicts. |
+| [`docs/registry/tags/`](docs/registry/tags) | Auxiliary indexes by tag (`security`, `design`, `foundations`, `stack-pack`, `ecosystem`). |
+| [`/registry-pick`](.claude/commands/registry-pick.md) | Slash command — reads the registry and outputs a prioritized recommendation for the current project. Never installs. |
+| [`registry-pick` skill](.claude/skills/registry-pick/SKILL.md) | Powers the slash command and `WIZARD.md` Stage 11.5. |
+
+**Adding new packs is one-pager-fast** — copy the template in [`docs/registry/README.md`](docs/registry/README.md), fill the fields, link from `INDEX.md` and the relevant tag file. Cross-link in `UPSTREAM-SOURCES.md` only if the pack also influenced this OS itself.
+
+> See [`UPSTREAM-SOURCES.md`](UPSTREAM-SOURCES.md) for the origin/audit map of what built this OS — that's a different question from "what should I install on top of THIS project". The registry answers the latter.
+
+---
+
 ## 🧰 Vibe Coder Non-Dev Pack (v0.3.0)
 
 A coordinated set of agents, skills, and templates designed for **non-developers building SaaS with AI**. Two layers, both opt-in but on by default:

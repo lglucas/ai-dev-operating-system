@@ -25,9 +25,10 @@ The wizard moves through these stages:
 11. Business Plan v0.0.2 revision
 12. Product Brief derivation
 13. Technical Plan derivation
-14. Sprint roadmap planning
-15. Prototype Lab planning
-16. Sprint 0 and first coding sprint preparation
+14. **External repo registry pick (Stage 11.5)** — recommend packs from `docs/registry/`
+15. Sprint roadmap planning
+16. Prototype Lab planning
+17. Sprint 0 and first coding sprint preparation
 
 ---
 
@@ -239,6 +240,31 @@ docs/technical/TECHNICAL-PLAN.md
 It must include recommended stack, rationale, architecture assumptions, data model assumptions, auth model, API conventions, security baseline, privacy/compliance baseline, testing strategy, CI/CD, environment variables, deployment assumptions, risks, and open questions.
 
 No alpha/beta stack should be recommended unless explicitly accepted.
+
+---
+
+## Stage 11.5 — External repo registry pick
+
+Before the sprint roadmap, Claude must recommend which external repository packs (from `docs/registry/`) to install for THIS project.
+
+Trigger the `registry-pick` skill (or invoke `/registry-pick`).
+
+The skill reads `docs/registry/INDEX.md` and the relevant `packs/<slug>.md` one-pagers, matches project signals (stack, domain, compliance, UI surface, public/private, team familiarity) against pack fit-signals, and outputs a prioritized recommendation:
+
+- **Must install** — direct fit; project quality suffers without it.
+- **Recommended** — strong fit; install before launch.
+- **Optional** — situational; depends on growth path.
+- **Skipped (and why)** — explicit non-recommendation with reason.
+
+Required outputs:
+
+```txt
+docs/technical/registry-pick.md
+```
+
+The skill MUST NOT install anything. It shortlists and surfaces install commands. The user decides which packs to actually install. After the user decides, document the chosen packs in the technical plan.
+
+If a new pack is added to `docs/registry/` later in the project's life, re-invoke `/registry-pick` to refresh the recommendation.
 
 ---
 
