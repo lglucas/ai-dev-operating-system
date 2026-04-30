@@ -36,6 +36,8 @@ Project-specific business data, commercial strategy, private customer informatio
 
 See [`UPSTREAM-SOURCES.md`](UPSTREAM-SOURCES.md) for a complete source map.
 
+For repos that can be **installed on top of a project** running this OS (curated, on-demand catalog), see [`docs/registry/INDEX.md`](docs/registry/INDEX.md).
+
 Key references include:
 
 - Anthropic Skills — https://github.com/anthropics/skills

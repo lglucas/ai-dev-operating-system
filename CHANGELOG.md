@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.4.0] — 2026-04-30 — External Repo Registry framework
+
+This version turns the OS into a project-agnostic launchpad by introducing a **curated, on-demand catalog of external repository packs**. Instead of pre-installing every community pack, the OS now ships a registry of trusted, vetted repos that the WIZARD recommends per project based on stack, domain, compliance, and team familiarity.
+
+### Added
+
+- `docs/registry/` — new first-class layer of the OS:
+  - `docs/registry/README.md` — how the registry works + one-pager template + conventions.
+  - `docs/registry/INDEX.md` — sortable master table.
+  - `docs/registry/packs/` — 10 one-pagers (anthropics-skills, everything-claude-code, ui-ux-pro-max, awesome-design-md, trailofbits-skills, solana-claude, cis-hardening-guide, yara-style-guide, gitleaks, boringco).
+  - `docs/registry/tags/` — auxiliary tag indexes (security, design, foundations, stack-pack, ecosystem).
+- `.claude/skills/registry-pick/SKILL.md` — reads the registry and outputs a prioritized recommendation (must / recommended / optional / skipped) for the current project. Never installs.
+- `.claude/commands/registry-pick.md` — slash command entry point for the skill.
+- `WIZARD.md` Stage 11.5 — registry-pick step between Technical Plan and Sprint roadmap; required output `docs/technical/registry-pick.md`.
+- `RELEASE-NOTES-v0.4.0.md`.
+- Session log entry: `session-log/2026-04-30-registry-framework-v0.4.0.md`.
+
+### Changed
+
+- `UPSTREAM-SOURCES.md` and `ATTRIBUTIONS.md` now cross-link to `docs/registry/` and clarify the separation of concerns: origin/audit (UPSTREAM) vs. installable catalog (registry).
+- `README.md` features the External Repo Registry on the front page; status badge bumped to v0.4.0.
+- `WIZARD.md` overview updated to include Stage 11.5; total stages bumped from 16 to 17.
+
+---
+
 ## [0.3.0] — 2026-04-28 — Vibe Coder Non-Dev Pack
 
 This version introduces the **Vibe Coder Non-Dev Pack**: a coordinated set of agents, skills, and templates focused on protecting, guiding, and unblocking non-developers building SaaS with AI.
