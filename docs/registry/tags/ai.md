@@ -22,6 +22,10 @@ Packs related to generative AI, LLMs, agents, and AI-powered applications.
 | [`hyperframes`](../packs/hyperframes.md) | HTML-to-video for agents |
 | [`open-design`](../packs/open-design.md) | Local-first AI design generation across 10 agent CLIs |
 | [`tradingagents`](../packs/tradingagents.md) | Multi-agent LLM trading framework (research) |
+| [`auto-research-claw`](../packs/auto-research-claw.md) | Autonomous academic research pipeline (papers) |
+| [`kronos`](../packs/kronos.md) | Foundation model for financial candlesticks (AAAI 2026) |
+| [`diagram-design`](../packs/diagram-design.md) | Editorial-quality diagrams (Claude Code skill) |
+| [`miroshark`](../packs/miroshark.md) | Swarm intelligence simulation (synthetic crowd reactions) |
 
 ## When this tag is relevant
 

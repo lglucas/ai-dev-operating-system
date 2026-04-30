@@ -17,6 +17,7 @@ Curated learning curricula, courses, books, and reference handbooks. These are s
 | [`data-engineer-handbook`](../packs/data-engineer-handbook.md) | Data engineering handbook |
 | [`data-engineering-zoomcamp`](../packs/data-engineering-zoomcamp.md) | Free 9-week DE course |
 | [`microsoft-data-science-for-beginners`](../packs/microsoft-data-science-for-beginners.md) | Data science fundamentals |
+| [`slavingia-skills`](../packs/slavingia-skills.md) | ⭐ Minimalist Entrepreneur 10-skill business playbook |
 
 ## When this tag is relevant
 

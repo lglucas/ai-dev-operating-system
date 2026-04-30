@@ -9,6 +9,10 @@ Broad, opinionated expansions of the Claude Code / agentic workflow ecosystem. T
 | [`antigravity-awesome-skills`](../packs/antigravity-awesome-skills.md) | 1,441+ playbooks across multiple coding-agent IDEs |
 | [`gstack`](../packs/gstack.md) | ⭐ 23-agent virtual engineering team (Garry Tan / YC) |
 | [`open-design`](../packs/open-design.md) | Local-first AI design generation across 10 agent CLIs |
+| [`holyclaude`](../packs/holyclaude.md) | Containerized Claude Code env with 7 AI CLIs + browser |
+| [`optio`](../packs/optio.md) | K8s-based ticket-to-PR workflow orchestration |
+| [`vibeyard`](../packs/vibeyard.md) | Electron IDE for managing parallel AI agent sessions |
+| [`slavingia-skills`](../packs/slavingia-skills.md) | ⭐ Minimalist Entrepreneur 10-skill plugin (Sahil Lavingia) |
 
 ## When this tag is relevant
 

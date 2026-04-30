@@ -10,6 +10,7 @@ Packs related to finance, trading, quant analysis, and financial data tooling.
 | [`fincept-terminal`](../packs/fincept-terminal.md) | Desktop finance terminal with CFA analytics |
 | [`autohedge`](../packs/autohedge.md) | Multi-agent autonomous trading (experimental) |
 | [`tradingagents`](../packs/tradingagents.md) | ⭐ Multi-agent debate-based LLM trading framework (research) |
+| [`kronos`](../packs/kronos.md) | Foundation model for financial candlesticks (forecasting) |
 
 ## When this tag is relevant
 

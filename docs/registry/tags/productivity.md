@@ -6,6 +6,7 @@ Packs and resources for personal-productivity products: email assistants, resear
 |----------|------|-------|
 | [`agentic-inbox`](../packs/agentic-inbox.md) | pack | Self-hosted AI email client (Cloudflare Workers) |
 | [`feynman-is`](../external-resources/feynman-is.md) | external | Local AI research agent |
+| [`vibeyard`](../packs/vibeyard.md) | pack | Electron IDE for parallel AI agent sessions |
 
 ## When this tag is relevant
 

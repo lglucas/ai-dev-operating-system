@@ -7,6 +7,10 @@ Packs and resources for research-oriented work: replicating papers, literature r
 | [`google-research`](../packs/google-research.md) | pack | Google Research code monorepo |
 | [`feynman-is`](../external-resources/feynman-is.md) | external | AI research agent (papers + cited claims) |
 | [`tradingagents`](../packs/tradingagents.md) | pack | Multi-agent LLM trading framework (paper-backed) |
+| [`auto-research-claw`](../packs/auto-research-claw.md) | pack | Autonomous academic paper pipeline (8 phases, 23 stages) |
+| [`kronos`](../packs/kronos.md) | pack | Foundation model for financial candlesticks (AAAI 2026) |
+| [`miroshark`](../packs/miroshark.md) | pack | Swarm intelligence simulation engine |
+| [`sci-bot`](../external-resources/sci-bot.md) | external | AI research assistant grounded in Sci-Hub papers |
 
 ## When this tag is relevant
 

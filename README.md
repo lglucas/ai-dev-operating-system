@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-ready-7B61FF)](START-HERE.md)
-[![Status](https://img.shields.io/badge/status-v0.4.1%20repo--registry-green)](RELEASE-NOTES-v0.4.1.md)
+[![Status](https://img.shields.io/badge/status-v0.4.2%20repo--registry-green)](RELEASE-NOTES-v0.4.2.md)
 [![Made for SaaS](https://img.shields.io/badge/made%20for-SaaS%20builders-111827)](#what-this-gives-you)
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
