@@ -10,6 +10,7 @@ Packs related to classic machine learning, MLOps, and the data-science Python st
 | [`tensorflow-examples`](../packs/tensorflow-examples.md) | TensorFlow tutorials (legacy) |
 | [`google-research`](../packs/google-research.md) | Google Research code monorepo |
 | [`microsoft-data-science-for-beginners`](../packs/microsoft-data-science-for-beginners.md) | Data science fundamentals |
+| [`kronos`](../packs/kronos.md) | Foundation model for financial candlesticks (AAAI 2026) |
 
 ## When this tag is relevant
 

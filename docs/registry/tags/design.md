@@ -11,6 +11,9 @@ Packs in this category address UI/UX exploration, design systems, and visual pro
 | [`open-design`](../packs/open-design.md) | Local-first AI design generation (10 agent CLIs) |
 | [`tegaki`](../packs/tegaki.md) | Animated handwriting from any font |
 | [`nellavio`](../packs/nellavio.md) | Next.js dashboard starter (90+ shadcn components) |
+| [`app-store-screenshots`](../packs/app-store-screenshots.md) | App Store + Play Store screenshot generator |
+| [`diagram-design`](../packs/diagram-design.md) | Editorial-quality diagrams (14 types) |
+| [`phantom-ui`](../packs/phantom-ui.md) | Auto-generated skeleton loading screens (Web Component) |
 
 ## External resources (not installable)
 
