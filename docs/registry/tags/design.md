@@ -6,6 +6,17 @@ Packs in this category address UI/UX exploration, design systems, and visual pro
 |------|-------|
 | [`ui-ux-pro-max`](../packs/ui-ux-pro-max.md) | Multi-direction UI exploration workflow |
 | [`awesome-design-md`](../packs/awesome-design-md.md) | Design-system-as-prompt assets |
+| [`fireworks-tech-graph`](../packs/fireworks-tech-graph.md) | NL-to-SVG technical diagrams |
+| [`hyperframes`](../packs/hyperframes.md) | HTML-to-video for agents |
+
+## External resources (not installable)
+
+| Resource | Focus |
+|----------|-------|
+| [`glass3d-dev`](../external-resources/glass3d-dev.md) | 3D-glass visual references |
+| [`cta-gallery`](../external-resources/cta-gallery.md) | Curated CTA examples |
+| [`oneshot-zip`](../external-resources/oneshot-zip.md) | Design inspiration (pending re-verification) |
+| [`reui-io`](../external-resources/reui-io.md) | shadcn/ui component library (1,003+ components) |
 
 ## When this tag is relevant
 
