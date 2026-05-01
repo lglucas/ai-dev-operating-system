@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-ready-7B61FF)](START-HERE.md)
-[![Status](https://img.shields.io/badge/status-v0.4.2%20repo--registry-green)](RELEASE-NOTES-v0.4.2.md)
+[![Status](https://img.shields.io/badge/status-v0.4.3%20quick--wins-green)](RELEASE-NOTES-v0.4.3.md)
 [![Made for SaaS](https://img.shields.io/badge/made%20for-SaaS%20builders-111827)](#what-this-gives-you)
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
@@ -60,6 +60,22 @@ A curated, on-demand catalog of trusted external repository packs that can plug 
 **Adding new packs is one-pager-fast** — copy the template in [`docs/registry/README.md`](docs/registry/README.md), fill the fields, link from `INDEX.md` and the relevant tag file. Cross-link in `UPSTREAM-SOURCES.md` only if the pack also influenced this OS itself.
 
 > See [`UPSTREAM-SOURCES.md`](UPSTREAM-SOURCES.md) for the origin/audit map of what built this OS — that's a different question from "what should I install on top of THIS project". The registry answers the latter.
+
+---
+
+## 🌱 Quick wins (v0.4.3)
+
+A small batch of cross-cutting improvements identified during the v0.4.2 comparison study against `gstack` and `slavingia/skills`:
+
+| Component | What it does |
+|---|---|
+| [`ETHOS.md`](ETHOS.md) | One-page manifesto. Every rule, agent, skill, and command in this OS must trace back to it. |
+| [`/processize`](.claude/commands/processize.md) | Codify a manually-validated workflow into a documented, partially-automatable process. Validate-then-automate, never the reverse. |
+| [`/grow-sustainably`](.claude/commands/grow-sustainably.md) | Plan post-100-users growth without burning out the founder, the budget, or the user base. Successor to `first-100-users`. |
+| [`/multi-ai-review`](.claude/commands/multi-ai-review.md) | Cross-review a hard-to-reverse decision through 2–4 independent reviewer roles, then reconcile disagreements before committing. |
+| [`#agents-marketplace`](docs/registry/tags/agents-marketplace.md) | New registry tag surfacing curated skill bundles (gstack, slavingia-skills, antigravity-awesome-skills, anthropics-skills, and others). |
+
+Architectural items (plugin manifest, trust tiers, parallel sprint orchestration, marketplace migration) are deferred to v0.5 — see the v0.5 audit trail in `session-log/`.
 
 ---
 

@@ -6,7 +6,7 @@ For how the registry works, see [`README.md`](README.md).
 For per-pack detail, click the slug in the first column.
 For non-installable websites and live tools, see the **External resources** section below.
 
-Last index update: 2026-04-30 (v0.4.2 — registry batch 3)
+Last index update: 2026-05-01 (v0.4.3 — quick wins: ETHOS + 3 skills + agents-marketplace tag)
 
 ---
 
@@ -105,6 +105,7 @@ These are documentation references, not installable packs. Tracked here so the W
 
 Browse by tag:
 
+- **Agents marketplace (curated skill bundles)** — [`tags/agents-marketplace.md`](tags/agents-marketplace.md)
 - **AI / LLMs** — [`tags/ai.md`](tags/ai.md)
 - **Agents** (overlaps with AI) — packs marked `#agents` in the master table
 - **Audio** — [`tags/audio.md`](tags/audio.md)

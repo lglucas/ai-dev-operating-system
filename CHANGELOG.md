@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.4.3] — 2026-05-01 — Quick wins: ETHOS, /processize, /grow-sustainably, /multi-ai-review, agents-marketplace tag
+
+Patch release implementing the five quick wins identified in v0.4.2's comparison study against `gstack` and `slavingia/skills`. No architectural changes — those remain deferred to v0.5.
+
+### Added
+
+- `ETHOS.md` — one-page canonical manifesto. 15 principles distilled from the operating contract; every rule, agent, skill, and command must trace back to it.
+- `.claude/skills/processize/SKILL.md` + `.claude/commands/processize.md` — codify a manually-validated workflow into a documented, partially-automatable process. Inspired by Sahil Lavingia's "validate-then-automate" principle. Includes a 5-question gate, a 3-stage maturity model, and a `docs/processes/<slug>.md` output template.
+- `.claude/skills/grow-sustainably/SKILL.md` + `.claude/commands/grow-sustainably.md` — post-`first-100-users` growth planner. Four pillars (retention → compress what worked → ONE new channel → founder bandwidth), tier-ordered channel taxonomy, hard rules against vanity metrics and channel diffusion, monthly `docs/business/growth-plan-<YYYY-MM>.md` output.
+- `.claude/skills/multi-ai-review/SKILL.md` + `.claude/commands/multi-ai-review.md` — cross-review hard-to-reverse decisions through 2–4 independent reviewer roles. Inspired by gstack's `/codex` cross-review concept. Net confidence = MIN of reviewer scores. Three outcomes: Proceed / Modify and re-review / Block.
+- `docs/registry/tags/agents-marketplace.md` — new registry tag surfacing curated skill bundles distributed as discrete installable packs (gstack, slavingia-skills, antigravity-awesome-skills, anthropics-skills, everything-claude-code, ruflo, holyclaude, vibeyard, optio, open-design, trailofbits-skills).
+- `RELEASE-NOTES-v0.4.3.md`.
+- Session log entry: `session-log/2026-05-01-v0.4.3-quick-wins.md`.
+
+### Changed
+
+- `README.md` — new "Quick wins (v0.4.3)" section between the Registry block and the Vibe Coder Pack block; status badge bumped to v0.4.3.
+- `docs/registry/INDEX.md` — `Last index update` stamped with v0.4.3; `agents-marketplace` added to the tag-list section.
+
+### Notes
+
+- Architectural changes (plugin manifest, trust tiers enforcement, parallel sprint orchestration, marketplace migration) remain deferred to v0.5; the audit trail lives in `session-log/`.
+- These five additions are non-breaking — existing projects pulling v0.4.2 receive new opt-in capabilities; nothing previously available has changed shape.
+
+---
+
 ## [0.4.2] — 2026-04-30 — Registry batch 3 (10 packs + 1 external + comparison study)
 
 Patch release expanding the External Repo Registry with 10 packs and 1 external SaaS. Includes a side-by-side comparison of `slavingia/skills` and `gstack` against this OS (delivered in chat; summarized in release notes). Registry total: 47 → 57 packs + 6 external resources.
