@@ -331,3 +331,5 @@ Selected projects:
 ## 📄 License
 
 MIT License. See [`LICENSE`](LICENSE).
+#   p e r s o n a - s i n t e t i c a  
+ 
