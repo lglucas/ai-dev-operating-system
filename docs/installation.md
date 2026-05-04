@@ -51,23 +51,60 @@ Depending on your installation method, you should be able to run Claude Code fro
 
 ---
 
-## 4. Clone the repository
+## 4. Get the OS files into a NEW repository (you, not us)
 
-Choose a name for your new project folder.
+**There are two paths. Path A is strongly recommended.**
 
-Example:
+### Path A — "Use this template" (recommended)
+
+1. Open https://github.com/lglucas/ai-dev-operating-system in your browser.
+2. Click the green **"Use this template"** button (top right) → **"Create a new repository"**.
+3. Pick a name (e.g. `my-new-saas`). Recommend setting it **Private** for early-stage projects (you can flip to public later).
+4. **Don't** add a README, `.gitignore`, or license — the template already has those.
+5. Click **"Create repository"**. GitHub creates a NEW repo in your account, with no shared history with our OS repo.
+6. Now clone YOUR new repo locally:
+
+   ```bash
+   git clone https://github.com/SEU-USUARIO/my-new-saas.git
+   cd my-new-saas
+   ```
+
+   PowerShell on Windows:
+   ```powershell
+   git clone https://github.com/SEU-USUARIO/my-new-saas.git
+   cd my-new-saas
+   ```
+
+   `origin` is already pointing to YOUR repo. No detach needed. No risk of accidentally pushing to the OS repo.
+
+### Path B — `git clone` directly (only if Path A is not possible)
+
+If for some reason you can't use the template button (no GitHub account yet, working offline, etc.):
 
 ```bash
 git clone https://github.com/lglucas/ai-dev-operating-system.git my-new-saas
 cd my-new-saas
 ```
 
-If you are using PowerShell on Windows:
+PowerShell on Windows:
 
 ```powershell
 git clone https://github.com/lglucas/ai-dev-operating-system.git my-new-saas
 cd my-new-saas
 ```
+
+⚠️ **Important:** the local `origin` now points to our OS repo. Before any commit, you MUST detach. Either:
+
+- Run the detach script (educational + interactive):
+
+  ```bash
+  bash scripts/detach-os.sh        # Linux/macOS
+  powershell scripts/detach-os.ps1 # Windows
+  ```
+
+- Or let WIZARD Stage 0.5 walk you through it on first run.
+
+The script (and the wizard) will explain what `origin` is, how to create a new GitHub repo, how to swap remotes, and how to keep `.env` out of the repo.
 
 ---
 

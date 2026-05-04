@@ -22,6 +22,7 @@
 - [ ] Version metadata reconciled (README badge, CHANGELOG, RELEASE-NOTES) if this is a release.
 - [ ] No personal data, secrets, or private project content introduced.
 - [ ] `session-log/` updated for material decisions.
+- [ ] PR opened from a **fork** or feature branch — no direct commits to `main` (branch is protected).
 
 ## Vibe-coder impact
 

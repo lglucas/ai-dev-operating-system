@@ -13,6 +13,7 @@ The goal is not to produce code quickly. The goal is to produce a project that i
 The wizard moves through these stages:
 
 1. Repository comprehension
+1.5. **Detach from OS-origin (Stage 0.5)** — disconnect new project from the AI Dev OS repo before any commit. Educational + executable.
 2. Friendly opening and user introduction
 3. Raw ideation
 4. Ideation expansion and ten strategic questions
@@ -37,6 +38,65 @@ The wizard moves through these stages:
 Claude must first read `START-HERE.md`, `README.md`, `CLAUDE.md`, this file, `.claude/`, and the wizard docs.
 
 Claude must confirm it understood the operating system and must not start coding.
+
+---
+
+## Stage 0.5 — Detach from OS-origin (educate-and-execute)
+
+**This stage is mandatory for derived projects and skipped automatically when running inside the AI Dev OS repo itself.**
+
+### How to determine if this stage applies
+
+Run `git remote get-url origin` and observe whether `.aios-self` exists in the project root:
+
+| origin URL | `.aios-self` exists | Action |
+|---|---|---|
+| Does NOT contain `lglucas/ai-dev-operating-system` | irrelevant | **Skip** — already detached. Optionally tell user they can delete `.aios-self` if it's still there. |
+| DOES contain `lglucas/ai-dev-operating-system` | yes | **Ask the user** explicitly: "Você está trabalhando NO repositório do AI Dev OS em si (contribuindo para o OS), ou começando um projeto novo derivado dele?" — if OS-itself: skip. If derived: run detach. |
+| DOES contain `lglucas/ai-dev-operating-system` | no | **Run detach** — user is in a clone for a derived project but already removed the marker manually. |
+
+The `.aios-self` marker by itself does NOT prove this is the OS repo, because it travels via clone and via "Use this template". Both signals together (marker + origin) plus user confirmation are required.
+
+### Why this stage exists
+
+A user who clones (or "Use this template") the AI Dev OS gets a working copy whose `origin` remote points to `lglucas/ai-dev-operating-system`. Without intervention, their first `git push` either:
+
+- fails with "permission denied" (confusing to non-devs), or
+- pushes their personal project artifacts into the public OS repo (poison-the-well scenario).
+
+The wizard must intercept BEFORE any commit happens.
+
+### What Claude must do (script)
+
+1. **Detect.** Run `git remote get-url origin`. If the URL contains `lglucas/ai-dev-operating-system`, the project is still attached to the OS-origin.
+
+2. **Explain in plain Portuguese** what `origin` is and why we're detaching. Do not assume the user knows Git. Use the wording from `scripts/detach-os.{sh,ps1}` step 2 ("O que é 'origin' e por que importa") as canonical reference.
+
+3. **Offer the user 3 paths:**
+   - **(a) Run the detach script** — `bash scripts/detach-os.sh` (Linux/macOS) or `powershell scripts/detach-os.ps1` (Windows). The script handles re-init or remote swap with educational prompts.
+   - **(b) Already have a GitHub repo** — guide them to: `git remote remove origin && git remote add origin <new-url>`.
+   - **(c) Don't have a GitHub account/repo yet** — pause the wizard. Walk them through:
+     1. Creating a GitHub account at `https://github.com/signup` (if needed).
+     2. Creating a new repo at `https://github.com/new` (recommend Private for early-stage projects, no README/`.gitignore`/license — they already have those).
+     3. Generating a Personal Access Token at `https://github.com/settings/tokens` for HTTPS push, OR setting up SSH keys.
+     4. Then return to path (b).
+
+4. **Verify.** Re-run `git remote get-url origin`. Confirm it does NOT contain `lglucas/ai-dev-operating-system`. If it still does, do not proceed.
+
+5. **Reinforce secrets discipline before any commit:**
+   - Confirm `.env` is in `.gitignore`.
+   - Confirm `.env.example` exists with placeholder values.
+   - Remind: NEVER paste API keys, tokens, or production credentials into prompts or files that could be committed.
+
+### Educational tone
+
+This stage is the first time a non-developer user learns about Git, remotes, and GitHub mechanics. Treat every explanation as if the user has never used Git before. Use analogies. Be patient. The success criterion is not just "the script ran" — it is "the user understood why we did this."
+
+### Required output
+
+- `origin` no longer points to the OS repo (or `.git/` was re-initialized).
+- User has a target repo URL of their own (or has explicitly chosen to defer Git/GitHub setup, in which case Stage 0.5 records the deferral and the wizard continues with a warning that no commit should happen until detach is complete).
+- `session-log/` records the detach decision and the reasoning.
 
 ---
 

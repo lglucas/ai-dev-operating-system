@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-ready-7B61FF)](START-HERE.md)
-[![Status](https://img.shields.io/badge/status-v0.4.3%20quick--wins-green)](RELEASE-NOTES-v0.4.3.md)
+[![Status](https://img.shields.io/badge/status-v0.4.4%20repo--hardening-green)](RELEASE-NOTES-v0.4.4.md)
 [![Made for SaaS](https://img.shields.io/badge/made%20for-SaaS%20builders-111827)](#what-this-gives-you)
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
@@ -15,20 +15,48 @@ This repo is not a finished SaaS template. It is the **operating layer** you put
 
 ## ⚡ Quick start
 
+> 🎯 **Recommended path — "Use this template":**
+>
+> 1. Click the green **"Use this template"** button at the top of [this repo on GitHub](https://github.com/lglucas/ai-dev-operating-system).
+> 2. Choose **"Create a new repository"**, name it (e.g. `my-new-saas`), and pick Private if it's an early-stage project.
+> 3. Clone YOUR new repo:
+>    ```bash
+>    git clone https://github.com/SEU-USUARIO/my-new-saas.git
+>    cd my-new-saas
+>    ```
+>
+> This gives you a fresh repo under your account, with `origin` already pointing to YOUR repository — no accidental commits to the OS repo.
+
+<details>
+<summary>Fallback: <code>git clone</code> directly (only if you can't use the template button)</summary>
+
 ```bash
 git clone https://github.com/lglucas/ai-dev-operating-system.git my-new-saas
 cd my-new-saas
 ```
 
-Open the folder in your IDE. Then run Claude Code in the project terminal and paste:
+⚠️ This points your local `origin` to **our** OS repo. **Before any commit**, run the detach script:
+
+```bash
+bash scripts/detach-os.sh        # Linux/macOS
+powershell scripts/detach-os.ps1 # Windows
+```
+
+The script walks you through detaching `origin` and (optionally) re-initializing Git. WIZARD Stage 0.5 also handles this educationally on first run.
+
+</details>
+
+After you have your own repo set up, open the folder in your IDE and run Claude Code in the project terminal. Paste:
 
 ```txt
 Claude, vamos iniciar um novo projeto. Leia primeiro o arquivo START-HERE.md e siga exatamente as instruções dele.
 ```
 
-Claude should read the repo structure, understand the operating system, and start the **Project Genesis Wizard**.
+Claude should read the repo structure, understand the operating system, and start the **Project Genesis Wizard** — including Stage 0.5 (detach from OS-origin) if you used the fallback `git clone` path.
 
-📘 Need help setting up your IDE, Git, or Claude Code? Start here: [`docs/installation.md`](docs/installation.md).
+📘 Need help setting up your IDE, Git, GitHub account, or Claude Code? Start here: [`docs/installation.md`](docs/installation.md).
+
+🤝 Want to contribute back to the OS itself (bug fix, new skill, registry pack)? See [`CONTRIBUTING.md`](CONTRIBUTING.md). The `main` branch is protected — all changes go through PR.
 
 ---
 
