@@ -1,0 +1,160 @@
+/* style.css — Trilho do AI Dev OS */
+:root {
+  --bg: #0d1117;
+  --fg: #c9d1d9;
+  --accent: #58a6ff;
+  --gold: #f0b90b;
+  --danger: #f85149;
+  --card: #161b22;
+  --border: #30363d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+header h1 { margin: 0; font-size: 1.2rem; }
+
+nav a {
+  color: var(--fg);
+  text-decoration: none;
+  margin-left: 1.5rem;
+  padding: .25rem .5rem;
+  border-radius: 4px;
+}
+
+nav a.active { background: var(--accent); color: #000; }
+
+main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+input, button, select {
+  font: inherit;
+  padding: .5rem .75rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: #0d1117;
+  color: var(--fg);
+  margin-right: .5rem;
+}
+
+button {
+  background: var(--accent);
+  color: #000;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover { opacity: .85; }
+
+.logout { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+
+.hint { color: var(--gold); font-size: .9rem; }
+
+.login-card { max-width: 420px; }
+
+/* Painel — Grand Prix */
+.mode-painel .subtitle { color: #8b949e; }
+
+.track {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+  min-height: 60vh;
+}
+
+.lane {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.lane header {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.lane:nth-child(5) { border-color: var(--gold); }
+
+.cars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.car {
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  position: relative;
+}
+
+.car span {
+  position: absolute;
+  left: 56px;
+  white-space: nowrap;
+  font-size: .85rem;
+}
+
+.stats { color: #8b949e; font-size: .9rem; text-align: center; }
+
+/* Etiqueta de origem */
+.origin-tag {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 280px;
+  font-size: .8rem;
+  z-index: 100;
+}
+
+.origin-tag strong { display: block; margin-bottom: .5rem; }
+.origin-tag ul { list-style: none; padding: 0; margin: 0 0 .5rem; }
+.origin-tag li { margin: .25rem 0; }
+.origin-tag a { color: var(--accent); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .track { grid-template-columns: 1fr; }
+  .origin-tag { display: none; }
+}

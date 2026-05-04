@@ -16,12 +16,13 @@ Na Aula 2, cada aluno gera 6 documentos profissionais sobre o projeto dele. Pra 
 4. **Notificação** — email com os 2 links + instruções de red team.
 5. **Galeria** — painel admin sorteia 3 alunos pra apresentar na Aula 3.
 
-## Stack
+## Stack (revisada v0.4.6)
 
-- Next.js 15 (App Router) + Tailwind + shadcn/ui.
-- Supabase (auth Magic Link + DB).
-- Resend (email).
-- Vercel (deploy).
+- **HTML estático** (`course/systems/index.html`) — página única, modo `#aluno` + `#admin` via hash routing. Compartilha código com o Sistema 2 (Grand Prix do Trilho).
+- **Vanilla JS + Alpine.js** (CDN) — interatividade leve sem bundling.
+- **Supabase JS SDK** (CDN) — auth Magic Link + DB direto do browser.
+- **Email de notificação:** Magic Link já usa email built-in da Supabase Auth. Para o email pós-sorteio (com os 2 repos atribuídos), usar **Supabase Edge Function `send-assignment-email`** chamando Resend (ou simplesmente mostrar in-app).
+- **Hosting:** GitHub Pages (`course/systems/` servido como site estático).
 
 ## Etiqueta de origem (canto inferior direito)
 
@@ -29,14 +30,15 @@ Visível em todas as telas:
 
 ```
 🛤  CONSTRUÍDO COM AI DEV OS
-Skills: registry-pick, processize, sprint-management
-Packs:  shadcn-ui, nellavio (admin patterns)
-Stack:  Next.js 15 + Supabase + Resend + Vercel
-Tempo de build: ~8h
+Skills:    registry-pick, processize, sprint-management
+Stack:     HTML + Alpine.js + GSAP + Supabase
+Hosting:   GitHub Pages (zero infra)
+Tempo:     ~5h de build
+Custo:     R$ 0/mês (free tiers)
 [ver no GitHub →]
 ```
 
-Componente reutilizável (vira pack do registry).
+Componente HTML reutilizável (vira pack do registry).
 
 ## Plano B (caso sistema falhe na aula)
 
