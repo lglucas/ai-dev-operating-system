@@ -6,6 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.4.5] — 2026-05-04 — Course vertical: workshop em 3 aulas (Experience Learning) + 2 sistemas planejados
+
+### Added — Vertical educacional `course/`
+
+Pasta `course/` adicionada como **vertical paralela**, claramente separada do OS operacional. Construída como prova viva de que vibe coder com método produz em horas o que time custaria semanas.
+
+- `course/README.md` — manifesto da separação. Quem clona pra projeto pode ignorar/apagar a pasta sem afetar o OS.
+- `course/CHANGELOG-COURSE.md` — histórico das decisões pedagógicas (v1 → v3.3) inteiro documentado.
+- `course/content/shared/curso-overview.md` — TESE, TAGLINE, ARCO global do curso aplicando os 4 pilares Perestroika (Conteúdo, Forma, Emocional, Estrutural).
+- `course/content/aula-1-fundacao/README.md` + `treco/po-de-diamante-po-de-fome.md` — Aula 1 completa (Tagline: "Você não está de muletas, isso aqui é um fucking Gundam!").
+- `course/content/aula-2-construcao/README.md` — Aula 2 completa (Tagline: "AI sem contexto é menino no sandbox").
+- `course/content/aula-3-soberania/README.md` — Aula 3 completa (Tagline: "Não somos jangada. Somos submarino nuclear pilotado por gente que ouviu a IA").
+- `course/sprints/sprint-0-fundacao.md` — Sprint que constrói curso + 2 sistemas + repo demo (~40h em 4–6 semanas).
+- `course/systems/trilho-red-team/BRIEF.md` — Sistema 1 (sorteio anônimo de duplas pra red team).
+- `course/systems/grand-prix/BRIEF.md` — Sistema 2 (painel ao vivo com carrinhos F1 lendo commits via GitHub API).
+- `course/videos/INDEX.md` — placeholder pra futuros vídeos do YouTube.
+
+### Added — Easter egg no OS principal (opt-in)
+
+- `.claude/rules/wizard-stage-tags.md` — convenção opcional `[STAGE:LARGADA|IDEACAO|DOCUMENTACAO|PROTOTIPO|CHEGADA]` em commit messages. Permite rastreamento automático de progresso por sistemas externos. Quem ignora não perde nada.
+
+### Why
+
+Workshop em 3 encontros de 2h aplicando Experience Learning (metodologia open source da Perestroika sob CC BY-SA 4.0) e construído sobre o próprio AI Dev OS. A vertical foi separada propositalmente: quem clona o template pra um projeto não deve confundir material didático com material operacional, mas o curso vive no mesmo repo pra garantir versionamento conjunto e prova viva do método.
+
+### Notes
+
+- v0.4.5 é **patch**, não minor — nenhuma alteração no OS operacional. Apenas adição da nova vertical.
+- v0.5.0 segue reservado pras decisões arquiteturais do OS (trust tiers, plugin manifest, parallel sprints, allowlists).
+
+---
+
 ## [0.4.4] — 2026-05-04 — Repo hardening: branch protection, GitHub Template, WIZARD Stage 0.5 (detach from OS-origin)
 
 ### Added
