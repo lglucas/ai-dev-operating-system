@@ -1,0 +1,6 @@
+This file marks the AI Dev Operating System repository itself.
+
+Its presence tells `scripts/detach-os.{sh,ps1}` and the WIZARD Stage 0.5 to SKIP detach actions, because we ARE the OS repo (not a derived project).
+
+DO NOT delete this file from the AI Dev OS repo.
+DO NOT copy this file to a derived project — if you used "Use this template" or cloned this repo, the marker should NOT travel with you (template copy excludes it via `.gitattributes` export-ignore).

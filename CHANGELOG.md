@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.4.4] — 2026-05-04 — Repo hardening: branch protection, GitHub Template, WIZARD Stage 0.5 (detach from OS-origin)
+
+### Added
+
+- `CONTRIBUTING.md` — full PT-BR contribution guide (fork → branch → PR flow), bilingual EN summary at top.
+- `.github/ISSUE_TEMPLATE/question.md` — third issue template alongside bug/feature.
+- `scripts/detach-os.sh` and `scripts/detach-os.ps1` — interactive, educational scripts to disconnect a derived project from the OS-origin remote (re-init mode or remote-swap mode), with secrets-discipline reminders.
+- `.aios-self` — root marker file identifying the OS repo itself (used in combination with origin URL by Stage 0.5).
+- `WIZARD.md` Stage 0.5 — "Detach from OS-origin (educate-and-execute)" between Stage 0 and Stage 1. Walks non-dev users through Git remotes, GitHub repo creation, PAT/SSH setup, and `.env`/`.gitignore` discipline.
+- `RELEASE-NOTES-v0.4.4.md`.
+
+### Changed
+
+- **GitHub server-side hardening** (out-of-repo, applied via `gh` CLI):
+  - Repo marked as **Template** (`gh repo edit --template`) — surfaces "Use this template" button as the recommended path.
+  - **Branch protection** on `main` — requires PR, dismisses stale reviews, no force pushes, no deletions, conversation resolution required. `enforce_admins=false` so the maintainer can bypass in emergencies.
+- `README.md` — Quick start now leads with "Use this template", with `git clone` collapsed as a clearly-marked fallback that points to `scripts/detach-os.*`. Added explicit "Want to contribute?" section linking `CONTRIBUTING.md`.
+- `docs/installation.md` — Section 4 rewritten as Path A ("Use this template", recommended) + Path B (`git clone` with detach instructions).
+- `.github/pull_request_template.md` — added checklist line: "PR opened from a fork or feature branch — no direct commits to main".
+
+### Why
+
+A user who follows the prior `git clone` instructions ends up with `origin` pointing to the OS repo, so any `git push` either fails (confusing for non-devs) or, if the user has push access, pollutes the OS repo with their personal project. The combination of (1) branch protection, (2) template flag, and (3) WIZARD Stage 0.5 implements the "no defaults to push" posture that's standard for public template repos (Vercel, shadcn, Cloudflare templates).
+
+The `git clone` path is preserved for advanced users and offline scenarios, but is now clearly second-best.
+
+---
+
 ## [0.4.3] — 2026-05-01 — Quick wins: ETHOS, /processize, /grow-sustainably, /multi-ai-review, agents-marketplace tag
 
 Patch release implementing the five quick wins identified in v0.4.2's comparison study against `gstack` and `slavingia/skills`. No architectural changes — those remain deferred to v0.5.
