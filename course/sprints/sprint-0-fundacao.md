@@ -50,7 +50,7 @@ Economiza ~50% do tempo estimado e aumenta legibilidade pro vibe coder não-dev 
 **Stack de produção:** Keynote ou Figma Slides ou similar. Design de informação cuidado (princípio Perestroika #8). Tipografia forte, paleta consistente, sem ClipArt.
 
 **Entregáveis:**
-- [ ] Aula 1 — Fundação (deck completo).
+- [x] Aula 1 — Fundação (deck outline em markdown — `course/content/aula-1-fundacao/slide-deck-outline.md`).
 - [ ] Aula 2 — Construção (deck completo).
 - [ ] Aula 3 — Soberania (deck completo).
 
@@ -65,14 +65,14 @@ Palavra-por-palavra nos blocos críticos:
 - Mantra final.
 
 **Entregáveis:**
-- [ ] `course/content/aula-1-fundacao/roteiro-facilitador.md`
-- [ ] `course/content/aula-2-construcao/roteiro-facilitador.md`
-- [ ] `course/content/aula-3-soberania/roteiro-facilitador.md`
+- [x] `course/content/aula-1-fundacao/facilitator-script.md` (palavra-por-palavra dos blocos críticos)
+- [ ] `course/content/aula-2-construcao/facilitator-script.md`
+- [ ] `course/content/aula-3-soberania/facilitator-script.md`
 
 ### A.3 Cheat-sheets (1 página cada)
 
 **Entregáveis:**
-- [ ] Cheat-sheet Aula 1: "Setup + Stage 0–4" (PDF imprimível).
+- [x] Cheat-sheet Aula 1: "Setup + Stage 0–4" — `course/content/aula-1-fundacao/cheat-sheet.md` (markdown pronto pra virar PDF).
 - [ ] Cheat-sheet Aula 2: "Tríade + 6 docs" (PDF).
 - [ ] Cheat-sheet Aula 3: "Skills + Comandos do dia-a-dia + Checklist Segurança" (PDF).
 
