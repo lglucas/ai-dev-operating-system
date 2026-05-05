@@ -186,6 +186,10 @@ document.addEventListener("alpine:init", () => {
 
     get totalCars() { return this.cars.length; },
 
+    filterCars(stageKey) {
+      return this.cars.filter(c => c.stage === stageKey);
+    },
+
     subscribePositions() {
       db
         .channel("positions-changes")

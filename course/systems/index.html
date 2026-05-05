@@ -85,7 +85,7 @@
         <div class="lane">
           <header x-text="stage.icon + ' ' + stage.label"></header>
           <div class="cars">
-            <template x-for="car in cars.filter(c => c.stage === stage.key)" :key="car.student_id">
+            <template x-for="car in filterCars(stage.key)" :key="car.student_id">
               <div class="car"
                    :data-car-id="car.student_id"
                    :style="`background-image: url(${car.avatar_url})`"
