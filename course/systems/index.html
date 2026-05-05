@@ -85,8 +85,15 @@
         <header>🏁 Largada</header>
         <div class="cars">
           <template x-for="car in filterCars('LARGADA')" :key="car.student_id">
-            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
-              <span x-text="car.full_name"></span>
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
             </div>
           </template>
         </div>
@@ -95,8 +102,15 @@
         <header>🧠 Ideação</header>
         <div class="cars">
           <template x-for="car in filterCars('IDEACAO')" :key="car.student_id">
-            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
-              <span x-text="car.full_name"></span>
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
             </div>
           </template>
         </div>
@@ -105,8 +119,15 @@
         <header>📝 Documentação</header>
         <div class="cars">
           <template x-for="car in filterCars('DOCUMENTACAO')" :key="car.student_id">
-            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
-              <span x-text="car.full_name"></span>
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
             </div>
           </template>
         </div>
@@ -115,8 +136,15 @@
         <header>🛠 Protótipo</header>
         <div class="cars">
           <template x-for="car in filterCars('PROTOTIPO')" :key="car.student_id">
-            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
-              <span x-text="car.full_name"></span>
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
             </div>
           </template>
         </div>
@@ -125,8 +153,15 @@
         <header>🏆 Chegada</header>
         <div class="cars">
           <template x-for="car in filterCars('CHEGADA')" :key="car.student_id">
-            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
-              <span x-text="car.full_name"></span>
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
             </div>
           </template>
         </div>

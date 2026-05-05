@@ -113,23 +113,98 @@ button:hover { opacity: .85; }
   gap: .5rem;
 }
 
+/* Carrinho de F1 com capacete = avatar */
 .car {
-  display: flex;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid var(--accent);
   position: relative;
+  width: 80px;
+  height: 32px;
+  margin-bottom: .25rem;
+  --car-color: #d22;
 }
 
-.car span {
+/* Paleta de 8 cores estilo F1 */
+.car[data-color="0"] { --car-color: #ed1c24; } /* Ferrari */
+.car[data-color="1"] { --car-color: #00d2be; } /* Mercedes */
+.car[data-color="2"] { --car-color: #1e41ff; } /* Red Bull */
+.car[data-color="3"] { --car-color: #ff8700; } /* McLaren */
+.car[data-color="4"] { --car-color: #005ba9; } /* Williams */
+.car[data-color="5"] { --car-color: #006f62; } /* Aston Martin */
+.car[data-color="6"] { --car-color: #b6babd; } /* Haas */
+.car[data-color="7"] { --car-color: #900020; } /* Alfa Romeo */
+
+/* Corpo do carrinho */
+.car-body {
   position: absolute;
-  left: 56px;
+  width: 72px;
+  height: 22px;
+  left: 4px;
+  top: 5px;
+  background: var(--car-color);
+  border-radius: 14px 4px 4px 4px;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), 0 1px 2px rgba(0,0,0,.4);
+}
+
+/* Bico / asa frontal (lado esquerdo na pista) */
+.car-body::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: #1a1a1a;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+/* Asa traseira (lado direito) */
+.car-body::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 5px;
+  height: 28px;
+  background: #1a1a1a;
+  border-radius: 1px;
+}
+
+/* Capacete = avatar circular dentro do cockpit */
+.car-helmet {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #f5f5f5;
+  background-size: cover;
+  background-position: center;
+  top: 7px;
+  left: 38px;
+  z-index: 3;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.5);
+}
+
+/* Rodas */
+.car-wheel {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  border: 2px solid #2a2a2a;
+  bottom: -1px;
+  z-index: 2;
+}
+.car-wheel.front { right: 8px; }
+.car-wheel.rear  { left: 6px; }
+
+/* Nome do piloto */
+.car-name {
+  position: absolute;
+  left: 92px;
+  top: 8px;
   white-space: nowrap;
-  font-size: .85rem;
+  font-size: .8rem;
+  color: var(--fg);
 }
 
 .stats { color: #8b949e; font-size: .9rem; text-align: center; }
