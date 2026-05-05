@@ -7,7 +7,9 @@ const MOCK_MODE = new URLSearchParams(window.location.search).has("mock");
 const SUPABASE_URL = window.SUPABASE_URL || "https://your-project.supabase.co";
 const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "your-anon-key";
 
-const supabase = MOCK_MODE
+// IMPORTANT: nome 'supabase' colide com window.supabase (UMD do SDK).
+// Por isso usamos 'db' como nome local.
+const db = MOCK_MODE
   ? window.MockSupabase
   : window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -41,9 +43,9 @@ document.addEventListener("alpine:init", () => {
     async init() {
       this.handleHashRoute();
       window.addEventListener("hashchange", () => this.handleHashRoute());
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await db.auth.getSession();
       if (session) await this.loadUser(session);
-      supabase.auth.onAuthStateChange((_event, session) => {
+      db.auth.onAuthStateChange((_event, session) => {
         if (session) this.loadUser(session);
         else this.user = null;
       });
@@ -57,25 +59,25 @@ document.addEventListener("alpine:init", () => {
     },
 
     async loadUser(session) {
-      const { data } = await supabase.from("students").select("*").eq("id", session.user.id).maybeSingle();
+      const { data } = await db.from("students").select("*").eq("id", session.user.id).maybeSingle();
       this.user = data || { id: session.user.id, email: session.user.email, full_name: session.user.email };
       if (data?.repo_url) this.myRepoUrl = data.repo_url;
       await this.loadStudentData();
     },
 
     async signIn() {
-      const { error } = await supabase.auth.signInWithOtp({ email: this.loginEmail });
+      const { error } = await db.auth.signInWithOtp({ email: this.loginEmail });
       this.loginMessage = error ? `Erro: ${error.message}` : "Link mágico enviado. Confere o email.";
     },
 
-    async signOut() { await supabase.auth.signOut(); },
+    async signOut() { await db.auth.signOut(); },
 
     async saveRepo() {
       if (!this.myRepoUrl.startsWith("https://github.com/")) {
         this.repoMessage = "Tem que ser uma URL de github.com";
         return;
       }
-      const { error } = await supabase.from("repos").upsert({
+      const { error } = await db.from("repos").upsert({
         student_id: this.user.id,
         repo_url: this.myRepoUrl,
       });
@@ -84,14 +86,14 @@ document.addEventListener("alpine:init", () => {
 
     async loadStudentData() {
       // Repos atribuídos pra atacar
-      const { data: targets } = await supabase
+      const { data: targets } = await db
         .from("assignments")
         .select("id, target_repo:repos(repo_url)")
         .eq("attacker_id", this.user.id);
       this.myAttackTargets = (targets || []).map(t => ({ id: t.id, repo_url: t.target_repo.repo_url }));
 
       // Ataques recebidos (anônimos)
-      const { data: received } = await supabase
+      const { data: received } = await db
         .from("attacks")
         .select("id, message")
         .eq("target_student_id", this.user.id);
@@ -99,7 +101,7 @@ document.addEventListener("alpine:init", () => {
     },
 
     async loadCars() {
-      const { data } = await supabase
+      const { data } = await db
         .from("positions_view")
         .select("student_id, full_name, avatar_url, stage");
       const newCars = data || [];
@@ -107,7 +109,7 @@ document.addEventListener("alpine:init", () => {
       this.animateCarTransitions(this.cars, newCars);
       this.cars = newCars;
       const today = new Date().toISOString().slice(0, 10);
-      const { count } = await supabase
+      const { count } = await db
         .from("commit_log")
         .select("*", { count: "exact", head: true })
         .gte("seen_at", today);
@@ -182,25 +184,25 @@ document.addEventListener("alpine:init", () => {
     get totalCars() { return this.cars.length; },
 
     subscribePositions() {
-      supabase
+      db
         .channel("positions-changes")
         .on("postgres_changes", { event: "*", schema: "public", table: "positions" }, () => this.loadCars())
         .subscribe();
     },
 
     async sortAssignments() {
-      const { error } = await supabase.rpc("sort_red_team_assignments");
+      const { error } = await db.rpc("sort_red_team_assignments");
       this.adminMessage = error ? `Erro: ${error.message}` : "Sorteio feito. Emails enviados.";
     },
 
     async sortGallery() {
-      const { data, error } = await supabase.rpc("sort_gallery_picks", { pick_count: 3 });
+      const { data, error } = await db.rpc("sort_gallery_picks", { pick_count: 3 });
       this.galleryPicks = error ? [] : (data || []);
     },
 
     async forceAdvance() {
       if (!this.forceStudentId) return;
-      const { error } = await supabase.from("positions").upsert({
+      const { error } = await db.from("positions").upsert({
         student_id: this.forceStudentId,
         stage: this.forceStage,
         updated_at: new Date().toISOString(),
