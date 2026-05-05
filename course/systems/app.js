@@ -184,12 +184,6 @@ document.addEventListener("alpine:init", () => {
       console.log(`🏁 ${name} cruzou a CHEGADA!`);
     },
 
-    get carsByStage() {
-      const map = Object.fromEntries(STAGES.map(s => [s.key, []]));
-      this.cars.forEach(c => { if (map[c.stage]) map[c.stage].push(c); });
-      return map;
-    },
-
     get totalCars() { return this.cars.length; },
 
     subscribePositions() {
