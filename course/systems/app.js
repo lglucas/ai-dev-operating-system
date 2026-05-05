@@ -101,28 +101,22 @@ document.addEventListener("alpine:init", () => {
     },
 
     async loadCars() {
-      console.log("[debug] loadCars called");
       const result = await db
         .from("positions_view")
         .select("student_id, full_name, avatar_url, stage");
-      console.log("[debug] positions_view result:", result);
       const newCars = (result && result.data) || [];
-      console.log("[debug] newCars count:", newCars.length, newCars);
-      // Detecta mudanças e anima
       this.animateCarTransitions(this.cars, newCars);
       this.cars = newCars;
-      const today = new Date().toISOString().slice(0, 10);
       try {
+        const today = new Date().toISOString().slice(0, 10);
         const countResult = await db
           .from("commit_log")
           .select("*", { count: "exact", head: true })
           .gte("seen_at", today);
         this.commitsToday = (countResult && countResult.count) || 0;
-      } catch (e) {
-        console.warn("[debug] commit_log count failed:", e);
+      } catch (_) {
         this.commitsToday = 0;
       }
-      console.log("[debug] after assign, this.cars:", this.cars.length);
     },
 
     animateCarTransitions(oldCars, newCars) {

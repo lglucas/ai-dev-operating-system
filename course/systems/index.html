@@ -80,27 +80,57 @@
   <main x-show="mode === 'painel'" class="mode-painel">
     <h2>🏎 Grand Prix do Trilho</h2>
     <p class="subtitle">Carrinhos avançam quando vocês commitam. Trilho não engessa — deixa o trem-bala existir.</p>
-    <p style="background: yellow; color: black; padding: .5rem; font-weight: bold;"
-       x-text="`DEBUG: cars.length = ${cars.length}, stages.length = ${stages.length}, mode = ${mode}`"></p>
-    <p style="background: orange; color: black; padding: .5rem; font-weight: bold;">
-      DEBUG hardcoded: <template x-for="s in stages"><span x-text="s.key + ' '"></span></template>
-    </p>
     <div class="track">
-      <template x-for="stage in stages" :key="stage.key">
-        <div class="lane">
-          <header x-text="stage.icon + ' ' + stage.label"></header>
-          <div class="cars">
-            <template x-for="car in filterCars(stage.key)" :key="car.student_id">
-              <div class="car"
-                   :data-car-id="car.student_id"
-                   :style="`background-image: url(${car.avatar_url})`"
-                   :title="car.full_name">
-                <span x-text="car.full_name"></span>
-              </div>
-            </template>
-          </div>
+      <div class="lane">
+        <header>🏁 Largada</header>
+        <div class="cars">
+          <template x-for="car in filterCars('LARGADA')" :key="car.student_id">
+            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
+              <span x-text="car.full_name"></span>
+            </div>
+          </template>
         </div>
-      </template>
+      </div>
+      <div class="lane">
+        <header>🧠 Ideação</header>
+        <div class="cars">
+          <template x-for="car in filterCars('IDEACAO')" :key="car.student_id">
+            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
+              <span x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="lane">
+        <header>📝 Documentação</header>
+        <div class="cars">
+          <template x-for="car in filterCars('DOCUMENTACAO')" :key="car.student_id">
+            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
+              <span x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="lane">
+        <header>🛠 Protótipo</header>
+        <div class="cars">
+          <template x-for="car in filterCars('PROTOTIPO')" :key="car.student_id">
+            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
+              <span x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="lane">
+        <header>🏆 Chegada</header>
+        <div class="cars">
+          <template x-for="car in filterCars('CHEGADA')" :key="car.student_id">
+            <div class="car" :data-car-id="car.student_id" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
+              <span x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
     </div>
     <p class="stats">
       <span x-text="`${totalCars} carrinhos`"></span> ·
