@@ -66,15 +66,15 @@ Palavra-por-palavra nos blocos críticos:
 
 **Entregáveis:**
 - [x] `course/content/aula-1-fundacao/facilitator-script.md` (palavra-por-palavra dos blocos críticos)
-- [ ] `course/content/aula-2-construcao/facilitator-script.md`
-- [ ] `course/content/aula-3-soberania/facilitator-script.md`
+- [x] `course/content/aula-2-construcao/facilitator-script.md`
+- [x] `course/content/aula-3-soberania/facilitator-script.md`
 
 ### A.3 Cheat-sheets (1 página cada)
 
 **Entregáveis:**
-- [x] Cheat-sheet Aula 1: "Setup + Stage 0–4" — `course/content/aula-1-fundacao/cheat-sheet.md` (markdown pronto pra virar PDF).
-- [ ] Cheat-sheet Aula 2: "Tríade + 6 docs" (PDF).
-- [ ] Cheat-sheet Aula 3: "Skills + Comandos do dia-a-dia + Checklist Segurança" (PDF).
+- [x] Cheat-sheet Aula 1: `course/content/aula-1-fundacao/cheat-sheet.md`.
+- [x] Cheat-sheet Aula 2: `course/content/aula-2-construcao/cheat-sheet.md`.
+- [x] Cheat-sheet Aula 3: `course/content/aula-3-soberania/cheat-sheet.md`.
 
 ### A.4 Vídeo pré-aula (5min)
 
@@ -98,7 +98,7 @@ Levantamento real:
 - Faixas de custo para 100 / 1k / 10k usuários por mês.
 
 **Entregável:**
-- [ ] `course/content/aula-3-soberania/calculo-custos.md` (planilha + slide).
+- [x] `course/content/aula-3-soberania/calculo-custos.md` — pricing público abril/2026 (Vercel, Supabase, Resend, Anthropic) + cenários de 100/1k/10k usuários.
 
 ### A.6 Banco de cases reais (Pólo de Fome ampliado)
 
@@ -110,7 +110,7 @@ Levantamento, com prints + links:
 - 1–2 cases alternativos de cada lado.
 
 **Entregável:**
-- [ ] `course/content/aula-1-fundacao/banco-de-cases.md` (compilado público + prints baixados localmente).
+- [x] `course/content/aula-1-fundacao/banco-de-cases.md` — Pieter Levels + Replit AI (jul/2025) + Cursor/Claude .env leak + GitHub API key leaks. Sources oficiais e secundárias linkadas. Prints visuais ainda a baixar manualmente.
 
 ---
 
