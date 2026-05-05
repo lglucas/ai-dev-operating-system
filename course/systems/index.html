@@ -11,6 +11,14 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <!-- Alpine.js for reactivity -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+  <!-- Mock data (carregado se URL tem ?mock=1) -->
+  <script>
+    if (new URLSearchParams(location.search).has("mock")) {
+      const s = document.createElement("script");
+      s.src = "./mock-data.js";
+      document.head.appendChild(s);
+    }
+  </script>
 </head>
 <body x-data="appState" x-init="init()">
 
@@ -83,7 +91,10 @@
           <header x-text="stage.icon + ' ' + stage.label"></header>
           <div class="cars">
             <template x-for="car in carsByStage[stage.key]" :key="car.student_id">
-              <div class="car" :style="`background-image: url(${car.avatar_url})`" :title="car.full_name">
+              <div class="car"
+                   :data-car-id="car.student_id"
+                   :style="`background-image: url(${car.avatar_url})`"
+                   :title="car.full_name">
                 <span x-text="car.full_name"></span>
               </div>
             </template>

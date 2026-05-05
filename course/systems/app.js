@@ -1,11 +1,15 @@
 // app.js — Trilho do AI Dev OS (Sistemas 1 + 2)
 // Single-page HTML, 3 modos via hash routing (#aluno, #painel, #admin).
-// Backend: Supabase (auth + DB + Realtime).
+// Backend: Supabase (auth + DB + Realtime). Modo mock disponível via ?mock=1.
+
+const MOCK_MODE = new URLSearchParams(window.location.search).has("mock");
 
 const SUPABASE_URL = window.SUPABASE_URL || "https://your-project.supabase.co";
 const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "your-anon-key";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = MOCK_MODE
+  ? window.MockSupabase
+  : window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const STAGES = [
   { key: "LARGADA", label: "Largada", icon: "🏁" },
@@ -98,13 +102,75 @@ document.addEventListener("alpine:init", () => {
       const { data } = await supabase
         .from("positions_view")
         .select("student_id, full_name, avatar_url, stage");
-      this.cars = data || [];
+      const newCars = data || [];
+      // Detecta mudanças e anima
+      this.animateCarTransitions(this.cars, newCars);
+      this.cars = newCars;
       const today = new Date().toISOString().slice(0, 10);
       const { count } = await supabase
         .from("commit_log")
         .select("*", { count: "exact", head: true })
         .gte("seen_at", today);
       this.commitsToday = count || 0;
+    },
+
+    animateCarTransitions(oldCars, newCars) {
+      if (!window.gsap) return;
+      // Para cada carrinho que MUDOU de lane, dispara animação curta + flash
+      oldCars.forEach(old => {
+        const next = newCars.find(n => n.student_id === old.student_id);
+        if (next && next.stage !== old.stage) {
+          // Aguarda re-render (próximo tick), depois anima entrada
+          setTimeout(() => {
+            const el = document.querySelector(
+              `[data-car-id="${next.student_id}"]`
+            );
+            if (!el) return;
+            window.gsap.fromTo(el,
+              { scale: 0.3, opacity: 0, x: -200, rotate: -45 },
+              { scale: 1, opacity: 1, x: 0, rotate: 0, duration: 0.8, ease: "back.out(1.7)" }
+            );
+            // Flash gold + shadow
+            window.gsap.fromTo(el,
+              { boxShadow: "0 0 0 0 rgba(240,185,11,1)" },
+              { boxShadow: "0 0 30px 10px rgba(240,185,11,0)", duration: 1.2 }
+            );
+            // Toca som de bandeirada se chegou na CHEGADA
+            if (next.stage === "CHEGADA") this.playFinishSound(next.full_name);
+          }, 50);
+        }
+      });
+      // Carrinhos novos (não existiam antes) — animação de entrada
+      newCars.forEach(n => {
+        const wasThere = oldCars.find(o => o.student_id === n.student_id);
+        if (!wasThere) {
+          setTimeout(() => {
+            const el = document.querySelector(`[data-car-id="${n.student_id}"]`);
+            if (!el) return;
+            window.gsap.fromTo(el,
+              { scale: 0, opacity: 0 },
+              { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2)" }
+            );
+          }, 50);
+        }
+      });
+    },
+
+    playFinishSound(name) {
+      // Som de bandeirada — beep simples via WebAudio (sem arquivo externo)
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = "square";
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.setValueAtTime(1320, ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+        osc.start(); osc.stop(ctx.currentTime + 0.5);
+      } catch (_) { /* navegador sem audio context — silencioso */ }
+      console.log(`🏁 ${name} cruzou a CHEGADA!`);
     },
 
     get carsByStage() {

@@ -31,15 +31,30 @@ course/systems/
 
 ## Como rodar local (sem deploy)
 
-1. Servir a pasta como site estático. Opções:
-   ```bash
-   # Python
-   cd course/systems && python3 -m http.server 8000
-   # ou Node
-   npx serve course/systems
-   ```
-2. Abrir `http://localhost:8000`.
-3. Pra a página falar com o Supabase real, você precisa primeiro setup do backend (próxima seção). Antes disso, ela carrega mas não autentica.
+### Modo mock (sem Supabase, pra ver o painel rodando rapidinho)
+
+```bash
+cd course/systems && python3 -m http.server 8000
+```
+
+Abre `http://localhost:8000/?mock=1#painel` — vai ter 8 carrinhos fake no trilho, com 1 carrinho avançando uma lane a cada 6s. GSAP anima a entrada com flash dourado. Quando chega na CHEGADA, toca um beep de bandeirada via WebAudio (sem arquivo externo).
+
+Útil pra:
+- Validar visual do painel antes de configurar Supabase.
+- Demonstrações offline.
+- Smoke test depois de mexer em CSS/animação.
+
+### Modo real (com Supabase configurado)
+
+Mesmo servidor local, mas sem `?mock=1`:
+
+```
+http://localhost:8000/#aluno    ← login
+http://localhost:8000/#painel   ← Grand Prix do Trilho
+http://localhost:8000/#admin    ← painel admin (só pra is_admin=true)
+```
+
+Pra a página falar com o Supabase real, você precisa primeiro setup do backend (próxima seção).
 
 ---
 
