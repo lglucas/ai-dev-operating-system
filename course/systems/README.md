@@ -31,6 +31,14 @@ course/systems/
 
 ## Como rodar local (sem deploy)
 
+### ⚠️ Modo mock NÃO envia email real
+
+Quando a URL tem `?mock=1`, o Magic Link do login é stub — **não dispara email**. Pra testar login real, configure Supabase Pro/Free + variáveis no HTML (passos 1-3 da seção "Setup do backend") e abra **sem** o `?mock=1`. Aí o email mágico chega de verdade.
+
+### ⚠️ Modo mock NÃO envia email real
+
+Quando a URL tem `?mock=1`, o Magic Link do login é stub — **não dispara email**. Pra testar login real, configure Supabase Pro/Free + variáveis no HTML (passos 1-3 da seção "Setup do backend") e abra **sem** o `?mock=1`. Aí o email mágico chega de verdade.
+
 ### Modo mock (sem Supabase, pra ver o painel rodando rapidinho)
 
 ```bash
@@ -113,8 +121,14 @@ Supabase Dashboard → Database → Cron Jobs → New cron job:
 
 ### 7. Marcar você como admin
 
+Já feito pelo `seed.sql` da seção 2 — emails listados ali viram admin automático. Pra adicionar mais admins depois:
+
+1. Edita `supabase/seed.sql` adicionando o email novo nas DUAS listas (UPDATE retroativo + array do trigger).
+2. Re-aplica o `seed.sql` no SQL Editor.
+
+Verificação:
 ```sql
-update public.students set is_admin = true where email = 'seu@email.com';
+select email, is_admin from public.students where is_admin = true;
 ```
 
 ---
