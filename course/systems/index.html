@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trilho do AI Dev OS</title>
+  <link rel="stylesheet" href="./style.css" />
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- GSAP for carrinho animation -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <!-- Mock data (sempre carregado, mas só ativa com ?mock=1) -->
+  <!-- IMPORTANTE: precisa vir ANTES do alpine + app.js pra MockSupabase estar disponível -->
+  <script src="./mock-data.js"></script>
+  <!-- Alpine.js for reactivity -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+</head>
+<body x-data="appState" x-init="init()">
+
+  <!-- Header (mostrado em todos os modos) -->
+  <header>
+    <h1>🛤 Trilho do AI Dev OS</h1>
+    <nav>
+      <a href="#aluno" :class="mode === 'aluno' && 'active'">Aluno</a>
+      <a href="#painel" :class="mode === 'painel' && 'active'">Painel</a>
+      <a href="#admin" :class="mode === 'admin' && 'active'" x-show="user && user.is_admin">Admin</a>
+    </nav>
+  </header>
+
+  <!-- Modo ALUNO -->
+  <main x-show="mode === 'aluno'" class="mode-aluno">
+    <template x-if="!user">
+      <section class="login-card">
+        <h2>Entre com seu email</h2>
+        <p>Te mando um link mágico. Sem senha.</p>
+        <input type="email" x-model="loginEmail" placeholder="seu@email.com" />
+        <button @click="signIn()">Receber link</button>
+        <p x-show="loginMessage" x-text="loginMessage" class="hint"></p>
+      </section>
+    </template>
+
+    <template x-if="user">
+      <section>
+        <h2>Olá, <span x-text="user.full_name || user.email"></span></h2>
+
+        <article class="card">
+          <h3>1. Seu repo</h3>
+          <p>Cole aqui o link público do seu repo no GitHub.</p>
+          <input type="url" x-model="myRepoUrl" placeholder="https://github.com/seu-usuario/seu-projeto" />
+          <button @click="saveRepo()">Salvar</button>
+          <p x-show="repoMessage" x-text="repoMessage" class="hint"></p>
+        </article>
+
+        <article class="card" x-show="myAttackTargets.length > 0">
+          <h3>2. Repos pra você fazer red team</h3>
+          <p>Sorteados anonimamente. Atacar a IDEIA, não a pessoa.</p>
+          <ul>
+            <template x-for="t in myAttackTargets" :key="t.id">
+              <li><a :href="t.repo_url" target="_blank" x-text="t.repo_url"></a></li>
+            </template>
+          </ul>
+        </article>
+
+        <article class="card" x-show="attacksReceived.length > 0">
+          <h3>3. Ataques que você recebeu</h3>
+          <p>Anônimos. Não sabe quem mandou.</p>
+          <ul>
+            <template x-for="a in attacksReceived" :key="a.id">
+              <li x-text="a.message"></li>
+            </template>
+          </ul>
+        </article>
+
+        <button @click="signOut()" class="logout">Sair</button>
+      </section>
+    </template>
+  </main>
+
+  <!-- Modo PAINEL (Grand Prix do Trilho) -->
+  <main x-show="mode === 'painel'" class="mode-painel">
+    <h2>🏎 Grand Prix do Trilho</h2>
+    <p class="subtitle">Carrinhos avançam quando vocês commitam. Trilho não engessa — deixa o trem-bala existir.</p>
+    <div class="track">
+      <div class="lane">
+        <header>🏁 Largada</header>
+        <div class="cars">
+          <template x-for="car in filterCars('LARGADA')" :key="car.student_id">
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="lane">
+        <header>🧠 Ideação</header>
+        <div class="cars">
+          <template x-for="car in filterCars('IDEACAO')" :key="car.student_id">
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="lane">
+        <header>📝 Documentação</header>
+        <div class="cars">
+          <template x-for="car in filterCars('DOCUMENTACAO')" :key="car.student_id">
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="lane">
+        <header>🛠 Protótipo</header>
+        <div class="cars">
+          <template x-for="car in filterCars('PROTOTIPO')" :key="car.student_id">
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="lane">
+        <header>🏆 Chegada</header>
+        <div class="cars">
+          <template x-for="car in filterCars('CHEGADA')" :key="car.student_id">
+            <div class="car"
+                 :data-car-id="car.student_id"
+                 :data-color="(parseInt(car.student_id) - 1) % 8"
+                 :title="car.full_name">
+              <div class="car-body"></div>
+              <div class="car-helmet" :style="`background-image: url(${car.avatar_url})`"></div>
+              <div class="car-wheel rear"></div>
+              <div class="car-wheel front"></div>
+              <span class="car-name" x-text="car.full_name"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+    <p class="stats">
+      <span x-text="`${totalCars} carrinhos`"></span> ·
+      <span x-text="`${commitsToday} commits hoje`"></span>
+    </p>
+  </main>
+
+  <!-- Modo ADMIN -->
+  <main x-show="mode === 'admin' && user && user.is_admin" class="mode-admin">
+    <h2>Painel admin</h2>
+    <article class="card">
+      <h3>Sortear duplas pro Red Team</h3>
+      <button @click="sortAssignments()">Sortear agora</button>
+      <p x-show="adminMessage" x-text="adminMessage" class="hint"></p>
+    </article>
+    <article class="card">
+      <h3>Sortear 3 alunos pra Galeria do Red Team</h3>
+      <button @click="sortGallery()">Sortear 3</button>
+      <ul>
+        <template x-for="a in galleryPicks" :key="a.id">
+          <li x-text="a.full_name"></li>
+        </template>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>Forçar avanço de carrinho</h3>
+      <select x-model="forceStudentId">
+        <option value="">— escolha aluno —</option>
+        <template x-for="s in allStudents" :key="s.id">
+          <option :value="s.id" x-text="s.full_name"></option>
+        </template>
+      </select>
+      <select x-model="forceStage">
+        <template x-for="s in stages" :key="s.key">
+          <option :value="s.key" x-text="s.label"></option>
+        </template>
+      </select>
+      <button @click="forceAdvance()">Avançar</button>
+    </article>
+  </main>
+
+  <!-- Etiqueta de origem (canto inferior direito) -->
+  <aside class="origin-tag">
+    <strong>🛤 Construído com AI Dev OS</strong>
+    <ul>
+      <li><b>Skills:</b> registry-pick, processize, sprint-management</li>
+      <li><b>Stack:</b> HTML + Alpine.js + GSAP + Supabase</li>
+      <li><b>Hosting:</b> GitHub Pages · Custo: R$ 0/mês</li>
+      <li><b>Build:</b> ~11h (Sprint 0)</li>
+    </ul>
+    <a href="https://github.com/lglucas/ai-dev-operating-system" target="_blank">ver no GitHub →</a>
+  </aside>
+
+  <script src="./app.js"></script>
+</body>
+</html>

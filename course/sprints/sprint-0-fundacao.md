@@ -13,11 +13,21 @@
 | Entregável | Tipo | Estimativa |
 |---|---|---|
 | **A.** Materiais didáticos das 3 aulas | Slides + scripts + cheat-sheets + vídeo pré-aula | ~14h |
-| **B.** Sistema 1 — Trilho do Red Team | Web app (Next.js + Supabase) + etiqueta de origem | ~8h |
-| **C.** Sistema 2 — Grand Prix do Trilho | Web app realtime (extends Sistema 1) + parser de commits | ~14h |
+| **B+C.** Sistemas 1 e 2 (page única) | HTML estático + Alpine.js + GSAP + Supabase + 1 Edge Function de polling | **~11h (combinado)** |
 | **D.** Repo demo "vet-saas-workshop" | Projeto-isca pra demos das aulas | ~4h |
 
-**Total estimado:** ~40h de execução. Distribuído em 4–6 semanas se rodar em paralelo (eu construindo, você revisando), até 8 semanas se sequencial.
+**Total estimado:** ~29h de execução (revisado de 40h após decisão de stack mais simples).
+
+### Decisão de arquitetura (v0.4.6, 2026-05-04)
+
+Os 2 sistemas foram fundidos em **uma única página HTML estática** com 3 modos (hash routing: `#aluno`, `#painel`, `#admin`):
+- **Stack:** HTML + Vanilla JS + Alpine.js + GSAP (todos via CDN, zero build).
+- **Backend:** Supabase (auth + DB + Realtime + Edge Function).
+- **Server-side mínimo:** apenas 1 Edge Function (`poll-progress`) que lê GitHub API a cada 2min.
+- **Aluno NÃO configura nada no repo dele** — sem webhook, sem GH Actions, sem secrets pra gerenciar.
+- **Hosting:** GitHub Pages (zero custo, zero infra).
+
+Economiza ~50% do tempo estimado e aumenta legibilidade pro vibe coder não-dev (HTML + JS direto, sem build pipeline opaco).
 
 ---
 
@@ -40,7 +50,7 @@
 **Stack de produção:** Keynote ou Figma Slides ou similar. Design de informação cuidado (princípio Perestroika #8). Tipografia forte, paleta consistente, sem ClipArt.
 
 **Entregáveis:**
-- [ ] Aula 1 — Fundação (deck completo).
+- [x] Aula 1 — Fundação (deck outline em markdown — `course/content/aula-1-fundacao/slide-deck-outline.md`).
 - [ ] Aula 2 — Construção (deck completo).
 - [ ] Aula 3 — Soberania (deck completo).
 
@@ -55,16 +65,16 @@ Palavra-por-palavra nos blocos críticos:
 - Mantra final.
 
 **Entregáveis:**
-- [ ] `course/content/aula-1-fundacao/roteiro-facilitador.md`
-- [ ] `course/content/aula-2-construcao/roteiro-facilitador.md`
-- [ ] `course/content/aula-3-soberania/roteiro-facilitador.md`
+- [x] `course/content/aula-1-fundacao/facilitator-script.md` (palavra-por-palavra dos blocos críticos)
+- [x] `course/content/aula-2-construcao/facilitator-script.md`
+- [x] `course/content/aula-3-soberania/facilitator-script.md`
 
 ### A.3 Cheat-sheets (1 página cada)
 
 **Entregáveis:**
-- [ ] Cheat-sheet Aula 1: "Setup + Stage 0–4" (PDF imprimível).
-- [ ] Cheat-sheet Aula 2: "Tríade + 6 docs" (PDF).
-- [ ] Cheat-sheet Aula 3: "Skills + Comandos do dia-a-dia + Checklist Segurança" (PDF).
+- [x] Cheat-sheet Aula 1: `course/content/aula-1-fundacao/cheat-sheet.md`.
+- [x] Cheat-sheet Aula 2: `course/content/aula-2-construcao/cheat-sheet.md`.
+- [x] Cheat-sheet Aula 3: `course/content/aula-3-soberania/cheat-sheet.md`.
 
 ### A.4 Vídeo pré-aula (5min)
 
@@ -88,7 +98,7 @@ Levantamento real:
 - Faixas de custo para 100 / 1k / 10k usuários por mês.
 
 **Entregável:**
-- [ ] `course/content/aula-3-soberania/calculo-custos.md` (planilha + slide).
+- [x] `course/content/aula-3-soberania/calculo-custos.md` — pricing público abril/2026 (Vercel, Supabase, Resend, Anthropic) + cenários de 100/1k/10k usuários.
 
 ### A.6 Banco de cases reais (Pólo de Fome ampliado)
 
@@ -100,11 +110,17 @@ Levantamento, com prints + links:
 - 1–2 cases alternativos de cada lado.
 
 **Entregável:**
-- [ ] `course/content/aula-1-fundacao/banco-de-cases.md` (compilado público + prints baixados localmente).
+- [x] `course/content/aula-1-fundacao/banco-de-cases.md` — Pieter Levels + Replit AI (jul/2025) + Cursor/Claude .env leak + GitHub API key leaks. Sources oficiais e secundárias linkadas. Prints visuais ainda a baixar manualmente.
 
 ---
 
-## Entregável B — Sistema 1: Trilho do Red Team (~8h)
+## Entregáveis B + C combinados — Sistemas 1 e 2 em página única (~11h)
+
+> **Observação:** os Entregáveis B e C originais (Next.js separado pra cada sistema, ~22h totais) foram fundidos em uma página HTML estática única servida via GitHub Pages. As seções abaixo são mantidas como referência histórica do desenho anterior. A entrega real está no `course/systems/` em desenvolvimento.
+
+---
+
+### Histórico — Entregável B original — Sistema 1: Trilho do Red Team (descontinuado a favor da page única)
 
 ### O que faz
 

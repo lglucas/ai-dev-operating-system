@@ -1,0 +1,235 @@
+/* style.css — Trilho do AI Dev OS */
+:root {
+  --bg: #0d1117;
+  --fg: #c9d1d9;
+  --accent: #58a6ff;
+  --gold: #f0b90b;
+  --danger: #f85149;
+  --card: #161b22;
+  --border: #30363d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+header h1 { margin: 0; font-size: 1.2rem; }
+
+nav a {
+  color: var(--fg);
+  text-decoration: none;
+  margin-left: 1.5rem;
+  padding: .25rem .5rem;
+  border-radius: 4px;
+}
+
+nav a.active { background: var(--accent); color: #000; }
+
+main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+input, button, select {
+  font: inherit;
+  padding: .5rem .75rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: #0d1117;
+  color: var(--fg);
+  margin-right: .5rem;
+}
+
+button {
+  background: var(--accent);
+  color: #000;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover { opacity: .85; }
+
+.logout { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+
+.hint { color: var(--gold); font-size: .9rem; }
+
+.login-card { max-width: 420px; }
+
+/* Painel — Grand Prix */
+.mode-painel .subtitle { color: #8b949e; }
+
+.track {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+  min-height: 60vh;
+}
+
+.lane {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.lane header {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.lane:nth-child(5) { border-color: var(--gold); }
+
+.cars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+/* Carrinho de F1 com capacete = avatar */
+.car {
+  position: relative;
+  width: 80px;
+  height: 32px;
+  margin-bottom: .25rem;
+  --car-color: #d22;
+}
+
+/* Paleta de 8 cores estilo F1 */
+.car[data-color="0"] { --car-color: #ed1c24; } /* Ferrari */
+.car[data-color="1"] { --car-color: #00d2be; } /* Mercedes */
+.car[data-color="2"] { --car-color: #1e41ff; } /* Red Bull */
+.car[data-color="3"] { --car-color: #ff8700; } /* McLaren */
+.car[data-color="4"] { --car-color: #005ba9; } /* Williams */
+.car[data-color="5"] { --car-color: #006f62; } /* Aston Martin */
+.car[data-color="6"] { --car-color: #b6babd; } /* Haas */
+.car[data-color="7"] { --car-color: #900020; } /* Alfa Romeo */
+
+/* Corpo do carrinho */
+.car-body {
+  position: absolute;
+  width: 72px;
+  height: 22px;
+  left: 4px;
+  top: 5px;
+  background: var(--car-color);
+  border-radius: 14px 4px 4px 4px;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), 0 1px 2px rgba(0,0,0,.4);
+}
+
+/* Bico / asa frontal (lado esquerdo na pista) */
+.car-body::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: #1a1a1a;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+/* Asa traseira (lado direito) */
+.car-body::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 5px;
+  height: 28px;
+  background: #1a1a1a;
+  border-radius: 1px;
+}
+
+/* Capacete = avatar circular dentro do cockpit */
+.car-helmet {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #f5f5f5;
+  background-size: cover;
+  background-position: center;
+  top: 7px;
+  left: 38px;
+  z-index: 3;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.5);
+}
+
+/* Rodas */
+.car-wheel {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  border: 2px solid #2a2a2a;
+  bottom: -1px;
+  z-index: 2;
+}
+.car-wheel.front { right: 8px; }
+.car-wheel.rear  { left: 6px; }
+
+/* Nome do piloto */
+.car-name {
+  position: absolute;
+  left: 92px;
+  top: 8px;
+  white-space: nowrap;
+  font-size: .8rem;
+  color: var(--fg);
+}
+
+.stats { color: #8b949e; font-size: .9rem; text-align: center; }
+
+/* Etiqueta de origem */
+.origin-tag {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 280px;
+  font-size: .8rem;
+  z-index: 100;
+}
+
+.origin-tag strong { display: block; margin-bottom: .5rem; }
+.origin-tag ul { list-style: none; padding: 0; margin: 0 0 .5rem; }
+.origin-tag li { margin: .25rem 0; }
+.origin-tag a { color: var(--accent); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .track { grid-template-columns: 1fr; }
+  .origin-tag { display: none; }
+}

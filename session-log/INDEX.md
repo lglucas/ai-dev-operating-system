@@ -6,6 +6,7 @@ Each entry captures the reasoning behind a material decision: what was true befo
 
 | Date | Topic | File |
 |---|---|---|
+| 2026-05-05 | Sprint 0 progress — sistemas HTML + carrinhos F1 + demo PetReceita + 3 aulas didáticas + cálculo de custos + banco de cases + seed admin | [`2026-05-05-sprint-0-progress.md`](2026-05-05-sprint-0-progress.md) |
 | 2026-05-04 | v0.4.5 course vertical — workshop em 3 aulas (Experience Learning Perestroika) + 2 sistemas planejados + easter egg `[STAGE:X]` | [`2026-05-04-v0.4.5-course-vertical.md`](2026-05-04-v0.4.5-course-vertical.md) |
 | 2026-05-04 | v0.4.4 repo hardening — branch protection, GitHub Template, WIZARD Stage 0.5 (detach from OS-origin), CONTRIBUTING flow | [`2026-05-04-v0.4.4-repo-hardening.md`](2026-05-04-v0.4.4-repo-hardening.md) |
 | 2026-05-01 | v0.4.3 quick wins — ETHOS manifesto, /processize, /grow-sustainably, /multi-ai-review, agents-marketplace tag | [`2026-05-01-v0.4.3-quick-wins.md`](2026-05-01-v0.4.3-quick-wins.md) |
