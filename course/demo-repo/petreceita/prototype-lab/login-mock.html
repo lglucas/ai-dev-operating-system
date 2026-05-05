@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PetReceita — Login</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --fg: #1a1a1a;
+      --accent: #0d7561;
+      --accent-dark: #095446;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    }
+    .logo {
+      font-size: 2rem;
+      margin-bottom: .25rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin: 0 0 .25rem;
+      text-align: center;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: .95rem;
+      margin: 0 0 2rem;
+      text-align: center;
+    }
+    label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 500;
+      margin-bottom: .5rem;
+    }
+    input {
+      width: 100%;
+      padding: .75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+    input:focus { border-color: var(--accent); }
+    button {
+      width: 100%;
+      padding: .85rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: var(--accent-dark); }
+    .footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+    .origin-tag {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      font-size: .75rem;
+      max-width: 260px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .origin-tag strong { display: block; margin-bottom: .25rem; }
+    .origin-tag ul { list-style: none; padding: 0; margin: 0; font-size: .7rem; color: var(--muted); }
+    .origin-tag a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="logo">🐾</div>
+    <h1>PetReceita</h1>
+    <p class="subtitle">Receituário digital pra vet</p>
+
+    <label for="email">Seu email profissional</label>
+    <input type="email" id="email" placeholder="seu@email.com.br" />
+
+    <label for="crmv">Número do CRMV</label>
+    <input type="text" id="crmv" placeholder="RS-12345" />
+
+    <button onclick="alert('Mock: link mágico enviado pro email. Em produção, Supabase Auth faria isso.')">
+      Receber link mágico
+    </button>
+
+    <p class="footer">
+      Sem senha. A gente manda um link no seu email. Você abre, entra.
+    </p>
+  </main>
+
+  <aside class="origin-tag">
+    <strong>🛤 Construído com AI Dev OS</strong>
+    <ul>
+      <li>Stack: HTML mock estático</li>
+      <li>Stage: PROTOTIPO</li>
+      <li>Próximo: Next.js + Supabase Auth (Sprint 1)</li>
+    </ul>
+  </aside>
+</body>
+</html>
