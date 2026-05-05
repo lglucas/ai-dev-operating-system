@@ -1,8 +1,11 @@
 // mock-data.js — popula 8 carrinhos fake e simula movimento aleatório.
-// Carregado pelo index.html SOMENTE quando URL tem ?mock=1.
+// Carregado SEMPRE pelo index.html, mas só ATIVA quando URL tem ?mock=1.
 // Uso: abrir local sem Supabase pra ver o painel rodando.
 
 (function () {
+  // Guard: só ativa quando ?mock=1 está na URL
+  if (!new URLSearchParams(location.search).has("mock")) return;
+
   const STAGES = ["LARGADA", "IDEACAO", "DOCUMENTACAO", "PROTOTIPO", "CHEGADA"];
 
   const FAKE_STUDENTS = [
