@@ -80,6 +80,11 @@
   <main x-show="mode === 'painel'" class="mode-painel">
     <h2>🏎 Grand Prix do Trilho</h2>
     <p class="subtitle">Carrinhos avançam quando vocês commitam. Trilho não engessa — deixa o trem-bala existir.</p>
+    <p style="background: yellow; color: black; padding: .5rem; font-weight: bold;"
+       x-text="`DEBUG: cars.length = ${cars.length}, stages.length = ${stages.length}, mode = ${mode}`"></p>
+    <p style="background: orange; color: black; padding: .5rem; font-weight: bold;">
+      DEBUG hardcoded: <template x-for="s in stages"><span x-text="s.key + ' '"></span></template>
+    </p>
     <div class="track">
       <template x-for="stage in stages" :key="stage.key">
         <div class="lane">
