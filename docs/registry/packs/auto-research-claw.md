@@ -2,8 +2,8 @@
 
 - **URL:** https://github.com/aiming-lab/AutoResearchClaw
 - **License:** MIT
-- **Status:** active (11.8k stars, v0.4.0 April 2026, 235 commits, 2,699 tests passing)
-- **Last reviewed:** 2026-04-30
+- **Status:** active (12k stars, v0.4.0 April 2026 — Human-in-the-Loop Co-Pilot)
+- **Last reviewed:** 2026-05-09
 - **Tags:** #ai #research #agents
 
 ## What it is

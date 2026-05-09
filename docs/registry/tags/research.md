@@ -11,6 +11,8 @@ Packs and resources for research-oriented work: replicating papers, literature r
 | [`kronos`](../packs/kronos.md) | pack | Foundation model for financial candlesticks (AAAI 2026) |
 | [`miroshark`](../packs/miroshark.md) | pack | Swarm intelligence simulation engine |
 | [`sci-bot`](../external-resources/sci-bot.md) | external | AI research assistant grounded in Sci-Hub papers |
+| [`mirothinker`](../packs/mirothinker.md) | pack | Open-source deep-research agent (Qwen + MCP) |
+| [`quran-database`](../packs/quran-database.md) | pack | Quranic text dataset for religious-text NLP / RAG |
 
 ## When this tag is relevant
 

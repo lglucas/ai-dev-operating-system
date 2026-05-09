@@ -2,8 +2,8 @@
 
 - **URL:** https://github.com/ruvnet/ruflo
 - **License:** MIT
-- **Status:** active (v3.6.10 released 2026-04-30, 6,117 commits, 34.1k stars)
-- **Last reviewed:** 2026-04-30
+- **Status:** active (v3.6.30 released 2026-05-05, 6,376 commits, 47.7k stars)
+- **Last reviewed:** 2026-05-09
 - **Tags:** #ecosystem #agents #tooling
 
 ## What it is

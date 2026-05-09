@@ -9,6 +9,7 @@ Packs in this category address application security, secret scanning, hardening,
 | [`cis-hardening-guide`](../packs/cis-hardening-guide.md) | Infrastructure hardening reference |
 | [`yara-style-guide`](../packs/yara-style-guide.md) | Malware detection rule style |
 | [`st3gg`](../packs/st3gg.md) | Steganography suite (red-team + blue-team) |
+| [`cryptpad`](../packs/cryptpad.md) | E2E-encrypted collaborative office suite (zero-trust host) |
 
 ## When this tag is relevant
 

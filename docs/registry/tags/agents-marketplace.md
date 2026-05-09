@@ -17,6 +17,7 @@ These differ from `#foundations` (canonical / official) and from `#ecosystem` (b
 | [`optio`](../packs/optio.md) | K8s-based ticket-to-PR workflow orchestration | community |
 | [`open-design`](../packs/open-design.md) | Local-first AI design generation across 10 agent CLIs | community |
 | [`trailofbits-skills`](../packs/trailofbits-skills.md) | Security-review skill bundle | Trail of Bits |
+| [`googleworkspace-cli`](../packs/googleworkspace-cli.md) | ⭐ 100+ SKILL.md files for Gmail / Drive / Docs / Calendar / Sheets | Google (official) |
 
 ## When this tag is relevant
 
