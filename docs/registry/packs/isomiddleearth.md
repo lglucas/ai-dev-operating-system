@@ -2,7 +2,7 @@
 
 - **URL:** https://github.com/hasanharman/isomiddleearth
 - **License:** check upstream (not explicitly stated)
-- **Status:** active (553 stars)
+- **Status:** reference-only until upstream license is explicit (553 stars)
 - **Last reviewed:** 2026-05-09
 - **Tags:** #design #tooling
 

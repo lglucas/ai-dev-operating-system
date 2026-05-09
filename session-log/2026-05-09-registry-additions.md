@@ -24,7 +24,7 @@ All written under `docs/registry/packs/` using the standard one-pager template:
 | `agent-exchange` | Marketplace infrastructure for AI agents (10 Go services, ad-tech-style auctions) |
 | `claude-code-harness` | Plan→Work→Review→Release harness for Claude Code, Go-native v4 "Hokage" |
 | `jeweledtech-agentic-framework` | Multi-department business orchestration (15+ agents, 87 n8n workflows) |
-| `quran-database` | MySQL Quran dataset (text + multiple translations, public domain) |
+| `quran-database` | MySQL Quran dataset (text + multiple translations; license pending upstream verification) |
 | `cryptpad` | E2E-encrypted collaborative office suite (privacy-first), AGPL-3.0 |
 | `googleworkspace-cli` | **Official** Google Workspace CLI (Rust), bundles 100+ SKILL.md files |
 | `ascii-draw` | Desktop ASCII diagram drawing tool (GTK4 + Python) |
@@ -58,7 +58,7 @@ All written under `docs/registry/packs/` using the standard one-pager template:
 
 4. **`quran-database` introduces `#dataset` tag** as metadata-only (no `tags/dataset.md` file yet). Other packs use ad-hoc tags like `#tooling`, `#infra`, `#experimental`, `#malware`, `#origin` without dedicated tag files — same pattern. If the registry accumulates more datasets, promote `#dataset` to a proper tag file.
 
-5. **AGPL-3.0 packs flagged consistently** — `cryptpad`, `locally-uncensored`, `openhuman` (GPL-3.0), `fincept-terminal` (AGPL+commercial) all carry explicit license warnings in their Notes. Vibe-coders may bundle without realizing — the warnings are deliberate.
+5. **Copyleft-licensed packs flagged consistently** — `cryptpad` (AGPL-3.0), `locally-uncensored` (AGPL-3.0), `openhuman` (GPL-3.0), `fincept-terminal` (AGPL+commercial) all carry explicit license warnings in their Notes. Vibe-coders may bundle without realizing — the warnings are deliberate.
 
 6. **Refresh-only for the 3 already-cataloged repos** — bumped "Last reviewed" + version/star numbers in pack file and INDEX. Did not rewrite content; the original analyses remain valid.
 

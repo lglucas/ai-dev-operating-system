@@ -29,9 +29,7 @@ Especially useful for codebase onboarding, business-logic flow mapping, and unde
 
 Multi-platform plugin — install pattern depends on host (Claude Code plugin manifest, Cursor extension, VS Code extension, etc.). See upstream README per platform.
 
-```bash
-open https://github.com/lum1104/understand-anything
-```
+Visit: https://github.com/lum1104/understand-anything
 
 ## Fit signals
 

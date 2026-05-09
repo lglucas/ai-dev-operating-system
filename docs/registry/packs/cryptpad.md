@@ -35,7 +35,7 @@ docker compose up
 # or follow upstream for native install
 ```
 
-Or use the public hosted instance at `cryptpad.fr` for personal use.
+Or use the public hosted instance at [https://cryptpad.fr](https://cryptpad.fr) for personal use.
 
 ## Fit signals
 

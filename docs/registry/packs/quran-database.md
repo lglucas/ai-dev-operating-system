@@ -48,7 +48,7 @@ To convert to PostgreSQL / SQLite, use a standard MySQL-to-X migration tool.
 
 ## Notes
 
-- ✅ **Quran text itself is in the public domain** — the canonical Arabic text is not under copyright.
-- ⚠️ **Software license not explicitly stated** in the repo at last review — clarify before redistributing the schema or scripts as part of a commercial product.
-- ⚠️ Translation editions may carry their own copyright — verify per-edition before bundling.
+- ✅ **Canonical Quran text is widely treated as public domain** in many contexts, but legal interpretation can vary by jurisdiction and distribution context.
+- ⚠️ **Software license not explicitly stated** in the repo at last review — check the repository's LICENSE file or contact maintainers before redistributing the schema or scripts as part of a commercial product.
+- ⚠️ Translation editions may carry their own copyright/license terms — verify per edition before bundling or redistribution.
 - 1.7k stars — well-known reference in the Islamic-tech community.
