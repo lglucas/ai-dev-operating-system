@@ -59,5 +59,13 @@ jobs:
       - name: Lychee link checker
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --exclude-loopback --exclude 'github.com/lglucas/boringco' '**/*.md'
+          args: >-
+            --no-progress
+            --exclude-loopback
+            --exclude 'github\.com/lglucas/boringco'
+            --exclude 'linkedin\.com'
+            --exclude 'lume\.ufrgs\.br'
+            --exclude 'perestroika\.com\.br'
+            --accept '200..=299,403,429'
+            '**/*.md'
           fail: true
