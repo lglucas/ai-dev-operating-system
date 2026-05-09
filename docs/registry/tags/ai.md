@@ -26,6 +26,10 @@ Packs related to generative AI, LLMs, agents, and AI-powered applications.
 | [`kronos`](../packs/kronos.md) | Foundation model for financial candlesticks (AAAI 2026) |
 | [`diagram-design`](../packs/diagram-design.md) | Editorial-quality diagrams (Claude Code skill) |
 | [`miroshark`](../packs/miroshark.md) | Swarm intelligence simulation (synthetic crowd reactions) |
+| [`mirothinker`](../packs/mirothinker.md) | Open-source deep-research agent (Qwen + MCP) |
+| [`understand-anything`](../packs/understand-anything.md) | Codebase-to-knowledge-graph multi-platform plugin |
+| [`crawlee`](../packs/crawlee.md) | Web scraping for LLM/RAG/GPT data ingestion (Apify) |
+| [`locally-uncensored`](../packs/locally-uncensored.md) | Local-first chat / image / video / coding agent (desktop) |
 
 ## When this tag is relevant
 

@@ -2,8 +2,8 @@
 
 - **URL:** https://github.com/Fincept-Corporation/FinceptTerminal
 - **License:** AGPL-3.0 (open source / personal) + commercial license required for business/SaaS/forks
-- **Status:** active (18.3k stars, v4.0.2 April 2026, 26 releases)
-- **Last reviewed:** 2026-04-30
+- **Status:** active (20.5k stars, v4.0.2 April 2026, 26 releases)
+- **Last reviewed:** 2026-05-09
 - **Tags:** #fintech #tooling
 
 ## What it is

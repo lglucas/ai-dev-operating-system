@@ -14,6 +14,8 @@ Packs in this category address UI/UX exploration, design systems, and visual pro
 | [`app-store-screenshots`](../packs/app-store-screenshots.md) | App Store + Play Store screenshot generator |
 | [`diagram-design`](../packs/diagram-design.md) | Editorial-quality diagrams (14 types) |
 | [`phantom-ui`](../packs/phantom-ui.md) | Auto-generated skeleton loading screens (Web Component) |
+| [`isomiddleearth`](../packs/isomiddleearth.md) | Reference Next.js 16 / React 19 / Zustand isometric editor |
+| [`ascii-draw`](../packs/ascii-draw.md) | Desktop ASCII diagram / flowchart drawing tool (GTK4) |
 
 ## External resources (not installable)
 

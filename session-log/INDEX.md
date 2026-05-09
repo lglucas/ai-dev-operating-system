@@ -6,6 +6,7 @@ Each entry captures the reasoning behind a material decision: what was true befo
 
 | Date | Topic | File |
 |---|---|---|
+| 2026-05-09 | Registry additions — 14 new packs cataloged, 3 refreshed (Phase 2 cadence) | [`2026-05-09-registry-additions.md`](2026-05-09-registry-additions.md) |
 | 2026-05-04 | v0.4.5 course vertical — workshop em 3 aulas (Experience Learning Perestroika) + 2 sistemas planejados + easter egg `[STAGE:X]` | [`2026-05-04-v0.4.5-course-vertical.md`](2026-05-04-v0.4.5-course-vertical.md) |
 | 2026-05-04 | v0.4.4 repo hardening — branch protection, GitHub Template, WIZARD Stage 0.5 (detach from OS-origin), CONTRIBUTING flow | [`2026-05-04-v0.4.4-repo-hardening.md`](2026-05-04-v0.4.4-repo-hardening.md) |
 | 2026-05-01 | v0.4.3 quick wins — ETHOS manifesto, /processize, /grow-sustainably, /multi-ai-review, agents-marketplace tag | [`2026-05-01-v0.4.3-quick-wins.md`](2026-05-01-v0.4.3-quick-wins.md) |

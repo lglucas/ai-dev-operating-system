@@ -13,6 +13,8 @@ Broad, opinionated expansions of the Claude Code / agentic workflow ecosystem. T
 | [`optio`](../packs/optio.md) | K8s-based ticket-to-PR workflow orchestration |
 | [`vibeyard`](../packs/vibeyard.md) | Electron IDE for managing parallel AI agent sessions |
 | [`slavingia-skills`](../packs/slavingia-skills.md) | ⭐ Minimalist Entrepreneur 10-skill plugin (Sahil Lavingia) |
+| [`understand-anything`](../packs/understand-anything.md) | Multi-platform plugin for codebase-as-knowledge-graph |
+| [`claude-code-harness`](../packs/claude-code-harness.md) | Plan→Work→Review→Release harness with Go-native guardrails |
 
 ## When this tag is relevant
 
