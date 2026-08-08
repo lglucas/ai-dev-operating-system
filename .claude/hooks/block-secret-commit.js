@@ -87,8 +87,32 @@ function scan(diff, stagedFiles) {
   });
 }
 
+// Global git flags that consume the NEXT token as their value. Without this list,
+// `git -C /tmp commit` reads as "git, flag -C, then /tmp" and the commit is missed —
+// which is a bypass, not a cosmetic bug. Caught by scripts/test/hooks.test.js.
+const VALUE_FLAGS = new Set(['-C', '-c', '--git-dir', '--work-tree', '--namespace', '--exec-path', '--config-env']);
+
+/**
+ * True when the command runs `git commit` in any segment.
+ * Token-based rather than regex-based so that global flags with values are handled.
+ */
 function isGitCommit(command) {
-  return /\bgit\s+(?:-[^\s]+\s+)*commit\b/.test(String(command || ''));
+  const segments = String(command || '').split(/&&|\|\||;|\|/);
+  for (const segment of segments) {
+    const tokens = segment.trim().split(/\s+/).filter(Boolean);
+    const gitAt = tokens.indexOf('git');
+    if (gitAt === -1) continue;
+    for (let i = gitAt + 1; i < tokens.length; i++) {
+      const t = tokens[i];
+      if (VALUE_FLAGS.has(t)) { i++; continue; }        // flag + separate value
+      if (t.startsWith('-')) continue;                   // valueless flag or --flag=value
+      // First non-flag token is the subcommand. Only a match ends the search —
+      // `git add . && git commit` must not be dismissed on the first segment.
+      if (t === 'commit') return true;
+      break;
+    }
+  }
+  return false;
 }
 
 function main() {

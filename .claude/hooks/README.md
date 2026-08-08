@@ -73,7 +73,7 @@ Sem Node instalado, os hooks falham ao iniciar e o Claude Code segue sem eles. *
 2. Saia com 0 para permitir, 2 para bloquear com mensagem no stderr.
 3. **Falhe aberto** em payload malformado — um hook quebrado não pode travar a sessão inteira.
 4. Registre em `settings.json` e `settings.example.json`.
-5. Escreva o teste em `scripts/test/`.
+5. Escreva o teste em `scripts/test/` e rode com `node --test "scripts/test/*.test.js"` — o glob é necessário, passar o diretório faz o Node v24 tentar resolvê-lo como módulo.
 6. Documente aqui, com o escape hatch.
 
 O ponto 3 é o mais importante. Um hook que bloqueia por engano é pior que hook nenhum: o usuário desliga tudo e perde junto o que funcionava.

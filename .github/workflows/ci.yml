@@ -23,6 +23,12 @@ jobs:
       - name: Run os-self-test
         run: node scripts/os-self-test.js
 
+      # Unit tests for the hooks and the catalogue generator. Node's built-in runner —
+      # no dependencies, nothing to install. The glob is required: passing the directory
+      # makes Node v24 resolve it as a module path and fail with "Cannot find module".
+      - name: Script unit tests
+        run: node --test "scripts/test/*.test.js"
+
   lint-docs:
     runs-on: ubuntu-latest
     name: Markdown structure & links

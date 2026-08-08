@@ -256,9 +256,17 @@ ${ATTRIBUTION}
 
 // ----------------------------------------------------------------------- run
 
-const dataDir = resolveDataDir();
-const entries = load(dataDir);
-const buckets = render(entries);
+function main() {
+  const dataDir = resolveDataDir();
+  const entries = load(dataDir);
+  const buckets = render(entries);
 
-console.log(`\ngenerated ${entries.length} entries into docs/selfhosted/`);
-for (const [id, title] of MACRO) console.log(`  ${String(buckets[id].length).padStart(4)}  ${title}`);
+  console.log(`\ngenerated ${entries.length} entries into docs/selfhosted/`);
+  for (const [id, title] of MACRO) console.log(`  ${String(buckets[id].length).padStart(4)}  ${title}`);
+}
+
+// Exported for scripts/test/. The guard matters: without it, importing this module
+// would run resolveDataDir() and clone the upstream repo as a side effect of a test.
+module.exports = { slugifyTag, parseYaml, macroFor, MACRO };
+
+if (require.main === module) main();
