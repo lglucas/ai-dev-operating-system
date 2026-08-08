@@ -9,6 +9,7 @@ Each document type has a job. Avoid mixing them.
 | Skills | How should a recurring workflow be executed? | `.claude/skills/**/SKILL.md` |
 | Commands | How does the user trigger a workflow? | `.claude/commands/*.md` |
 | Business plan | Is this worth building, and for whom? | `docs/business/BUSINESS-PLAN.md` |
+| Pitch | The same argument in ten sections — and what of it may go public | `docs/business/PITCH.md` |
 | Design direction | What did the approved prototype actually decide? | `docs/product/DESIGN-DIRECTION.md` |
 | Product brief | What is the product, operationally? | `docs/product/PRODUCT-BRIEF.md` |
 | Technical plan | How is it built, and what are the risks? | `docs/technical/TECHNICAL-PLAN.md` |

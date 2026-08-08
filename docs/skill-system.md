@@ -8,7 +8,7 @@ A skill tells the agent how to execute a workflow.
 
 ---
 
-## The 26 skills, by job
+## The 27 skills, by job
 
 Current inventory. For the full audit of how discoverable each one is, see [`skill-audit-2026-08-08.md`](skill-audit-2026-08-08.md).
 
@@ -19,6 +19,7 @@ Current inventory. For the full audit of how discoverable each one is, see [`ski
 | `project-genesis` | all | Drive the full 5-phase wizard |
 | `research-waves` | 2.4–2.6 | Market, competitor, red team, consolidation |
 | `business-plan-impact-review` | 2.8 | Check BP changes for downstream impact |
+| `pitch` | 2.9 | Derive the pitch; decide if BP/Pitch go public |
 | `prototype-lab` | 3.2 | Three visual directions, then design tokens |
 | `product-brief` | 4.1 | Reverse-engineer the brief from the prototype |
 | `sprint-roadmap` | 4.4 | 14–20 sprint roadmap |

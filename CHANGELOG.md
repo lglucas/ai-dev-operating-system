@@ -11,9 +11,49 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 > v0.5.0 is being delivered in four independent PRs. This section accumulates until the last one lands, then gets cut as a release.
 >
 > - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec
-> - [ ] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
+> - [x] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
 > - [x] **PR 3** — Skill frontmatter fix + audit
 > - [ ] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+
+### Added — Pitch artifact and the publication question (stage 2.9)
+
+**The OS had no Pitch artifact at all.** `docs/business/` produced only `BUSINESS-PLAN.md`; the word "pitch" appeared solely in registry packs describing other tools' use cases. So "put the BP and Pitch online" required inventing the Pitch first.
+
+New **stage 2.9** at the end of Phase 2 does two things:
+
+1. **Writes `docs/business/PITCH.md`** — ten sections derived from BP v0.0.2. The pitch *derives* and never *adds*: every claim must already exist in the BP. If it belongs in the pitch but is missing from the BP, the BP is incomplete. This prevents a founder from contradicting their own diligence materials.
+2. **Asks whether the BP and Pitch should live online** inside the product (`/pitch`, `/investors`) — as a **suggestion, not a default**, with three options: fully public, trimmed public plus gated full version, or nothing for now. **"Nada online por enquanto" is a complete answer** that closes the stage.
+
+Inserting stage 2.9 **renumbered zero other stages** — the first test of PR 1's phase structure, one commit later.
+
+- `templates/business/PITCH.template.md` — ten sections plus the redaction gate.
+- `.claude/skills/pitch/SKILL.md` — 27th skill, so the stage is auto-invocable (PR 3's audit flagged stages without skills as a defect).
+
+### Added — mandatory redaction gate before anything is published
+
+Publishing a Business Plan means publishing whatever is inside it. The gate splits the document and requires row-by-row sign-off.
+
+Never published without explicit, considered approval: financial projections, unit economics (CAC, LTV, margins), unannounced pricing, fundraising status and valuation, the internal risk register, supplier and partner terms, competitor teardowns naming specific weaknesses, and personas traceable to a real interviewee.
+
+Three carry consequences beyond embarrassment:
+
+- **Personas from real interviews are personal data** — LGPD applies. Consent to be interviewed is not consent to be published.
+- **Competitor teardowns invite legal and PR retaliation** — positioning is safe, naming a competitor's weakness is not.
+- **Published numbers become commitments** quoted back during diligence.
+
+The template also requires naming a **maintenance owner**. A stale public BP is worse than no public BP; if nobody owns it, the honest answer is "not now".
+
+### Changed — publication is now a privacy question
+
+`.claude/rules/privacy-audit.md` gained a section treating publication as a form of processing: traceable personas, interviewee consent, team exposure, **analytics on the public page (which re-triggers all nine questions)**, and the fact that publication is effectively irreversible — archives and screenshots outlive the page.
+
+### Changed — the decision routes into later phases
+
+Choosing public or gated creates product surface, not just a document. Routes and navigation land in the Product Brief (4.1); public-vs-gated, auth model, `robots.txt`, SEO and PDF export land in the Technical Plan (4.2); view analytics go through `privacy-audit`; the page becomes a `first-100-users` / `launch-agent` asset.
+
+### Fixed — `CLAUDE.md` artifact list, missed in PR 1
+
+PR 1's edit to the "Required generated artifacts" list never applied — the edit hit a tool gate and the retry re-applied a different edit. The list kept the old ordering with no `DESIGN-DIRECTION.md`. Corrected here; now lists all artifacts in production order with their phase.
 
 ### Fixed — six core wizard skills were invisible to auto-invocation
 

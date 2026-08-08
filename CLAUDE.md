@@ -23,16 +23,20 @@ The purpose of this repo is to provide a day-zero operating system for AI-assist
 
 ## Required generated artifacts for a new project
 
+Listed in the order the wizard produces them:
+
 ```txt
-docs/product/PRODUCT-BRIEF.md
-docs/business/BUSINESS-PLAN.md
-docs/technical/TECHNICAL-PLAN.md
-docs/SPRINTS.md
+knowledge-base/README.md                (Phase 2)
+docs/business/BUSINESS-PLAN.md          (Phase 2)
+docs/business/PITCH.md                  (Phase 2)
+prototype-lab/README.md                 (Phase 3)
+docs/product/DESIGN-DIRECTION.md        (Phase 3)
+docs/product/PRODUCT-BRIEF.md           (Phase 4)
+docs/technical/TECHNICAL-PLAN.md        (Phase 4)
+docs/SPRINTS.md                         (Phase 4)
 CHANGELOG.md
 session-log/INDEX.md
 session-log/YYYY-MM-DD-project-genesis.md
-knowledge-base/README.md
-prototype-lab/README.md
 ```
 
 ---

@@ -6,6 +6,7 @@ Each entry captures the reasoning behind a material decision: what was true befo
 
 | Date | Topic | File |
 |---|---|---|
+| 2026-08-08 | v0.5.0 PR 2 — Pitch artifact created (none existed) at new stage 2.9, plus the "BP/Pitch online?" question with a mandatory redaction gate; publication added to the privacy rule as a form of processing | [`2026-08-08-v0.5.0-pitch-publication.md`](2026-08-08-v0.5.0-pitch-publication.md) |
 | 2026-08-08 | v0.5.0 PR 3 — skill audit: 6 core wizard skills had no frontmatter (invisible to auto-invocation), 10 more had no trigger phrases; 3 overlapping pairs cross-linked; `release-check` converted to a delegation table | [`2026-08-08-v0.5.0-skills-audit.md`](2026-08-08-v0.5.0-skills-audit.md) |
 | 2026-08-08 | v0.5.0 PR 1 — WIZARD restructured into 5 phases (1:1 with commit tags), Prototype Lab moved before Product Brief/Technical Plan, fractional stages eliminated, `registry-pick` split into design + stack passes | [`2026-08-08-v0.5.0-wizard-5-phases.md`](2026-08-08-v0.5.0-wizard-5-phases.md) |
 | 2026-05-09 | Registry additions — 14 new packs cataloged, 3 refreshed (Phase 2 cadence) | [`2026-05-09-registry-additions.md`](2026-05-09-registry-additions.md) |
