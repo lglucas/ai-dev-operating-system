@@ -7,6 +7,22 @@ on:
     branches: [main]
 
 jobs:
+  os-self-test:
+    runs-on: ubuntu-latest
+    name: OS coherence
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Canonical structure, frontmatter coverage across skills/agents/commands,
+      # relative link integrity, registry ↔ INDEX consistency, session-log indexing,
+      # hooks wiring, gitignore hygiene. Exits non-zero on any error.
+      - name: Run os-self-test
+        run: node scripts/os-self-test.js
+
   lint-docs:
     runs-on: ubuntu-latest
     name: Markdown structure & links
