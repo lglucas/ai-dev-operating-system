@@ -1,3 +1,7 @@
+---
+description: Recomenda packs externos do registry que servem pro projeto atual. Roda duas vezes no wizard — packs de design no 3.1, stack completa no 4.3. Nunca instala nada.
+---
+
 # /registry-pick
 
 Recommend external repository packs from the registry that fit the current project.

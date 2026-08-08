@@ -1,3 +1,8 @@
+---
+description: Abre uma sprint — cria a branch, o doc da sprint e o objetivo com DoD. Use quando disser "vamos começar a sprint" ou ao terminar a anterior.
+argument-hint: sprint=NN theme="Foundation" dates="YYYY-MM-DD to YYYY-MM-DD"
+---
+
 # /sprint-start
 
 Start a new sprint.

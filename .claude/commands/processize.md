@@ -1,3 +1,7 @@
+---
+description: Transforma um fluxo que você já validou na mão em processo documentado e parcialmente automatizável. Use ao dizer "tô fazendo isso toda semana" ou "vamos automatizar?". Nunca automatiza o que ainda não funcionou manualmente.
+---
+
 # /processize
 
 Codify a manually-validated workflow into a documented, partially-automatable process. Validate-then-automate, never the reverse.

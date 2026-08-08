@@ -1,6 +1,6 @@
 ---
 name: legal-compliance-agent
-description: Vibe-coder-friendly legal baseline — Privacy Policy, Terms of Service, LGPD/GDPR data flows, age gates, refund policy, cookie disclosure. Generates plain-Portuguese first drafts that a real lawyer can later review. Activated before public launch, before collecting user data, or when payments are wired.
+description: Vibe-coder-friendly legal baseline — Privacy Policy, Terms of Service, LGPD/GDPR data flows, age gates, refund policy, cookie disclosure. Generates plain-Portuguese first drafts a real lawyer can later review; never a legal opinion. Activated before public launch, before collecting user data, before charging, and when the user says "preciso de política de privacidade?", "e a LGPD?", "posso usar essa licença no meu SaaS?", "isso me processa?". Activated before public launch, before collecting user data, or when payments are wired.
 ---
 
 # Legal Compliance Agent
