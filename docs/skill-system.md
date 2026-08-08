@@ -8,18 +8,85 @@ A skill tells the agent how to execute a workflow.
 
 ---
 
-## Examples
+## The 26 skills, by job
+
+Current inventory. For the full audit of how discoverable each one is, see [`skill-audit-2026-08-08.md`](skill-audit-2026-08-08.md).
+
+**Wizard core** — one per phase of `WIZARD.md`:
+
+| Skill | Stage | Purpose |
+|---|---|---|
+| `project-genesis` | all | Drive the full 5-phase wizard |
+| `research-waves` | 2.4–2.6 | Market, competitor, red team, consolidation |
+| `business-plan-impact-review` | 2.8 | Check BP changes for downstream impact |
+| `prototype-lab` | 3.2 | Three visual directions, then design tokens |
+| `product-brief` | 4.1 | Reverse-engineer the brief from the prototype |
+| `sprint-roadmap` | 4.4 | 14–20 sprint roadmap |
+| `registry-pick` | 3.1 + 4.3 | Recommend external packs (design pass, stack pass) |
+
+> There is no `technical-plan` skill. Stage 4.2 is currently driven by `WIZARD.md` prose alone — see the audit's coverage-gap section.
+
+**Build and ship:**
 
 | Skill | Purpose |
 |---|---|
-| sprint-management | Open, track, and close sprints |
-| feature-scaffold | Create a new feature structure |
-| privacy-audit | Review data processing and privacy implications |
-| secrets-scan | Check for leaked secrets |
-| release-check | Validate a release before tagging |
-| decision-log | Create a session log for major decisions |
-| design-prototype | Guide AI-generated UI using design systems |
-| security-review | Run a structured security review |
+| `feature-scaffold` | Create a feature-based folder structure |
+| `sprint-management` | Open, track, and close sprints |
+| `verify-build-works` | Smoke-test build, dev server, main flow |
+| `rollback-safe` | Undo the last AI change without losing work |
+| `deploy-vercel-supabase` | First production deploy |
+| `release-check` | Pre-release gate, delegating to the skills below |
+
+**Safety and compliance:**
+
+| Skill | Purpose |
+|---|---|
+| `secrets-discipline` | Preventive — safe credential handling |
+| `secrets-scan` | Detection — find what already leaked |
+| `privacy-audit` | Personal-data review against the nine questions |
+| `multi-ai-review` | Second opinion on hard-to-reverse decisions |
+
+**Money and growth:**
+
+| Skill | Purpose |
+|---|---|
+| `cost-watchdog` | Preventive — flag expensive choices before they ship |
+| `usage-monitor` | Reactive — track real spend after launch |
+| `first-100-users` | 0 → 100 users, no ads |
+| `grow-sustainably` | 100 → 1000 without burning out |
+
+**Working with a vibe coder:**
+
+| Skill | Purpose |
+|---|---|
+| `daily-standup` | 4-bullet "where we left off" briefing |
+| `plain-portuguese-explainer` | Translate jargon into actionable Portuguese |
+| `decision-log` | Record why a decision was made |
+| `processize` | Codify a manually-validated workflow |
+| `os-self-test` | Verify the OS is internally coherent |
+
+## Paired skills
+
+Three pairs cover the same territory from opposite ends. Each states the relationship in its own description, so invoking one surfaces the other:
+
+| Preventive / early | Reactive / late |
+|---|---|
+| `secrets-discipline` | `secrets-scan` |
+| `cost-watchdog` | `usage-monitor` |
+| `first-100-users` | `grow-sustainably` |
+
+## Frontmatter is mandatory
+
+Every `SKILL.md` must open with YAML frontmatter:
+
+```yaml
+---
+name: skill-name
+description: What it does, when to reach for it, and the Portuguese phrases that should trigger it.
+---
+```
+
+Without `description`, the harness falls back to the H1 heading — which means the skill is effectively invisible unless called by name. The `description` is the only thing Claude reads when deciding whether a skill applies, so it must contain **trigger conditions**, not just a summary of behavior.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: secrets-discipline
-description: Enforce safe handling of API keys, tokens, passwords, and any other secret in the project. Run when adding integrations, before commits, or when the user pastes a value that looks like a credential.
+description: Enforce safe handling of API keys, tokens, passwords, and credentials — env files, `.gitignore` coverage, `.env.example` upkeep, rotation after exposure. This is the PREVENTIVE workflow; `secrets-scan` is the detection pass that finds what already leaked. Run when adding an integration, before commits, before a first deploy, and when the user pastes something that looks like a credential or says "essa é minha chave da OpenAI", "onde eu coloco esse token?", "posso commitar o .env?".
 ---
 
 # Secrets Discipline

@@ -1,6 +1,6 @@
 ---
 name: verify-build-works
-description: Smoke-test that the project still builds, the dev server starts, and the main user flow loads after a change. Run after every non-trivial edit, after a rollback, before a commit, and before pushing to remote.
+description: Smoke-test that the project still builds, the dev server starts, and the main user flow loads after a change. Run after every non-trivial edit, after a rollback (`rollback-safe`), after a fix from `bug-triage-agent`, before a commit, before pushing, and as part of `release-check`. Also when the user says "ainda tá funcionando?", "roda aí pra ver", "testa se não quebrou", "tá de pé?".
 ---
 
 # Verify Build Works

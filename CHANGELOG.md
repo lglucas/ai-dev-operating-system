@@ -10,10 +10,58 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 > v0.5.0 is being delivered in four independent PRs. This section accumulates until the last one lands, then gets cut as a release.
 >
-> - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec *(this entry)*
+> - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec
 > - [ ] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
-> - [ ] **PR 3** — Skill frontmatter fix + audit
+> - [x] **PR 3** — Skill frontmatter fix + audit
 > - [ ] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+
+### Fixed — six core wizard skills were invisible to auto-invocation
+
+A `SKILL.md` advertises itself through the `description` field in its YAML frontmatter. Six skills had **no frontmatter at all**, so their entire advertised description was their own H1 title — "Product Brief Skill", "Research Waves Skill", and so on.
+
+They were precisely the six that drive the wizard: `project-genesis`, `research-waves`, `business-plan-impact-review`, `product-brief`, `prototype-lab`, `sprint-roadmap`. The twenty peripheral skills from the v0.3.0 vibe-coder pack all had proper frontmatter. **The oldest and most load-bearing skills were the least discoverable.**
+
+Worst case: five live files instruct Claude to invoke `business-plan-impact-review` by name, while the skill itself could not describe when it applied.
+
+### Changed — every skill description now states trigger conditions
+
+Ten further skills had frontmatter but zero trigger phrases: `cost-watchdog`, `decision-log`, `feature-scaffold`, `os-self-test`, `privacy-audit`, `release-check`, `secrets-discipline`, `secrets-scan`, `sprint-management`, `verify-build-works`.
+
+A description saying "Review features that touch personal data" is accurate and useless. What makes `privacy-audit` fire is `"vou guardar o CPF"` / `"e a LGPD?"`. All 26 descriptions now name conditions, not just behavior.
+
+| Metric | Before | After |
+|---|---|---|
+| Skills with frontmatter | 20 / 26 | **26 / 26** |
+| Skills with trigger phrases | 10 / 26 | **26 / 26** |
+
+### Fixed — three overlapping skill pairs now cross-link both ways
+
+The asymmetry always ran the same direction — the newer skill knew about the older, never the reverse.
+
+- `secrets-discipline` ↔ `secrets-scan` — preventive workflow vs. detection pass. Neither said so; the distinction lived only in `docs/registry/packs/gitleaks.md`.
+- `cost-watchdog` ↔ `usage-monitor` — preventive vs. post-launch, despite a v0.3.0 session log claiming they already cross-linked.
+- `first-100-users` ↔ `grow-sustainably` — `grow-sustainably` referenced its predecessor in 7 places; `first-100-users` referenced its successor in **zero**, so founders reaching 100 users were never routed forward.
+
+### Changed — `release-check` delegates instead of duplicating
+
+Its checklist said "Lint/build pass" and "Privacy/security review complete" while `verify-build-works`, `secrets-scan`, and `privacy-audit` sat unreferenced. It is now a delegation table naming the responsible skill per check, with blocking vs. warning severity and a `multi-ai-review` escalation for hard-to-reverse releases. Closes an open item from `session-log/2026-05-01-v0.4.3-quick-wins.md:75`.
+
+### Added
+
+- `docs/skill-audit-2026-08-08.md` — full audit of all 26 skills, with the verification script.
+
+### Changed — `docs/skill-system.md` rewritten
+
+Its example table listed `design-prototype` and `security-review`, **neither of which exists**. Replaced with the real inventory of 26 grouped by job, plus a mandatory-frontmatter section explaining why `description` must carry trigger conditions.
+
+### Known gaps, recorded not fixed
+
+- **No `technical-plan` skill.** `product-brief` drives stage 4.1 and `sprint-roadmap` drives 4.4; stage 4.2 has only `WIZARD.md` prose.
+- `templates/project/CLAUDE.md:62` advertises `/release-check`, which does not exist in `.claude/commands/`.
+
+### Note on GitHub provenance
+
+Checked, and **no change needed**. 23 of 26 skills are original to this repo. The three with declared upstream inspiration (`multi-ai-review`, `processize`, `grow-sustainably`) already link to registry packs carrying the URLs — the chain is `skill → registry pack → upstream URL`, which keeps license and review status in one place. A per-skill `source:` field was considered and declined as duplication.
 
 ### Changed — WIZARD is now 5 phases, and the prototype comes before the spec
 
