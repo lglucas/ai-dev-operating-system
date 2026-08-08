@@ -14,6 +14,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 > - [x] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
 > - [x] **PR 3** — Skill frontmatter fix + audit
 > - [x] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+> - [x] **PR 5** — researched equivalents for the gap categories
+
+### Added — `docs/selfhosted/gaps.md`, closing what the mirror cannot
+
+PR 4 documented that the awesome-selfhosted mirror covers nothing for auth, uptime, CI/CD, backup, PaaS, static sites or VPN. This closes that with original research: **90+ candidate repositories queried through the GitHub API on 2026-08-08** — stars, licence, last push, archived status. No figure written from memory.
+
+Unlike the rest of `docs/selfhosted/`, this file is **authored, not mirrored** — MIT rather than CC-BY-SA, and never touched by `sync-selfhosted.js`.
+
+Covers auth/SSO, uptime, CI/CD, backup, PaaS, static sites, VPN, BaaS and events, plus observability, error tracking, secrets, object storage, feature flags, search, workflow and LLM infrastructure. Each category ends with a single "if you only want one choice" recommendation — and for CI/CD that recommendation is to stay managed.
+
+### Added — "open core" as a third licence trap
+
+Reading the actual licence file wherever the API returned `NOASSERTION` surfaced a category the previous PR missed. **Thirteen projects open their licence with _"Portions of this software are licensed as follows"_** — authentik, SuperTokens, Dokploy, Pangolin, SigNoz, Infisical, n8n, LiteLLM, Langfuse, GrowthBook, Meilisearch, Windmill, Duplicati.
+
+Open core means the core is free but **SSO, RBAC and audit logs live in the paid edition**. It is the cruellest trap for a founder: the project presents as open source and gets adopted, and the limitation only appears when the first corporate customer asks for single sign-on. Stage 4.2 now instructs Claude to check which edition holds the needed feature before recommending.
+
+Reading the files also corrected facts that would otherwise have been wrong: **Sentry is FSL-1.1, not BUSL**; **Vault is BUSL-1.1**, which is precisely why **OpenBao** exists (pre-BUSL fork, MPL-2.0, Linux Foundation); **Open WebUI** ships a custom "all rights reserved" licence despite 148k stars. Conversely CapRover, Astro, NetBird and Borg looked suspicious as `NOASSERTION` but are plainly permissive.
+
+### Documented — Supabase self-hosts, Luma has no equivalent
+
+**Supabase** (Apache-2.0, 107.7k stars) is the most-starred repository in the entire research and does self-host — with the honest caveat that the compose file is ~10 services and running it in production is its own job.
+
+**There is no Luma clone.** What exists covers ticketing (Hi.Events, pretix, alf.io) or 1-to-1 scheduling (Cal.com), not Luma's community-calendar experience. The closest in spirit, Mobilizon, **does not live on GitHub** — it is on framagit — so it can never surface in a star-ranked search. Stated plainly rather than pushing Cal.com as a substitute.
+
+Two incidental warnings recorded: `calcom/cal.com` has been **renamed to `calcom/cal.diy`**, and **Attendize has had no commits since 2024-08** despite leading its category on stars — which is why stars rank candidates but do not choose them.
 
 ### Added — self-hosted catalogue (1.346 projects) and the stage 4.2 question
 

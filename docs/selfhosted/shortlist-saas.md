@@ -186,15 +186,17 @@ Nestas categorias o awesome-selfhosted **não tem nada** no snapshot atual — a
 
 | Categoria | Você provavelmente paga por | Situação |
 |---|---|---|
-| **Auth / SSO** | Auth0, Clerk, Cognito | Keycloak, Authentik, Zitadel e Ory **não estão listados** |
-| **Uptime e status page** | Better Stack, Pingdom, Statuspage | Uptime Kuma e Gatus **não estão listados** |
-| **CI/CD** | GitHub Actions, CircleCI | Woodpecker, Drone e Jenkins **não estão listados** |
-| **Backup** | Backblaze, AWS Backup | restic, Borg e Duplicati **não estão listados** |
-| **PaaS / deploy** | Vercel, Railway, Heroku | Coolify, Dokku e CapRover **não estão listados** |
-| **Site estático** | Netlify, Vercel | Hugo, Jekyll e Eleventy **não estão listados** |
-| **VPN / rede privada** | Tailscale, NordLayer | WireGuard e Headscale **não estão listados** |
+| **Auth / SSO** | Auth0, Clerk, Cognito | ausentes → [`gaps.md`](gaps.md#auth--sso) tem Keycloak (36.1k), Authelia, authentik |
+| **Uptime e status page** | Better Stack, Pingdom, Statuspage | ausentes → [`gaps.md`](gaps.md#uptime-e-status-page) tem Uptime Kuma (90.0k), Gatus |
+| **CI/CD** | GitHub Actions, CircleCI | ausentes → [`gaps.md`](gaps.md#cicd) tem Drone, Jenkins, Woodpecker |
+| **Backup** | Backblaze, AWS Backup | ausentes → [`gaps.md`](gaps.md#backup) tem rclone (59.0k), restic, Borg |
+| **PaaS / deploy** | Vercel, Railway, Heroku | ausentes → [`gaps.md`](gaps.md#paas--deploy) tem Coolify (60.3k), Dokku, Kamal |
+| **Site estático** | Netlify, Vercel | ausentes → [`gaps.md`](gaps.md#site-estático) tem Hugo (89.4k), Astro, Jekyll |
+| **VPN / rede privada** | Tailscale, NordLayer | ausentes → [`gaps.md`](gaps.md#vpn--rede-privada) tem Headscale (42.6k), NetBird |
 
-Não é falha do catálogo: o escopo declarado do upstream é **serviços de rede e aplicações web**, então ferramentas de build, CLIs e implementações de protocolo ficam de fora. Para estas categorias, procure no [`docs/registry/`](../registry/INDEX.md) ou fora do OS.
+Não é falha do catálogo: o escopo declarado do upstream é **serviços de rede e aplicações web**, então ferramentas de build, CLIs e implementações de protocolo ficam de fora.
+
+➡️ **Todas essas categorias foram pesquisadas à parte e estão em [`gaps.md`](gaps.md)** — equivalentes ranqueados por estrelas no GitHub, com licença verificada arquivo por arquivo. Lá estão Keycloak, Uptime Kuma, Woodpecker, restic, Coolify, Hugo, Headscale, o Supabase self-hosted e as opções de evento tipo Luma.
 
 ---
 
