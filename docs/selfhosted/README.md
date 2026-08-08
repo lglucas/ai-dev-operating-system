@@ -5,6 +5,7 @@ Espelho local do **[awesome-selfhosted](https://github.com/awesome-selfhosted/aw
 | Arquivo | O que é | Gerado? |
 |---|---|---|
 | [`shortlist-saas.md`](shortlist-saas.md) | **Comece por aqui.** As categorias que um fundador de SaaS de fato substitui, curadas à mão. | ✋ manual |
+| [`gaps.md`](gaps.md) | O que o awesome-selfhosted **não** cobre — auth, uptime, CI/CD, backup, PaaS, VPN, eventos — pesquisado à parte e ranqueado por estrelas no GitHub. | ✋ manual |
 | [`INDEX.md`](INDEX.md) | Índice das 12 categorias com contagem. | 🤖 gerado |
 | [`catalog/`](catalog) | O acervo completo, 1.346 projetos em 12 arquivos. | 🤖 gerado |
 
@@ -65,7 +66,9 @@ E projetos conhecidos dessas áreas estão ausentes do dataset: Keycloak, Authen
 
 Isso é coerente com o escopo declarado do upstream — **serviços de rede e aplicações web** auto-hospedados. Ferramentas de build, CLIs de backup e implementações de protocolo caem fora do escopo, e os arquivos de tag vazios são resíduo de um escopo anterior.
 
-**Consequência prática:** para auth, observabilidade, CI/CD, backup e PaaS, este catálogo não vai te ajudar. Procure no `docs/registry/` ou fora. A [`shortlist-saas.md`](shortlist-saas.md) marca essas lacunas explicitamente em vez de fingir que não existem.
+**Consequência prática:** para auth, observabilidade, CI/CD, backup e PaaS, o catálogo espelhado não te ajuda.
+
+➡️ **Essas categorias foram pesquisadas à parte e vivem em [`gaps.md`](gaps.md)** — equivalentes ranqueados por estrelas no GitHub, com licença verificada arquivo por arquivo (foi assim que treze projetos "open core" apareceram). É conteúdo autoral sob MIT, não dado espelhado.
 
 ---
 

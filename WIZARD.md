@@ -531,14 +531,20 @@ Existe o caminho self-hosted — você roda o software no teu próprio servidor.
 Qual faz sentido pro teu momento?
 ```
 
-**Consult [`docs/selfhosted/shortlist-saas.md`](docs/selfhosted/shortlist-saas.md)** for concrete alternatives per category, with licences. The full catalogue of 1.346 projects lives in [`docs/selfhosted/`](docs/selfhosted/README.md).
+Where to look for concrete alternatives:
+
+| File | Covers |
+|---|---|
+| [`docs/selfhosted/shortlist-saas.md`](docs/selfhosted/shortlist-saas.md) | analytics, CMS, CRM, helpdesk, email, BI, search, forms, wiki — what the mirrored catalogue has |
+| [`docs/selfhosted/gaps.md`](docs/selfhosted/gaps.md) | **auth, uptime, CI/CD, backup, PaaS, static sites, VPN, BaaS, events** — researched separately, ranked by GitHub stars |
+| [`docs/selfhosted/INDEX.md`](docs/selfhosted/README.md) | the full 1.346-project catalogue |
 
 Rules for this conversation:
 
 - **State the real cost of self-hosting.** It trades vendor cost for time and operations: backup, uptime, security patching, and being the person who wakes up when it breaks. A solo founder in Sprint 1 hosting eight services is doing SRE, not product.
 - **Do not push (b).** The maintainer of this OS prefers self-hosted, and that stance is recorded in `ETHOS.md` — explicitly as a stance, not a rule. "Managed for everything" is frequently the right answer for a solo non-developer.
-- **Flag the gaps honestly.** The catalogue has nothing for auth/SSO, uptime monitoring, CI/CD, backup, PaaS, static site generators or VPN. If the project needs those self-hosted, say so and look elsewhere.
-- **Flag copyleft and source-available licences.** Roughly 39% of the catalogue is AGPL or GPL, and several popular options are BUSL-1.1, Commons-Clause, or outright proprietary. If the project will resell or embed the component, this stops being a detail — route it to `legal-compliance-agent`.
+- **Flag the three licence traps, not just copyleft.** Roughly 39% of the mirrored catalogue is AGPL or GPL (modify **and** serve over a network triggers the obligation). Some options are source-available rather than open source — Vault is BUSL-1.1, Sentry is FSL-1.1. And **thirteen of the researched alternatives are open core**, where the free edition deliberately omits SSO, RBAC and audit logs. That last one bites hardest: the project looks open source until the founder needs corporate login. If the project will resell or embed the component, route it to `legal-compliance-agent`.
+- **Check whether the feature you need is in the free edition** before recommending an open-core option.
 - **Run `cost-watchdog`** to compare the projected cost of both paths before closing.
 - **Record the decision and its reasoning** in the Technical Plan and in `session-log/`. A founder who chose managed in year 1 will want to know why when the invoice grows in year 2.
 

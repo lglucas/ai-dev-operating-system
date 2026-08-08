@@ -16,7 +16,7 @@
  *   node scripts/sync-selfhosted.js <data-dir>   # uses an existing local clone
  *
  * Regenerates:   docs/selfhosted/INDEX.md, docs/selfhosted/catalog/*.md
- * Never touches: docs/selfhosted/README.md, docs/selfhosted/shortlist-saas.md (hand-curated)
+ * Never touches: docs/selfhosted/README.md, shortlist-saas.md, gaps.md (all hand-curated)
  */
 
 'use strict';

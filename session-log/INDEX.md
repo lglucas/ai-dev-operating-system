@@ -6,6 +6,7 @@ Each entry captures the reasoning behind a material decision: what was true befo
 
 | Date | Topic | File |
 |---|---|---|
+| 2026-08-08 | v0.5.1 — pesquisa de equivalentes self-hosted para as 7 lacunas + Supabase e alternativas ao Luma; 90+ repos consultados na API do GitHub, revelando "open core" como terceira armadilha de licença (13 projetos) | [`2026-08-08-v0.5.1-selfhosted-gaps.md`](2026-08-08-v0.5.1-selfhosted-gaps.md) |
 | 2026-08-08 | v0.5.0 PR 4 — awesome-selfhosted (1.346 projetos) espelhado em `docs/selfhosted/` sob CC-BY-SA 3.0 com carve-out de licença, shortlist curada por categoria de SaaS, e a pergunta gerenciado-vs-self-hosted no estágio 4.2 | [`2026-08-08-v0.5.0-selfhosted-catalog.md`](2026-08-08-v0.5.0-selfhosted-catalog.md) |
 | 2026-08-08 | v0.5.0 PR 2 — Pitch artifact created (none existed) at new stage 2.9, plus the "BP/Pitch online?" question with a mandatory redaction gate; publication added to the privacy rule as a form of processing | [`2026-08-08-v0.5.0-pitch-publication.md`](2026-08-08-v0.5.0-pitch-publication.md) |
 | 2026-08-08 | v0.5.0 PR 3 — skill audit: 6 core wizard skills had no frontmatter (invisible to auto-invocation), 10 more had no trigger phrases; 3 overlapping pairs cross-linked; `release-check` converted to a delegation table | [`2026-08-08-v0.5.0-skills-audit.md`](2026-08-08-v0.5.0-skills-audit.md) |
