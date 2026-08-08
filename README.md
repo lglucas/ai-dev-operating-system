@@ -177,6 +177,7 @@ Behind the scenes, Claude is instructed to create and maintain:
 
 ```txt
 docs/business/BUSINESS-PLAN.md
+docs/business/PITCH.md
 prototype-lab/
 docs/product/DESIGN-DIRECTION.md
 docs/product/PRODUCT-BRIEF.md
@@ -234,6 +235,7 @@ Important skills include:
 | `START-HERE.md` | First file Claude reads. |
 | `WIZARD.md` | Full Project Genesis Wizard flow. |
 | `docs/business/BUSINESS-PLAN.md` | Business/investor/hackathon document. |
+| `docs/business/PITCH.md` | The BP in ten sections, plus the record of what may go public. |
 | `docs/product/DESIGN-DIRECTION.md` | The approved prototype direction: tokens, screens, flow. Bridge from Phase 3 to Phase 4. |
 | `docs/product/PRODUCT-BRIEF.md` | Operational product understanding, reverse-engineered from the prototype. |
 | `docs/technical/TECHNICAL-PLAN.md` | Stack, architecture, data, security, test plan. |

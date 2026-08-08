@@ -303,6 +303,89 @@ BP version becomes `v0.0.2`.
 
 ---
 
+## 2.9 — Pitch, and the publication question
+
+Two outputs: a pitch derived from the BP, and an explicit decision about whether either document lives on the public internet.
+
+### Write the pitch
+
+```txt
+docs/business/PITCH.md
+```
+
+Ten slides or fewer, derived from BP v0.0.2 — not written from scratch. The BP is the argument; the pitch is the argument compressed to what someone will actually sit through. If a claim is not in the BP, it does not belong in the pitch.
+
+### Ask the publication question
+
+Claude must raise this as a **suggestion, not a default**. Many founders never consider it; the wizard's job is to put the option on the table with its real trade-offs, then accept whatever the user decides.
+
+```txt
+Uma opção que vale considerar: colocar o Business Plan e o Pitch online, dentro do próprio site/plataforma — por exemplo em /pitch ou /investors.
+
+Vantagens:
+- Vira ativo de captação: você manda um link em vez de anexar PDF.
+- Constrói autoridade e confiança ("build in public").
+- Investidor, parceiro ou cliente grande consegue se qualificar sozinho.
+- Some o problema de versão desatualizada circulando por aí.
+
+Custos reais:
+- Concorrente lê tudo, inclusive o que você acha que é vantagem.
+- Números publicados viram expectativa — e cobrança depois.
+- Exige manutenção: BP público desatualizado é pior que nenhum.
+- Parte do conteúdo NÃO pode ir ao ar (ver gate abaixo).
+
+Você quer:
+(a) tudo público,
+(b) uma versão pública enxuta + versão completa atrás de login/link secreto,
+(c) nada online por enquanto — decide depois do lançamento?
+```
+
+Whatever the user answers, record the decision and the reasoning in `session-log/`. "Not now" is a valid, complete answer and closes the stage.
+
+### Redaction gate — mandatory if the answer is (a) or (b)
+
+Publishing a Business Plan means publishing whatever is in it. Before anything goes to a public URL, Claude must run the following split and get explicit user sign-off on it.
+
+| Usually safe to publish | Do NOT publish without explicit, considered approval |
+|---|---|
+| Problem and solution narrative | Financial projections, burn, runway |
+| Positioning and differentiation | Unit economics — CAC, LTV, margins |
+| Market context with **public** sources | Pricing not yet announced (planned increases, discount policy) |
+| Personas, generalized | Personas traceable to a real interviewee |
+| Directional roadmap | Dated delivery commitments |
+| Team and mission | Fundraising status, valuation, cap table |
+| Metrics you are willing to be held to | The internal risk register |
+| — | Supplier and partner terms |
+| — | Competitor teardown naming specific weaknesses |
+
+Three of these carry consequences beyond embarrassment:
+
+- **Personas from real interviews are personal data.** Publishing "Marina, 34, gerente de clínica em Porto Alegre" when Marina is a real person you interviewed is an LGPD problem, not a style problem. Invoke `privacy-audit` before publishing any persona.
+- **Competitor teardowns invite legal and PR retaliation.** Positioning ("we are the one that does X") is safe; "Competitor Y's onboarding is broken and their support is worse" is not.
+- **Published numbers become commitments.** A projection on a public page will be quoted back during diligence.
+
+### Route the downstream consequences
+
+If the answer is (a) or (b), this is not just a document decision — it creates product surface. Record it so the later phases pick it up:
+
+| Consequence | Lands in |
+|---|---|
+| Routes (`/pitch`, `/investors`), navigation, whether it appears in the main nav | Product Brief (stage 4.1) |
+| Public vs. gated, auth model for the gated version, SEO/`robots.txt`, PDF export | Technical Plan (stage 4.2) |
+| Analytics on who views the page — **this is personal data** | `privacy-audit` |
+| The page as an acquisition and credibility asset | `first-100-users`, `launch-agent` |
+
+### Required outputs
+
+```txt
+docs/business/PITCH.md
+session-log/<date>-pitch-and-publication-decision.md
+```
+
+If the answer was (a) or (b), also record the approved public/private split inside `PITCH.md` so Phase 4 knows what it is building a page for.
+
+---
+
 # PHASE 3 — PROTÓTIPO
 
 **Goal:** the product becomes visible. Brand, color, typography, UI, and UX are decided by looking at three real options, not by describing them.
