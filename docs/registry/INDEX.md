@@ -6,7 +6,7 @@ For how the registry works, see [`README.md`](README.md).
 For per-pack detail, click the slug in the first column.
 For non-installable websites and live tools, see the **External resources** section below.
 
-Last index update: 2026-05-09 (registry-additions-2026-05-09 — 14 new packs added, 3 refreshed)
+Last index update: 2026-08-08 (v0.5.0 PR 4 — `awesome-selfhosted` added; its 1.346-entry catalogue is vendored at [`docs/selfhosted/`](../selfhosted/README.md) under CC-BY-SA 3.0)
 
 ---
 
@@ -24,6 +24,7 @@ Last index update: 2026-05-09 (registry-additions-2026-05-09 — 14 new packs ad
 | [`auto-research-claw`](packs/auto-research-claw.md) | AutoResearchClaw | `ai` `research` `agents` | active | MIT | 2026-05-09 |
 | [`autohedge`](packs/autohedge.md) | AutoHedge | `experimental` `fintech` `agents` | experimental | MIT | 2026-04-30 |
 | [`awesome-design-md`](packs/awesome-design-md.md) | VoltAgent awesome-design-md | `design` | active | check upstream | 2026-04-30 |
+| [`awesome-selfhosted`](packs/awesome-selfhosted.md) | awesome-selfhosted ⭐ | `infra` `tooling` `reference` | active | CC-BY-SA 3.0 | 2026-08-08 |
 | [`bark`](packs/bark.md) | Bark (Suno) | `ai` `audio` | active | MIT | 2026-04-30 |
 | [`boringco`](packs/boringco.md) | Boring Co (origin) | `origin` | archived | private | 2026-04-30 |
 | [`cis-hardening-guide`](packs/cis-hardening-guide.md) | CIS Hardening Guide | `security` `infra` | active | check upstream | 2026-04-30 |

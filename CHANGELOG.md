@@ -13,7 +13,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 > - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec
 > - [x] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
 > - [x] **PR 3** — Skill frontmatter fix + audit
-> - [ ] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+> - [x] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+
+### Added — self-hosted catalogue (1.346 projects) and the stage 4.2 question
+
+`docs/selfhosted/` mirrors [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted) so the WIZARD can offer concrete self-hosted alternatives without a network call.
+
+| Layer | What | Generated? |
+|---|---|---|
+| `shortlist-saas.md` | ~20 categories a SaaS founder actually replaces, framed as "you pay for X → alternative Y" | ✋ hand-curated |
+| `INDEX.md` + `catalog/` | all 1.346 entries; 95 upstream tags collapsed into 12 macro-categories | 🤖 generated |
+| `README.md` | licence carve-out, regeneration, honest trade-off table | ✋ hand-curated |
+| `scripts/sync-selfhosted.js` | regenerator; never overwrites the two hand-curated files | — |
+| `docs/registry/packs/awesome-selfhosted.md` | one-pager, so it is discoverable from the registry | ✋ |
+
+**New question at WIZARD stage 4.2**, before the stack is locked: managed platforms, self-hosted, or hybrid? Presented as a question with both sides, not a recommendation. The stage carries an explicit instruction *not* to push self-hosting — "managed for everything" is frequently right for a solo non-developer, and self-hosting trades vendor cost for time and operations: backup, uptime, patching, and being the person who wakes up at 3am.
+
+### Added — CC-BY-SA 3.0 carve-out
+
+The OS is MIT. **The data in `docs/selfhosted/` is not** — it is CC-BY-SA 3.0 Unported, share-alike, with authors credited upstream. Attribution is stamped on every generated file, and the boundary is documented in `docs/selfhosted/README.md`, `ATTRIBUTIONS.md` and `UPSTREAM-SOURCES.md`.
+
+`UPSTREAM-SOURCES.md` section 7 says to avoid vendoring and prefer linking. The new entry states this is a deliberate exception and gives four reasons it clears the bar: unambiguous licence, linking cannot serve stage 4.2, the copy is generated rather than forked, and it is quarantined to one directory. Future vendoring should clear the same four.
+
+### Documented — what the catalogue does NOT cover
+
+Measured, not assumed. **Nine upstream tags are orphaned** — the tag file exists and zero projects reference it: Backup, Federated Identity & Authentication, Identity Management, Monitoring & Status Pages, CI/CD, FaaS & Serverless, Static Site Generators, VPN, Distributed Filesystems.
+
+Verified absent from the dataset: Keycloak, Authentik, MinIO, Supabase, Uptime Kuma, Coolify, Woodpecker, Jenkins, WireGuard, restic, Borg, Hugo, Jekyll, Cal.com, Meilisearch.
+
+That is auth, observability, CI/CD, backup, PaaS, static sites and VPN — the first things a SaaS founder looks for. It follows from the upstream scope (self-hosted *network services and web applications*). The shortlist marks these as gaps in a dedicated table rather than omitting them silently.
+
+### Documented — licence traps, per entry
+
+Across the 1.346 entries: MIT 360, **AGPL-3.0 302**, **GPL-3.0 224**, Apache-2.0 143, BSD 51, **⊘ Proprietary 70** — roughly **39% copyleft**.
+
+Six entries in the curated shortlist are not permissive and carry a ⚠️ on their own row: Sentry Self-Hosted, Directus and Outline (BUSL-1.1), Chatwoot and Budibase (⊘ Proprietary), n8n (Apache-2.0 + Commons-Clause). The AGPL note is stated precisely: running unmodified triggers nothing; the obligation begins on modify-and-serve.
 
 ### Added — Pitch artifact and the publication question (stage 2.9)
 
