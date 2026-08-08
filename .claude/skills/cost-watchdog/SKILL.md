@@ -1,6 +1,6 @@
 ---
 name: cost-watchdog
-description: Flag potentially expensive technical choices BEFORE they are committed. Watch for AI model selection, hosting tier upgrades, third-party services with metered pricing, and DB patterns that explode with scale.
+description: Flag potentially expensive technical choices BEFORE they are committed — AI model selection, hosting tier upgrades, third-party services with metered pricing, and DB patterns that explode with scale. Preventive counterpart to `usage-monitor`, which tracks real spend after launch. Triggers when the user says "posso usar o Opus pra isso?", "qual plano eu contrato?", "isso vai ficar caro?", "quanto custa rodar isso?", or whenever a paid tier or metered API is about to enter the stack.
 ---
 
 # Cost Watchdog

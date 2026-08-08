@@ -1,3 +1,8 @@
+---
+name: product-brief
+description: Write docs/product/PRODUCT-BRIEF.md by reverse-engineering the approved prototype — every screen, the flow as actually clicked, and the gaps the prototype implied but never showed (empty states, errors, permissions, offline). Runs at WIZARD stage 4.1, after BP v0.0.2 and after a prototype direction is approved in Phase 3. Use when the user asks "o que exatamente a gente vai construir?", "quais telas o MVP tem?", "o que fica de fora?".
+---
+
 # Product Brief Skill
 
 Runs at **Phase 4.1** of `WIZARD.md`.

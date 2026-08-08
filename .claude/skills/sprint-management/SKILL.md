@@ -1,6 +1,6 @@
 ---
 name: sprint-management
-description: Manage sprint lifecycle: open sprint, maintain sprint branch/docs, close sprint, update changelog, and prepare tags.
+description: Manage the sprint lifecycle — open a sprint, maintain the sprint branch and docs, close it, update the changelog, and prepare tags. Powers /sprint-start, /sprint-plan and /sprint-close. Use when the user says "vamos começar a sprint", "fecha a sprint", "o que tá nessa sprint?", "terminei essa etapa", "qual o próximo ciclo?".
 ---
 
 # Sprint Management

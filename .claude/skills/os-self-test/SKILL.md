@@ -1,6 +1,6 @@
 ---
 name: os-self-test
-description: Verify the AI Dev Operating System is in a coherent state inside a project. Detects missing canonical files, broken cross-references, version drift, gitignore gaps, stale paths after a migration, and orphaned artifacts. Run after major edits to the OS or before opening a new sprint.
+description: Verify the AI Dev Operating System is in a coherent state inside a project. Detects missing canonical files, broken cross-references, version drift, gitignore gaps, stale paths after a migration, and orphaned artifacts. Run after major edits to the OS, after renaming or moving canonical files, before opening a new sprint, before a release, and when the user says "tá tudo certo aqui?", "quebrou alguma coisa na estrutura?", "faz um check geral", "os links estão funcionando?".
 ---
 
 # OS Self-Test

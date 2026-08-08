@@ -1,3 +1,8 @@
+---
+name: prototype-lab
+description: Build three genuinely distinct HTML/CSS/JS prototype directions — brand, color, typography, UI, UX — from BP v0.0.2 and the research, then extract the approved one into docs/product/DESIGN-DIRECTION.md. Runs at WIZARD Phase 3, BEFORE the Product Brief and Technical Plan. Use when the user says "quero ver como vai ficar", "me mostra umas ideias de layout", "qual vai ser a cara do produto?", "que cores a gente usa?", or runs /prototype-lab.
+---
+
 # Prototype Lab Skill
 
 Create three distinct HTML/CSS/JS prototype directions using the same mock data.

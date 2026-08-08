@@ -1,6 +1,6 @@
 ---
 name: decision-log
-description: Create session logs or ADRs to preserve why important decisions were made.
+description: Record WHY a decision was made — including the alternatives rejected — as a session-log entry or an ADR. Use after any decision touching architecture, product scope, pricing, compliance, security, or release strategy, when `multi-ai-review` reconciles a disagreement, and when the user says "anota isso", "registra essa decisão", "por que a gente escolheu isso mesmo?", "não lembro por que fizemos assim".
 ---
 
 # Decision Log

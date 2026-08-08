@@ -1,6 +1,6 @@
 ---
 name: secrets-scan
-description: Scan project changes for secrets, credentials, unsafe env handling, and accidental private data leaks.
+description: Scan project changes for leaked secrets, credentials, unsafe env handling, and accidental private data. This is the DETECTION pass over what is already in the tree; `secrets-discipline` is the preventive workflow that stops it happening. Run before every commit, before every release (invoked by `release-check`), and when the user says "vazou alguma chave aí?", "isso tá seguro pra subir?", "esqueci alguma senha no código?".
 ---
 
 # Secrets Scan
