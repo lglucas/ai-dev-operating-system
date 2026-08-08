@@ -509,6 +509,39 @@ The data model must be derived from the entities visible in the prototype's mock
 
 No alpha/beta stack should be recommended unless explicitly accepted.
 
+### Managed vs. self-hosted — ask, do not assume
+
+Before locking the stack, Claude must put the self-hosted option on the table explicitly. Most vibe coders default to managed platforms because nobody ever showed them the alternative — and some are paying monthly for services they could run themselves for the price of one small server.
+
+This is a **question**, not a recommendation. Present both sides and accept the answer.
+
+```txt
+Antes de fechar a stack: cada serviço externo que a gente escolher aqui é uma
+assinatura mensal e um pedaço dos teus dados na mão de outra empresa.
+
+Existe o caminho self-hosted — você roda o software no teu próprio servidor.
+
+(a) Gerenciado em tudo — Vercel, Supabase, Auth0, Sentry Cloud e afins.
+    Rápido de subir, você paga e não pensa mais nisso.
+(b) Self-hosted no que der — mais controle dos dados e custo previsível,
+    mas você vira o responsável por backup, uptime e patch de segurança.
+(c) Híbrido — gerenciado no que é crítico e barato, self-hosted no que é caro
+    por uso ou sensível em dados.
+
+Qual faz sentido pro teu momento?
+```
+
+**Consult [`docs/selfhosted/shortlist-saas.md`](docs/selfhosted/shortlist-saas.md)** for concrete alternatives per category, with licences. The full catalogue of 1.346 projects lives in [`docs/selfhosted/`](docs/selfhosted/README.md).
+
+Rules for this conversation:
+
+- **State the real cost of self-hosting.** It trades vendor cost for time and operations: backup, uptime, security patching, and being the person who wakes up when it breaks. A solo founder in Sprint 1 hosting eight services is doing SRE, not product.
+- **Do not push (b).** The maintainer of this OS prefers self-hosted, and that stance is recorded in `ETHOS.md` — explicitly as a stance, not a rule. "Managed for everything" is frequently the right answer for a solo non-developer.
+- **Flag the gaps honestly.** The catalogue has nothing for auth/SSO, uptime monitoring, CI/CD, backup, PaaS, static site generators or VPN. If the project needs those self-hosted, say so and look elsewhere.
+- **Flag copyleft and source-available licences.** Roughly 39% of the catalogue is AGPL or GPL, and several popular options are BUSL-1.1, Commons-Clause, or outright proprietary. If the project will resell or embed the component, this stops being a detail — route it to `legal-compliance-agent`.
+- **Run `cost-watchdog`** to compare the projected cost of both paths before closing.
+- **Record the decision and its reasoning** in the Technical Plan and in `session-log/`. A founder who chose managed in year 1 will want to know why when the invoice grows in year 2.
+
 ---
 
 ## 4.3 — Stack pack pick

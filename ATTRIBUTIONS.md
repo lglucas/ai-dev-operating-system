@@ -40,6 +40,7 @@ For repos that can be **installed on top of a project** running this OS (curated
 
 Key references include:
 
+- awesome-selfhosted — https://github.com/awesome-selfhosted/awesome-selfhosted *(list data licensed **CC-BY-SA 3.0 Unported**; mirrored at [`docs/selfhosted/`](docs/selfhosted/README.md) under that licence rather than MIT — see the carve-out there)*
 - Anthropic Skills — https://github.com/anthropics/skills
 - everything-claude-code — https://github.com/affaan-m/everything-claude-code
 - UI UX Pro Max Skill — https://github.com/nextlevelbuilder/ui-ux-pro-max-skill

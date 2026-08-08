@@ -109,6 +109,30 @@ Product-specific business content, market research, pricing, partners, competito
 
 ---
 
+### awesome-selfhosted
+
+- URL: https://github.com/awesome-selfhosted/awesome-selfhosted
+- Data repo: https://github.com/awesome-selfhosted/awesome-selfhosted-data
+- Classification: `source` — **content was directly copied**, not merely referenced.
+- License: **CC-BY-SA 3.0 Unported** (share-alike). Authors listed in the upstream `AUTHORS` file.
+- Role: catalogue of self-hostable software, offered as an alternative to managed SaaS.
+- Local mapping:
+  - `docs/selfhosted/` — the mirror (1.346 entries, 12 categories)
+  - `scripts/sync-selfhosted.js` — regenerator
+  - `docs/registry/packs/awesome-selfhosted.md` — one-pager
+  - `WIZARD.md` stage 4.2 — where the managed-vs-self-hosted question is asked
+
+**This is a deliberate exception to policy items 4 and 5 in section 7 below**, which say to avoid vendoring and to prefer linking over duplicating. The exception is justified because:
+
+1. **Licence and attribution are unambiguous** — CC-BY-SA 3.0, authors file upstream, attribution header stamped on every generated file. That satisfies item 4.
+2. **Linking would not do the job.** The WIZARD asks the managed-vs-self-hosted question at stage 4.2 and has to offer concrete alternatives in the same breath. A link makes the answer depend on the network, and on the founder leaving the conversation to browse 1.346 entries.
+3. **The copy is generated, not hand-edited.** `sync-selfhosted.js` regenerates it from upstream, so it can be refreshed rather than drifting into a fork.
+4. **It is quarantined.** The mirror lives in one directory with its own licence carve-out, so CC-BY-SA never leaks into the MIT-licensed parts of the OS.
+
+Anything vendored in future should clear the same four bars.
+
+---
+
 ## 4. Security and hardening references
 
 ### CIS Hardening Guide
