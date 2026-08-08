@@ -7,7 +7,7 @@
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
 
-Clone this repo, open it in your IDE, run Claude Code in the terminal, and let the **Project Genesis Wizard** take you from raw idea to product brief, business plan, prototype lab, sprint roadmap, and first coding sprint.
+Clone this repo, open it in your IDE, run Claude Code in the terminal, and let the **Project Genesis Wizard** take you from raw idea to business plan, prototype lab, product brief, technical plan, sprint roadmap, and first coding sprint.
 
 This repo is not a finished SaaS template. It is the **operating layer** you put around a new SaaS so AI coding agents do not start from chaos.
 
@@ -42,7 +42,7 @@ bash scripts/detach-os.sh        # Linux/macOS
 powershell scripts/detach-os.ps1 # Windows
 ```
 
-The script walks you through detaching `origin` and (optionally) re-initializing Git. WIZARD Stage 0.5 also handles this educationally on first run.
+The script walks you through detaching `origin` and (optionally) re-initializing Git. WIZARD Stage 1.2 also handles this educationally on first run.
 
 </details>
 
@@ -52,7 +52,7 @@ After you have your own repo set up, open the folder in your IDE and run Claude 
 Claude, vamos iniciar um novo projeto. Leia primeiro o arquivo START-HERE.md e siga exatamente as instruções dele.
 ```
 
-Claude should read the repo structure, understand the operating system, and start the **Project Genesis Wizard** — including Stage 0.5 (detach from OS-origin) if you used the fallback `git clone` path.
+Claude should read the repo structure, understand the operating system, and start the **Project Genesis Wizard** — including Stage 1.2 (detach from OS-origin) if you used the fallback `git clone` path.
 
 📘 Need help setting up your IDE, Git, GitHub account, or Claude Code? Start here: [`docs/installation.md`](docs/installation.md).
 
@@ -67,7 +67,7 @@ Claude should read the repo structure, understand the operating system, and star
 - A guided wizard for ideation, research, business planning, review, sprint planning, prototyping, and first implementation.
 - Agent workflows for market research, competitor analysis, red-team critique, technical/security review, coordination, and investor-ready copywriting.
 - Documentation layers: `PRODUCT-BRIEF.md`, `BUSINESS-PLAN.md`, `TECHNICAL-PLAN.md`, `SPRINTS.md`, `CHANGELOG.md`, and `session-log/`.
-- A disposable `prototype-lab/` for 3 HTML prototype directions before building the real app.
+- A disposable `prototype-lab/` for 3 HTML prototype directions — built before the Product Brief and Technical Plan, which are then reverse-engineered from the direction you approve.
 - Security, privacy, changelog, sprint, and coding rules from day zero.
 - Optional stack packs for SaaS, Next.js/Supabase, Solana, marketplace products, and other specialized projects.
 
@@ -83,7 +83,7 @@ A curated, on-demand catalog of trusted external repository packs that can plug 
 | [`docs/registry/packs/`](docs/registry/packs) | One-pager per repo: when to install, when NOT to install, install command, fit signals, conflicts. |
 | [`docs/registry/tags/`](docs/registry/tags) | Auxiliary indexes by tag (`security`, `design`, `foundations`, `stack-pack`, `ecosystem`). |
 | [`/registry-pick`](.claude/commands/registry-pick.md) | Slash command — reads the registry and outputs a prioritized recommendation for the current project. Never installs. |
-| [`registry-pick` skill](.claude/skills/registry-pick/SKILL.md) | Powers the slash command and `WIZARD.md` Stage 11.5. |
+| [`registry-pick` skill](.claude/skills/registry-pick/SKILL.md) | Powers the slash command and `WIZARD.md` Stages 3.1 (design packs) and 4.3 (stack packs). |
 
 **Adding new packs is one-pager-fast** — copy the template in [`docs/registry/README.md`](docs/registry/README.md), fill the fields, link from `INDEX.md` and the relevant tag file. Cross-link in `UPSTREAM-SOURCES.md` only if the pack also influenced this OS itself.
 
@@ -143,23 +143,21 @@ A coordinated set of agents, skills, and templates designed for **non-developers
 
 ## 🧭 Core flow
 
-1. Repository comprehension.
-2. Friendly opening and user introduction.
-3. Raw ideation: “Tell me about your project.”
-4. Ideation polish and exactly 10 strategic questions.
-5. Research plan approval.
-6. Wave 1: competitor and market research.
-7. Wave 2: red-team critique.
-8. Wave 3: consolidation and BP writing.
-9. Business Plan v0.0.1.
-10. Human review.
-11. Business Plan v0.0.2 with impact review.
-12. Product Brief and Technical Plan.
-13. 14–20 sprint roadmap.
-14. Prototype Lab with 3 HTML prototype directions.
-15. Sprint 0 / Sprint 1 implementation.
+The wizard runs in **5 phases**. Phases are the handle you remember; the stages inside them are just ordering.
+
+| Phase | What happens | Commit tag |
+|---|---|---|
+| **1 — Largada** | Repo comprehension → detach from OS-origin → "Me fale sobre teu projeto." | `[STAGE:LARGADA]` |
+| **2 — Ideação** | Raw ideation → 10 strategic questions → research plan approval → Wave 1 (market + competitors) → Wave 2 (red team) → Wave 3 (consolidation + BP v0.0.1) → human review → **BP v0.0.2** | `[STAGE:IDEACAO]` |
+| **3 — Protótipo** | Design pack pick → **Prototype Lab: 3 HTML directions** (brand, color, UI, UX) → direction approved + design tokens extracted | `[STAGE:PROTOTIPO]` |
+| **4 — Documentação** | **Product Brief** and **Technical Plan reverse-engineered from the approved prototype** → stack pack pick → 14–20 sprint roadmap | `[STAGE:DOCUMENTACAO]` |
+| **5 — Chegada** | Sprint 0 / Sprint 1 implementation | `[STAGE:CHEGADA]` |
 
 The wizard intentionally prevents coding too early.
+
+**The prototype comes before the spec, on purpose.** Phase 3 makes the product visible — three real directions you can click — and Phase 4 writes the Product Brief and Technical Plan from what is actually there. A spec written against a prototype names the gaps (empty states, errors, permissions) that a spec written against a paragraph quietly invents. Full rationale in [`WIZARD.md`](WIZARD.md#why-phase-3-comes-before-phase-4).
+
+The five phases map 1:1 onto the commit-tag convention in [`.claude/rules/wizard-stage-tags.md`](.claude/rules/wizard-stage-tags.md), so progress is inferable straight from git history.
 
 ---
 
@@ -178,15 +176,18 @@ Me fale sobre teu projeto.
 Behind the scenes, Claude is instructed to create and maintain:
 
 ```txt
-docs/product/PRODUCT-BRIEF.md
 docs/business/BUSINESS-PLAN.md
+prototype-lab/
+docs/product/DESIGN-DIRECTION.md
+docs/product/PRODUCT-BRIEF.md
 docs/technical/TECHNICAL-PLAN.md
 docs/SPRINTS.md
 CHANGELOG.md
 session-log/
 knowledge-base/
-prototype-lab/
 ```
+
+The order above is the order the wizard produces them in.
 
 ---
 
@@ -232,8 +233,9 @@ Important skills include:
 |---|---|
 | `START-HERE.md` | First file Claude reads. |
 | `WIZARD.md` | Full Project Genesis Wizard flow. |
-| `docs/product/PRODUCT-BRIEF.md` | Operational product understanding. |
 | `docs/business/BUSINESS-PLAN.md` | Business/investor/hackathon document. |
+| `docs/product/DESIGN-DIRECTION.md` | The approved prototype direction: tokens, screens, flow. Bridge from Phase 3 to Phase 4. |
+| `docs/product/PRODUCT-BRIEF.md` | Operational product understanding, reverse-engineered from the prototype. |
 | `docs/technical/TECHNICAL-PLAN.md` | Stack, architecture, data, security, test plan. |
 | `docs/SPRINTS.md` | Detailed sprint roadmap. |
 | `CHANGELOG.md` | What changed by version. |
@@ -245,7 +247,7 @@ Important skills include:
 
 ## 🧪 Prototype Lab
 
-Before building the production app, the wizard creates a separate prototype space:
+Phase 3 of the wizard — **before** the Product Brief and the Technical Plan, not after. This is where brand, color, typography, and the real user flow get decided. The wizard creates a separate prototype space:
 
 ```txt
 prototype-lab/
@@ -260,9 +262,11 @@ Rules:
 
 - Use plain HTML/CSS/JS.
 - Use the same mock data across all prototypes.
-- Make the prototypes visually distinct.
-- Match the personas and positioning from the Product Brief and Business Plan.
+- Make the prototypes visually distinct — three directions, not three shades of one.
+- Match the personas, positioning, and MVP scope from **BP v0.0.2** and the research in `knowledge-base/`. The Product Brief is not an input here — Phase 4 derives it from the prototype you approve.
 - Do not mix prototype files with production source code.
+
+The approved direction is written up in `docs/product/DESIGN-DIRECTION.md`, which is what Phase 4 reads.
 
 ---
 

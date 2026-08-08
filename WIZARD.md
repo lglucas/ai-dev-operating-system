@@ -4,44 +4,61 @@ This is the canonical wizard for turning a raw project idea into a structured Sa
 
 The wizard is intentionally detailed. Claude must follow it step by step and must not compress it into a shorter process unless the user explicitly asks to bypass the operating system.
 
-The goal is not to produce code quickly. The goal is to produce a project that is clear, researched, documented, stress-tested, planned, prototyped, and only then coded.
+The goal is not to produce code quickly. The goal is to produce a project that is clear, researched, documented, stress-tested, visually materialized, planned, and only then coded.
 
 ---
 
-## Overview
+## How this wizard is numbered
 
-The wizard moves through these stages:
+The wizard has **5 phases**. Each phase contains numbered stages written as `phase.stage` (for example `3.2`).
 
-1. Repository comprehension
-1.5. **Detach from OS-origin (Stage 0.5)** — disconnect new project from the AI Dev OS repo before any commit. Educational + executable.
-2. Friendly opening and user introduction
-3. Raw ideation
-4. Ideation expansion and ten strategic questions
-5. Research plan approval
-6. Wave 1 — market and competitor research
-7. Wave 2 — red team critique
-8. Wave 3 — consolidation and BP writing
-9. Business Plan v0.0.1 delivery
-10. Human review instructions
-11. Business Plan v0.0.2 revision
-12. Product Brief derivation
-13. Technical Plan derivation
-14. **External repo registry pick (Stage 11.5)** — recommend packs from `docs/registry/`
-15. Sprint roadmap planning
-16. Prototype Lab planning
-17. Sprint 0 and first coding sprint preparation
+Phases are the primary handle. When someone says "we're in Phase 3", that is enough to locate the work. Stage numbers exist only to order the steps inside a phase.
+
+**Why phases and not one long list of stages:** inserting a step used to force a fractional stage (`0.5`, `11.5`) or renumber everything downstream. With phases, a new step only renumbers inside its own phase, and the five phase names never move.
+
+### Phase map
+
+| Phase | Name | Produces | Commit tag |
+|---|---|---|---|
+| **1** | Largada | A repo that is yours, detached and safe to commit to | `[STAGE:LARGADA]` |
+| **2** | Ideação | The thinking: research, red team, Business Plan v0.0.2 | `[STAGE:IDEACAO]` |
+| **3** | Protótipo | The product made visible: brand, color, UI, UX | `[STAGE:PROTOTIPO]` |
+| **4** | Documentação | Reverse engineering: Product Brief, Technical Plan, roadmap | `[STAGE:DOCUMENTACAO]` |
+| **5** | Chegada | Sprint 0 / Sprint 1 — real code | `[STAGE:CHEGADA]` |
+
+The five phases map 1:1 onto the commit-tag convention in [`.claude/rules/wizard-stage-tags.md`](.claude/rules/wizard-stage-tags.md). A commit tagged `[STAGE:PROTOTIPO]` *is* a Phase 3 commit. No translation table.
+
+### Why Phase 3 comes before Phase 4
+
+Earlier versions of this wizard put the Prototype Lab after the Product Brief, the Technical Plan, and the sprint roadmap. That order asks the founder to specify a product they have not yet seen.
+
+The current order inverts it deliberately:
+
+- **Phase 3 materializes the product.** Three visual directions, built from the Business Plan and the research. This is where brand, color, typography, layout, and the actual user flows get decided — by looking at them, not by describing them.
+- **Phase 4 reverse-engineers the documentation from the approved prototype.** The Product Brief describes screens that exist. The Technical Plan specifies a system whose surface is already known.
+
+A Technical Plan written against a prototype you can click is more honest than one written against a paragraph.
+
+**Consequence for Phase 3:** the prototype cannot depend on the Product Brief, because it does not exist yet. Its inputs are BP v0.0.2 (which already carries personas, positioning, and MVP scope per Stage 2.8), the research in `knowledge-base/`, and the ten strategic questions.
 
 ---
 
-## Stage 0 — Repository comprehension
+# PHASE 1 — LARGADA
 
-Claude must first read `START-HERE.md`, `README.md`, `CLAUDE.md`, this file, `.claude/`, and the wizard docs.
+**Goal:** the user has a repository that belongs to them and is safe to commit to.
+**Commit tag:** `[STAGE:LARGADA]`
+
+---
+
+## 1.1 — Repository comprehension
+
+Claude must first read `START-HERE.md`, `README.md`, `CLAUDE.md`, this file, `.claude/`, and the wizard docs in `docs/wizard/`.
 
 Claude must confirm it understood the operating system and must not start coding.
 
 ---
 
-## Stage 0.5 — Detach from OS-origin (educate-and-execute)
+## 1.2 — Detach from OS-origin (educate-and-execute)
 
 **This stage is mandatory for derived projects and skipped automatically when running inside the AI Dev OS repo itself.**
 
@@ -95,12 +112,12 @@ This stage is the first time a non-developer user learns about Git, remotes, and
 ### Required output
 
 - `origin` no longer points to the OS repo (or `.git/` was re-initialized).
-- User has a target repo URL of their own (or has explicitly chosen to defer Git/GitHub setup, in which case Stage 0.5 records the deferral and the wizard continues with a warning that no commit should happen until detach is complete).
+- User has a target repo URL of their own (or has explicitly chosen to defer Git/GitHub setup, in which case this stage records the deferral and the wizard continues with a warning that no commit should happen until detach is complete).
 - `session-log/` records the detach decision and the reasoning.
 
 ---
 
-## Stage 1 — Friendly opening
+## 1.3 — Friendly opening
 
 Claude should greet the user and explain the wizard simply.
 
@@ -114,7 +131,14 @@ Pode explicar livremente: nome do projeto, ideia central, produto ou serviço, c
 
 ---
 
-## Stage 2 — Raw ideation capture
+# PHASE 2 — IDEAÇÃO
+
+**Goal:** a researched, stress-tested Business Plan the founder actually believes in.
+**Commit tag:** `[STAGE:IDEACAO]`
+
+---
+
+## 2.1 — Raw ideation capture
 
 Capture project name, category, core idea, problem, personas, revenue model hypothesis, product/service nature, operational model, references, constraints, founder assumptions, unknowns, and gaps.
 
@@ -122,7 +146,7 @@ Do not overcorrect yet.
 
 ---
 
-## Stage 3 — Ideation expansion and ten strategic questions
+## 2.2 — Ideation expansion and ten strategic questions
 
 Claude must respond with:
 
@@ -139,7 +163,7 @@ Claude must stop after asking the ten questions and wait for the user's answers.
 
 ---
 
-## Stage 4 — Research plan approval
+## 2.3 — Research plan approval
 
 After the user answers the ten questions, Claude must present a research and agent execution plan and ask for approval.
 
@@ -184,7 +208,7 @@ Claude must wait for explicit user approval.
 
 ---
 
-## Stage 5 — Execute Wave 1
+## 2.4 — Execute Wave 1 (market and competitors)
 
 When approved, execute research.
 
@@ -203,7 +227,7 @@ Each research file must distinguish source-backed facts, inferences, assumptions
 
 ---
 
-## Stage 6 — Execute Wave 2 Red Team
+## 2.5 — Execute Wave 2 (red team)
 
 Required outputs:
 
@@ -217,7 +241,7 @@ Each red team report must include risks, contradictions, weak assumptions, failu
 
 ---
 
-## Stage 7 — Execute Wave 3 Consolidation and BP writing
+## 2.6 — Execute Wave 3 (consolidation and BP v0.0.1)
 
 Required outputs:
 
@@ -232,7 +256,7 @@ After creating BP v0.0.1, update `CHANGELOG.md`, `session-log/INDEX.md`, and a d
 
 ---
 
-## Stage 8 — Human BP review task
+## 2.7 — Human BP review task
 
 Claude must instruct the user:
 
@@ -247,7 +271,7 @@ Claude must stop and wait.
 
 ---
 
-## Stage 9 — BP v0.0.2 impact-aware revision
+## 2.8 — BP v0.0.2 impact-aware revision
 
 When the user returns corrections, Claude must perform two waves:
 
@@ -262,7 +286,7 @@ Examples:
 - Persona changed → update copy, GTM, competitors, UX, MVP scope.
 - Stack changed → update technical plan, costs, sprint roadmap, risks.
 - Revenue model changed → update pricing, financials, GTM, metrics.
-- MVP scope changed → update roadmap, sprint plan, prototype lab, DoD.
+- MVP scope changed → update roadmap, sprint plan, prototype direction, DoD.
 - Compliance requirement changed → update security/privacy, legal risk, architecture, sprint gates.
 
 Required outputs:
@@ -275,81 +299,41 @@ docs/business/BUSINESS-PLAN.md
 
 BP version becomes `v0.0.2`.
 
+**BP v0.0.2 is the contract that Phase 3 builds against.** Before leaving this phase, confirm the BP explicitly states: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on — these four items are its only specification.
+
 ---
 
-## Stage 10 — Product Brief
+# PHASE 3 — PROTÓTIPO
 
-After BP v0.0.2, Claude must create:
+**Goal:** the product becomes visible. Brand, color, typography, UI, and UX are decided by looking at three real options, not by describing them.
+**Commit tag:** `[STAGE:PROTOTIPO]`
+
+**Inputs:** BP v0.0.2, `knowledge-base/` research, the ten strategic questions.
+**Not an input:** the Product Brief — it does not exist yet, and Phase 4 derives it from what this phase produces.
+
+---
+
+## 3.1 — Design pack pick
+
+Before prototyping, Claude must recommend which external **design-oriented** packs (from `docs/registry/`) fit this project.
+
+Trigger the `registry-pick` skill (or invoke `/registry-pick`) scoped to design: UI systems, design-token workflows, component libraries, diagramming, screenshot and asset tooling.
+
+Required output:
 
 ```txt
-docs/product/PRODUCT-BRIEF.md
+docs/technical/registry-pick-design.md
 ```
 
-It must include product one-liner, personas, jobs to be done, user flows, MVP, Phase 1, Phase 2, non-goals, activation moment, retention loop, monetization logic, trust/compliance requirements, UX tone, and product risks.
+The skill MUST NOT install anything. It shortlists and surfaces install commands. The user decides.
+
+> The stack-wide registry pick happens later, at Stage 4.3, once the Technical Plan knows the real stack. Splitting the pick in two is deliberate: design packs are useless after the prototype is built, and stack packs are guesswork before the Technical Plan exists.
 
 ---
 
-## Stage 11 — Technical Plan
+## 3.2 — Prototype Lab
 
-Claude must create:
-
-```txt
-docs/technical/TECHNICAL-PLAN.md
-```
-
-It must include recommended stack, rationale, architecture assumptions, data model assumptions, auth model, API conventions, security baseline, privacy/compliance baseline, testing strategy, CI/CD, environment variables, deployment assumptions, risks, and open questions.
-
-No alpha/beta stack should be recommended unless explicitly accepted.
-
----
-
-## Stage 11.5 — External repo registry pick
-
-Before the sprint roadmap, Claude must recommend which external repository packs (from `docs/registry/`) to install for THIS project.
-
-Trigger the `registry-pick` skill (or invoke `/registry-pick`).
-
-The skill reads `docs/registry/INDEX.md` and the relevant `packs/<slug>.md` one-pagers, matches project signals (stack, domain, compliance, UI surface, public/private, team familiarity) against pack fit-signals, and outputs a prioritized recommendation:
-
-- **Must install** — direct fit; project quality suffers without it.
-- **Recommended** — strong fit; install before launch.
-- **Optional** — situational; depends on growth path.
-- **Skipped (and why)** — explicit non-recommendation with reason.
-
-Required outputs:
-
-```txt
-docs/technical/registry-pick.md
-```
-
-The skill MUST NOT install anything. It shortlists and surfaces install commands. The user decides which packs to actually install. After the user decides, document the chosen packs in the technical plan.
-
-If a new pack is added to `docs/registry/` later in the project's life, re-invoke `/registry-pick` to refresh the recommendation.
-
----
-
-## Stage 12 — Sprint roadmap planning
-
-Claude must ask additional questions focused on sprint planning.
-
-The goal is a detailed 14–20 sprint roadmap. Time accuracy matters less than sequencing and clarity.
-
-Required files:
-
-```txt
-docs/SPRINTS.md
-docs/sprints/sprint-00-setup.md
-docs/sprints/sprint--1-prototype-lab.md
-docs/sprints/sprint-01-foundation.md
-```
-
-Each sprint should include objective, DoD, deliverables, agents, skills, security gates, tests, risks, dependencies, expected artifacts, changelog, and session-log requirements.
-
----
-
-## Stage 13 — Prototype Lab
-
-Before building the real app, Claude must plan and generate a prototype lab.
+Claude must plan and generate a prototype lab with three distinct visual directions.
 
 Required folder:
 
@@ -369,17 +353,137 @@ prototype-lab/
 
 Rules:
 
-- Use plain HTML/CSS/JS unless user asks otherwise.
+- Use plain HTML/CSS/JS unless the user asks otherwise.
 - Prototypes are disposable and isolated from the real app.
-- All three prototypes must use the same mock data and same core flows.
-- Each prototype must have a distinct UI/UX direction.
-- Directions must fit the BP, personas, product brief, and market.
+- All three prototypes must use the same mock data and the same core flows.
+- Each prototype must have a distinct UI/UX direction — not three shades of the same idea.
+- Directions must fit the BP v0.0.2 personas, positioning, MVP scope, and the market research.
+- Each direction must carry an explicit brand hypothesis: color palette, typography, density, tone, and what kind of company it makes the product look like.
+
+`prototype-lab/README.md` must state, per direction: who it is for, what it optimizes for, and what it sacrifices.
 
 ---
 
-## Stage 14 — Start coding only after approval
+## 3.3 — Direction approval and design tokens
 
-Only after the user approves BP v0.0.2, Product Brief, Technical Plan, sprint roadmap, and prototype direction may Claude begin Sprint 0 / Sprint 1 implementation.
+The user picks one direction (or an explicit combination of directions).
+
+Claude must then extract the decisions from the chosen prototype into a document that Phase 4 can consume:
+
+```txt
+docs/product/DESIGN-DIRECTION.md
+```
+
+It must record: chosen direction and why, color tokens, typography scale, spacing and density rules, component inventory observed in the prototype, the screens that exist, the primary user flow as actually clicked, and what was explicitly rejected from the other two directions.
+
+**This document is the bridge between Phase 3 and Phase 4.** Without it, the reverse engineering in Phase 4 has nothing concrete to read.
+
+Claude must stop and wait for explicit approval of the direction before entering Phase 4.
+
+---
+
+# PHASE 4 — DOCUMENTAÇÃO
+
+**Goal:** reverse-engineer the formal documentation from the approved prototype, then plan the execution.
+**Commit tag:** `[STAGE:DOCUMENTACAO]`
+
+**Method:** this phase does not invent the product. It reads `docs/product/DESIGN-DIRECTION.md` and `prototype-lab/<chosen>/`, and writes down what is already there — plus everything the prototype implies but does not show.
+
+---
+
+## 4.1 — Product Brief
+
+Claude must create:
+
+```txt
+docs/product/PRODUCT-BRIEF.md
+```
+
+It must include product one-liner, personas, jobs to be done, user flows, MVP, Phase 1, Phase 2, non-goals, activation moment, retention loop, monetization logic, trust/compliance requirements, UX tone, and product risks.
+
+**Reverse-engineering requirements specific to this order:**
+
+- Every screen in the approved prototype must appear in the Product Brief, or be explicitly marked as cut.
+- The user flow section must match the flow that was actually clickable in the prototype.
+- The UX tone section must be derived from `DESIGN-DIRECTION.md`, not invented.
+- Anything the prototype implied but never showed (empty states, errors, permissions, offline, edge cases) must be listed as a gap, not silently filled in.
+
+The last item is the point of the reordering: a prototype makes gaps visible that a written spec hides.
+
+---
+
+## 4.2 — Technical Plan
+
+Claude must create:
+
+```txt
+docs/technical/TECHNICAL-PLAN.md
+```
+
+It must include recommended stack, rationale, architecture assumptions, data model assumptions, auth model, API conventions, security baseline, privacy/compliance baseline, testing strategy, CI/CD, environment variables, deployment assumptions, risks, and open questions.
+
+The data model must be derived from the entities visible in the prototype's mock data (`prototype-lab/shared/mock-data.js`), not designed in the abstract.
+
+No alpha/beta stack should be recommended unless explicitly accepted.
+
+---
+
+## 4.3 — Stack pack pick
+
+Now that the stack is known, run the second registry pass — this time across the whole catalog.
+
+Trigger the `registry-pick` skill (or invoke `/registry-pick`).
+
+The skill reads `docs/registry/INDEX.md` and the relevant `packs/<slug>.md` one-pagers, matches project signals (stack, domain, compliance, UI surface, public/private, team familiarity) against pack fit-signals, and outputs a prioritized recommendation:
+
+- **Must install** — direct fit; project quality suffers without it.
+- **Recommended** — strong fit; install before launch.
+- **Optional** — situational; depends on growth path.
+- **Skipped (and why)** — explicit non-recommendation with reason.
+
+Required output:
+
+```txt
+docs/technical/registry-pick.md
+```
+
+The skill MUST NOT install anything. It shortlists and surfaces install commands. The user decides which packs to actually install. After the user decides, document the chosen packs in the technical plan.
+
+If a new pack is added to `docs/registry/` later in the project's life, re-invoke `/registry-pick` to refresh the recommendation.
+
+---
+
+## 4.4 — Sprint roadmap planning
+
+Claude must ask additional questions focused on sprint planning.
+
+The goal is a detailed 14–20 sprint roadmap. Time accuracy matters less than sequencing and clarity.
+
+Required files:
+
+```txt
+docs/SPRINTS.md
+docs/sprints/sprint-00-setup.md
+docs/sprints/sprint--1-design-system.md
+docs/sprints/sprint-01-foundation.md
+```
+
+Each sprint should include objective, DoD, deliverables, agents, skills, security gates, tests, risks, dependencies, expected artifacts, changelog, and session-log requirements.
+
+**Note on Sprint -1.** In earlier versions this sprint built the prototype. The prototype now exists before the roadmap is written, so Sprint -1 changed job: it consolidates the approved prototype and `DESIGN-DIRECTION.md` into a real design system (tokens, components, layout primitives) that Sprint 1 can build on.
+
+---
+
+# PHASE 5 — CHEGADA
+
+**Goal:** real code, in the real app.
+**Commit tag:** `[STAGE:CHEGADA]`
+
+---
+
+## 5.1 — Start coding only after approval
+
+Only after the user approves BP v0.0.2, the prototype direction, the Product Brief, the Technical Plan, and the sprint roadmap may Claude begin Sprint 0 / Sprint 1 implementation.
 
 The first coding sprint must follow `.claude/rules/`.
 

@@ -1,6 +1,6 @@
 ---
 name: registry-pick
-description: Recommend external repo packs from docs/registry/ that fit a project's stack, domain, and constraints. Use during /project-start (after the Technical Plan), when the user asks "que repos eu deveria usar?", or whenever a new need (security review, design system, deploy guidance) appears mid-build.
+description: Recommend external repo packs from docs/registry/ that fit a project's stack, domain, and constraints. Runs twice in the WIZARD — a design-scoped pass at stage 3.1 (before the Prototype Lab) and a full stack pass at stage 4.3 (after the Technical Plan). Also use when the user asks "que repos eu deveria usar?", or whenever a new need (security review, design system, deploy guidance) appears mid-build.
 ---
 
 # Registry Pick
@@ -13,7 +13,19 @@ This skill does NOT install anything. It shortlists what is worth installing for
 
 ## When to invoke
 
-- During WIZARD Stage 11.5 (after Technical Plan, before Sprint roadmap).
+The wizard invokes this skill **twice**, in two differently-scoped passes:
+
+| Pass | WIZARD stage | Scope | Output |
+|---|---|---|---|
+| **Design** | 3.1 — before the Prototype Lab | Only design-oriented packs: UI systems, design tokens, component libraries, diagramming, screenshot/asset tooling | `docs/technical/registry-pick-design.md` |
+| **Stack** | 4.3 — after the Technical Plan | The whole catalog | `docs/technical/registry-pick.md` |
+
+The split is deliberate: design packs are worthless once the prototype is already built, and stack packs are guesswork before the Technical Plan exists.
+
+**Signals available differ between passes.** In the design pass there is no Product Brief, no Technical Plan, and no `prototype-lab/` yet — read `BP v0.0.2` and `knowledge-base/` instead, and do not ask for artifacts that Phase 3 has not produced.
+
+Also invoke:
+
 - When the user asks "que repos eu uso aqui?", "tem algum pack pra X?", "que skill externa ajuda nisso?".
 - When a new domain need surfaces mid-build (compliance, design system, malware analysis, web3 integration).
 - After adding a new pack to the registry, to retest the recommendation for the current project.
@@ -27,9 +39,9 @@ Before recommending, gather these from the project:
 | Signal | Source | Example |
 |--------|--------|---------|
 | Stack | `package.json`, `Anchor.toml`, `requirements.txt`, `Gemfile`, `Cargo.toml` | `@solana/web3.js` → web3/Solana |
-| Domain | `docs/business/BUSINESS-PLAN.md`, `docs/product/PRODUCT-BRIEF.md` | "PHI" → healthcare, "pagamentos" → fintech |
-| Compliance | `docs/technical/TECHNICAL-PLAN.md` security/privacy section | LGPD, GDPR, HIPAA, PCI |
-| UI surface | Product Brief, prototype-lab presence | mobile, dashboard, B2C web |
+| Domain | `docs/business/BUSINESS-PLAN.md`, `docs/product/PRODUCT-BRIEF.md` *(stack pass only)* | "PHI" → healthcare, "pagamentos" → fintech |
+| Compliance | `docs/technical/TECHNICAL-PLAN.md` security/privacy section *(stack pass only)*; BP v0.0.2 risk section in the design pass | LGPD, GDPR, HIPAA, PCI |
+| UI surface | BP v0.0.2 personas and positioning in the design pass; Product Brief + `prototype-lab/` in the stack pass | mobile, dashboard, B2C web |
 | Public/private | repo metadata, deploy intent | public GitHub → enables `gitleaks` |
 | Team familiarity | user statement | "primeira vez com Claude Code" → start with `#foundations` only |
 
@@ -98,6 +110,7 @@ Project signals detected:
 - **Never recommend `archived` packs.**
 - **Flag missing license info.** If a pack has `License: check upstream`, surface that as an open question.
 - **Re-run after changes.** If the Technical Plan or Product Brief changes, re-invoke the skill.
+- **Respect the pass scope.** In the design pass (stage 3.1), recommend only design-oriented packs and do not ask for the Product Brief, the Technical Plan, or the prototype — none of them exist yet.
 
 ---
 

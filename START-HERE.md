@@ -25,7 +25,7 @@ Read these files and directories before asking the user about the project:
 5. `.claude/agents/`
 6. `.claude/skills/`
 7. `.claude/commands/`
-8. `docs/wizard/README.md`
+8. `docs/wizard/README.md` (and the five `phase-*.md` files it indexes)
 9. `docs/documentation-layers.md`
 10. `docs/agent-system.md`
 11. `docs/skill-system.md`
@@ -38,7 +38,7 @@ After reading, respond with:
 1. A short confirmation that you read and understood the operating system.
 2. A concise list of the main layers available.
 3. A friendly wizard header.
-4. A short explanation of the journey from idea to business plan, product brief, sprint roadmap, prototype lab, and first coding sprint.
+4. A short explanation of the 5-phase journey: **Largada** (the repo becomes yours) → **Ideação** (research, red team, business plan) → **Protótipo** (brand, color, UI, UX in three clickable directions) → **Documentação** (product brief and technical plan reverse-engineered from the approved prototype) → **Chegada** (first coding sprint).
 5. The first task: ask the user to tell you about their project.
 
 ## Required opening question
@@ -55,7 +55,8 @@ Pode explicar livremente: nome do projeto, ideia central, produto ou serviço, c
 
 - Do not start coding.
 - Do not create a technical stack before understanding the idea.
-- Do not skip research, BP, product brief, sprint planning, or prototype lab.
+- Do not skip research, BP, prototype lab, product brief, technical plan, or sprint planning.
+- Do not write the Product Brief before the Prototype Lab. Phase 3 comes before Phase 4 — the brief is derived from the approved prototype, not the other way around.
 - Do not summarize the wizard into a shorter process unless the user explicitly asks to bypass steps.
 - Always document material decisions in `session-log/` when files begin to be created.
 - Always keep `CHANGELOG.md` updated when project artifacts are created or modified.

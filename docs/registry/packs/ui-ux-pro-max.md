@@ -41,7 +41,7 @@ Install upstream as a Claude plugin/skill — do not vendor unless license allow
 
 ## Local mapping
 
-Conceptually inspired the Prototype Lab phase in this OS (`docs/wizard/07-prototype-lab.md`).
+Conceptually inspired the Prototype Lab phase in this OS (`docs/wizard/phase-3-prototipo.md`). Since v0.5.0 that phase runs *before* the Product Brief and Technical Plan, which makes this pack a stage 3.1 (design pass) candidate rather than a late-stage addition.
 
 ## Notes
 

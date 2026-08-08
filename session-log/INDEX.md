@@ -6,6 +6,7 @@ Each entry captures the reasoning behind a material decision: what was true befo
 
 | Date | Topic | File |
 |---|---|---|
+| 2026-08-08 | v0.5.0 PR 1 — WIZARD restructured into 5 phases (1:1 with commit tags), Prototype Lab moved before Product Brief/Technical Plan, fractional stages eliminated, `registry-pick` split into design + stack passes | [`2026-08-08-v0.5.0-wizard-5-phases.md`](2026-08-08-v0.5.0-wizard-5-phases.md) |
 | 2026-05-09 | Registry additions — 14 new packs cataloged, 3 refreshed (Phase 2 cadence) | [`2026-05-09-registry-additions.md`](2026-05-09-registry-additions.md) |
 | 2026-05-04 | v0.4.5 course vertical — workshop em 3 aulas (Experience Learning Perestroika) + 2 sistemas planejados + easter egg `[STAGE:X]` | [`2026-05-04-v0.4.5-course-vertical.md`](2026-05-04-v0.4.5-course-vertical.md) |
 | 2026-05-04 | v0.4.4 repo hardening — branch protection, GitHub Template, WIZARD Stage 0.5 (detach from OS-origin), CONTRIBUTING flow | [`2026-05-04-v0.4.4-repo-hardening.md`](2026-05-04-v0.4.4-repo-hardening.md) |
