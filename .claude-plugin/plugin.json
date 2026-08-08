@@ -1,0 +1,24 @@
+{
+  "name": "ai-dev-operating-system",
+  "version": "0.5.2",
+  "description": "Day-zero operating system for AI-assisted SaaS development. A 5-phase Project Genesis Wizard that prototypes before it specifies, 27 skills, 12 agents, 11 commands, a curated registry of 72 external packs, a 1.346-project self-hosted catalogue, and PreToolUse hooks that block secret commits mechanically rather than by asking nicely.",
+  "author": {
+    "name": "Lucas Galvão",
+    "url": "https://github.com/lglucas"
+  },
+  "homepage": "https://github.com/lglucas/ai-dev-operating-system",
+  "repository": "https://github.com/lglucas/ai-dev-operating-system",
+  "license": "MIT",
+  "keywords": [
+    "saas",
+    "wizard",
+    "vibe-coding",
+    "product-discovery",
+    "business-plan",
+    "prototyping",
+    "sprint-planning",
+    "secrets",
+    "self-hosted",
+    "portuguese"
+  ]
+}
