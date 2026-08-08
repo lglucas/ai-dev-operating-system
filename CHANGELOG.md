@@ -15,6 +15,66 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 > - [x] **PR 3** — Skill frontmatter fix + audit
 > - [x] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
 > - [x] **PR 5** — researched equivalents for the gap categories
+> - [x] **PR 6 (v0.5.2)** — the kernel: hooks, frontmatter, self-test in CI, plugin manifest, rule rebalance, tests
+
+---
+
+## v0.5.2 — o kernel
+
+Até aqui o OS era **100% persuasão**: regras que o modelo lê, skills que ele invoca, um wizard que ele segue. O `settings.json` versionado tinha três linhas e nenhum hook. A golden rule nº 1 é "nunca commite segredos" e nada impedia isso mecanicamente.
+
+### Added — hooks PreToolUse (enforcement de verdade)
+
+| Hook | Dispara em | Bloqueia |
+|---|---|---|
+| `block-secret-commit.js` | `Bash` → `git commit` | diff que adiciona algo com formato de credencial, ou `.env`/`.pem`/`.key` staged |
+| `protect-env-files.js` | `Write`, `Edit`, `MultiEdit`, `NotebookEdit` | escrita em `.env` real (`.env.example` liberado) |
+
+**Os padrões exigem formato completo, não prefixo.** `.claude/rules/secrets.md` cita `sk-` e `AKIA` como texto literal; casar por prefixo bloquearia commitar a própria regra que os define. Agora é `sk-` + 20 caracteres, `AKIA` + exatamente 16, `ghp_` + exatamente 36.
+
+Três decisões que não são óbvias: **o hook nunca imprime o valor casado** (um alerta que ecoa a credencial a espalha); **só linhas adicionadas disparam** (remover chave vazada precisa continuar possível); e **ambos falham abertos** em payload malformado, porque hook que trava a sessão por engano faz o usuário desligar tudo.
+
+Escape hatch por execução: `AIOS_ALLOW_SECRET_COMMIT=1`, `AIOS_ALLOW_ENV_WRITE=1`.
+
+`.claude/hooks/README.md` documenta também **o que deliberadamente não virou hook** — forçar ordem do wizard, exigir changelog, bloquear push. Regra de bolso: hook para o que é irreversível.
+
+### Fixed — frontmatter em comandos e agentes
+
+Mesmo defeito do PR 3, uma camada abaixo:
+
+| | Antes | Depois |
+|---|---|---|
+| Comandos com frontmatter | 0/11 | **11/11** |
+| Agentes com frase-gatilho | 2/12 | **12/12** |
+
+Os dois agentes que já tinham gatilho nasceram no pack v0.3.0 — a mesma fratura geracional das skills. `legal-compliance-agent` é acionado por dez arquivos vivos e tinha zero.
+
+### Changed — `os-self-test` virou script e roda no CI
+
+Era skill; dependia de alguém lembrar. Três session-logs registram ela **não sendo executada** quando teria ajudado.
+
+`scripts/os-self-test.js` verifica estrutura canônica, frontmatter, links relativos, integridade do registry nos dois sentidos, indexação do session-log, wiring dos hooks, gitignore e artefatos de projeto — com modo repo-do-OS vs. projeto derivado detectado pelo `.aios-self`. Novo job no CI. **67 verificações, zero erro.**
+
+### Added — manifesto de plugin
+
+`.claude-plugin/plugin.json`. Antes o OS só se distribuía por clone ou "Use this template", sem instalação versionada nem marketplace.
+
+### Changed — orçamento de contexto das regras reequilibrado
+
+Tudo em `.claude/rules/` entra em todo prompt. `security-baseline` tinha **3 linhas**; `wizard-stage-tags`, **60** — 25% do orçamento para uma convenção opt-in.
+
+Agora: `security-baseline` 42 linhas de procedimento acionável (incluindo testar com dois usuários para pegar IDOR, e rotacionar **antes** de investigar quando algo vaza), `wizard-stage-tags` 19 de ponteiro. Total 236 → 234: o ponto não era cortar, era gastar onde importa.
+
+### Added — 75 testes, que acharam 2 bypass reais
+
+`node:test`, zero dependências. E encontraram duas formas de contornar o hook de segredo:
+
+1. **`git -C /tmp commit`** não era reconhecido — o regex só tratava flags sem valor.
+2. **`git add . && git commit`** também passava — eu retornava no primeiro segmento do shell.
+
+`isGitCommit` virou tokenização em vez de regex. Um hook de segurança revisado e testado à mão ainda tinha dois furos que só apareceram quando um teste tentou quinze formas de escrever o comando.
+
+`sync-selfhosted.js` ganhou guarda `require.main` — sem ela, importá-lo num teste dispararia um `git clone`.
 
 ### Added — `docs/selfhosted/gaps.md`, closing what the mirror cannot
 
