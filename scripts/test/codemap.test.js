@@ -39,6 +39,16 @@ suite('describe: extrai o cabeçalho Purpose que a code-style exige', () => {
     assert.equal(r.missingHeader, false);
   });
 
+  test('Purpose quebrado em duas linhas também em comentário de hash', () => {
+    // Regressão: o teste de indentação removia só `*`, então o `#` da segunda linha
+    // impedia o match e a continuação era descartada em Python e shell.
+    const f = `# Purpose: keeps the retry queue drained\n#          even when the broker is flapping.\n# Version: v1.0.0\n`;
+    const r = describe(f);
+    assert.ok(r.text.includes('retry queue drained'), r.text);
+    assert.ok(r.text.includes('broker is flapping'), 'a continuação com # precisa entrar');
+    assert.equal(r.missingHeader, false);
+  });
+
   test('para na chave seguinte, não engole Version', () => {
     const r = describe(`/**\n * Purpose: does one thing.\n * Version: v9.9.9\n * Sprint: 42\n */\n`);
     assert.equal(r.text, 'does one thing');
@@ -104,6 +114,40 @@ suite('descoberta de arquivos', () => {
     for (const p of ['node_modules/x/i.js', 'dist/a.js', 'build/b.js', '.next/c.js', 'src/vendor/d.js', 'coverage/e.js']) {
       assert.ok(SKIP_DIR.test(p), `${p} deveria ser pulado`);
     }
+  });
+
+  test('symlink rastreado não é seguido para fora do repo', () => {
+    // collect() lê de ROOT, fixado na carga do módulo, então este caso só dá para
+    // exercitar rodando o script inteiro num repo temporário.
+    const fs = require('fs');
+    const os = require('os');
+    const path = require('path');
+    const { execFileSync } = require('child_process');
+
+    const base = fs.mkdtempSync(path.join(os.tmpdir(), 'codemap-symlink-'));
+    const outside = path.join(base, 'fora.js');
+    const repo = path.join(base, 'repo');
+    fs.mkdirSync(repo);
+    fs.writeFileSync(outside, '// Purpose: CONTEUDO-DE-FORA-DO-REPO\n');
+    fs.writeFileSync(path.join(repo, 'real.js'), '// Purpose: fica no mapa\n');
+
+    try {
+      fs.symlinkSync(outside, path.join(repo, 'link.js'));
+    } catch {
+      return; // Windows sem privilégio de symlink — nada a verificar aqui.
+    }
+
+    const git = (...a) => execFileSync('git', a, { cwd: repo, stdio: 'pipe' });
+    git('init', '-q');
+    git('config', 'user.email', 'test@example.com');
+    git('config', 'user.name', 'test');
+    git('add', '-A');
+
+    execFileSync(process.execPath, [path.join(__dirname, '..', 'codemap.js')], { cwd: repo, stdio: 'pipe' });
+    const map = fs.readFileSync(path.join(repo, 'CODEMAP.md'), 'utf8');
+
+    assert.ok(map.includes('real.js'), 'o arquivo real precisa estar no mapa');
+    assert.ok(!map.includes('CONTEUDO-DE-FORA-DO-REPO'), 'o conteúdo apontado pelo symlink vazou para o mapa');
   });
 
   test('caminhos legítimos não são confundidos com gerados', () => {

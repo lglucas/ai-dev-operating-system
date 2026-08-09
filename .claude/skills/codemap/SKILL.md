@@ -1,6 +1,6 @@
 ---
 name: codemap
-description: Mantém o CODEMAP.md — o índice de todo arquivo de código do projeto com uma linha sobre o núcleo de cada um, para achar arquivo sem ler o repositório inteiro. Regenere ao criar, remover ou renomear arquivo de código, ao fechar sprint e antes de release. Use quando o usuário disser "onde fica o arquivo de X?", "que arquivos mexem com Y?", "atualiza o mapa", "cadê o código que faz isso?" — ou quando você mesmo estiver prestes a varrer o repo procurando alguma coisa.
+description: Mantém o CODEMAP.md — o índice de todo arquivo de código do projeto com uma linha sobre o núcleo de cada um, para achar arquivo sem ler o repositório inteiro. Regenere sempre que a lista, a descrição ou a contagem de linhas mudar — na prática, junto com qualquer edição de código —, ao fechar sprint e antes de release. Use quando o usuário disser "onde fica o arquivo de X?", "que arquivos mexem com Y?", "atualiza o mapa", "cadê o código que faz isso?" — ou quando você mesmo estiver prestes a varrer o repo procurando alguma coisa.
 ---
 
 # Codemap
@@ -9,7 +9,9 @@ description: Mantém o CODEMAP.md — o índice de todo arquivo de código do pr
 
 Se você está prestes a varrer o projeto atrás de um arquivo — **pare e leia o `CODEMAP.md` primeiro**. É uma leitura contra dezenas. É literalmente para isso que ele existe.
 
-Se o mapa não responde, aí sim procure. E quando achar, considere se a descrição daquele arquivo estava ruim: o conserto é melhorar o cabeçalho `Purpose:` dele.
+**Se o arquivo não existir**, verifique o marcador `.aios-self` antes de estranhar: dentro do repositório do próprio AI Dev OS não há mapa por design (veja [Escopo](#escopo)), e nesse caso procurar direto é o certo. Em projeto derivado, mapa ausente significa que ninguém rodou o gerador ainda — rode.
+
+Se o mapa existe mas não responde, aí sim procure. E quando achar, considere se a descrição daquele arquivo estava ruim: o conserto é melhorar o cabeçalho `Purpose:` dele.
 
 ## Regenerar
 
@@ -29,12 +31,16 @@ node scripts/codemap.js --check
 
 | Momento | Por quê |
 |---|---|
-| Criou, removeu ou renomeou arquivo de código | o mapa fica errado na hora |
+| Criou, removeu, renomeou ou moveu arquivo de código | a lista fica errada na hora |
+| Mudou o `Purpose:` de um arquivo | a descrição no mapa fica velha |
+| Mudou o número de linhas de um arquivo | o mapa grava a contagem exata |
 | Ao fechar sprint | `sprint-management` já toca changelog e docs; o mapa vai junto |
 | Antes de release | `release-check` delega para cá |
 | Depois de refatoração que moveu arquivos | é quando o mapa mais diverge |
 
-Não precisa regenerar ao editar o corpo de um arquivo já mapeado — só se o `Purpose:` mudou ou se a contagem de linhas cruzou 200.
+A terceira linha é a que pega desprevenido: como o mapa grava a contagem exata, **editar o corpo de um arquivo já mapeado costuma bastar** para o `--check` acusar divergência. Regenere junto com a mudança e comite os dois — é mais barato que descobrir pelo CI vermelho.
+
+O limite de 200 linhas continua sendo só um **aviso** no mapa, não o gatilho da regeneração. O gatilho é a contagem mudar, qualquer que seja o valor.
 
 ## De onde vem a descrição
 
@@ -50,7 +56,7 @@ Do cabeçalho que a [`code-style`](../../rules/code-style.md) já exige:
 
 Ordem de fallback: `Purpose:` → primeira frase do bloco de comentário → primeiro comentário de linha → **`⚠️ sem cabeçalho`**.
 
-Esse último caso é intencional. Arquivo sem cabeçalho aparece marcado no mapa, então o codemap **fiscaliza a regra de cabeçalho** de quebra. Se a descrição de um arquivo ficou ruim, o defeito está no cabeçalho, não no script.
+Esse último caso é intencional. Arquivo sem cabeçalho aparece marcado no mapa, ou seja, o codemap acaba **fiscalizando a regra de cabeçalho** como efeito colateral. Se a descrição de um arquivo ficou ruim, o defeito está no cabeçalho, não no script.
 
 ## Os dois avisos que o mapa emite
 

@@ -30,7 +30,7 @@ Todo arquivo de código com uma linha sobre seu núcleo, agrupado por diretório
 
 Extraída do cabeçalho `Purpose:` que a `code-style` **já exigia**. Fallback: bloco de comentário → comentário de linha → `⚠️ sem cabeçalho`.
 
-Esse último caso é deliberado: arquivo sem cabeçalho aparece marcado no mapa, então **o codemap fiscaliza a regra de cabeçalho de quebra**. Se uma descrição ficou ruim, o defeito está no cabeçalho — o conserto é lá, não no mapa.
+Esse último caso é deliberado: arquivo sem cabeçalho aparece marcado no mapa, ou seja, **o codemap acaba fiscalizando a regra de cabeçalho** como efeito colateral. Se uma descrição ficou ruim, o defeito está no cabeçalho — o conserto é lá, não no mapa.
 
 O mapa também reporta quem passou de 200 linhas. Nenhum dos dois avisos bloqueia; o que bloqueia é o mapa estar **desatualizado**.
 

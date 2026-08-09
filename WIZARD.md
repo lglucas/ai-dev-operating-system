@@ -619,7 +619,7 @@ Skipping Sprint -1 means Sprint 1 reinvents the design decisions the prototype a
 
 The first coding sprint must follow `.claude/rules/`.
 
-**Sprint 0 also brings `CODEMAP.md` to life.** The first code file that lands makes the placeholder obsolete — run `node scripts/codemap.js` and commit the result. From then on it is regenerated whenever a code file is added, removed or renamed, and CI fails if it drifts. See `.claude/rules/codemap.md`.
+**Sprint 0 also brings `CODEMAP.md` to life.** The first code file that lands makes the placeholder obsolete — run `node scripts/codemap.js` and commit the result. From then on it is regenerated whenever the file list, a `Purpose:` header, or a line count changes — most edits, since the map stores exact counts — and CI fails if it drifts. See `.claude/rules/codemap.md`.
 
 ---
 

@@ -52,7 +52,7 @@ Cascata de fallback, nesta ordem:
 3. Primeiro comentário de linha, ignorando shebang.
 4. `⚠️ sem cabeçalho — adicione purpose/version/sprint`.
 
-O quarto caso é de propósito. Arquivo sem cabeçalho **aparece marcado no mapa**, o que faz o codemap fiscalizar a regra de cabeçalho de quebra — efeito colateral que valeu manter. Se a linha de um arquivo ficou ruim, o defeito está no cabeçalho dele. Conserta lá e regenera; editar o `CODEMAP.md` à mão é retrabalho que a próxima geração apaga.
+O quarto caso é de propósito. Arquivo sem cabeçalho **aparece marcado no mapa**, o que faz o codemap acabar fiscalizando a regra de cabeçalho — efeito colateral que valeu manter. Se a linha de um arquivo ficou ruim, o defeito está no cabeçalho dele. Conserta lá e regenera; editar o `CODEMAP.md` à mão é retrabalho que a próxima geração apaga.
 
 O mapa também reporta quem passou de 200 linhas, encostando na `code-style` pelo outro lado. Nenhum dos dois avisos bloqueia — o que bloqueia é o mapa estar **desatualizado**.
 
@@ -123,4 +123,4 @@ node scripts/codemap.js           # gera ou regenera CODEMAP.md
 node scripts/codemap.js --check   # verifica; é isto que o CI roda
 ```
 
-Regenere ao criar, remover ou renomear arquivo de código. Comite o mapa junto com o código que o produziu.
+Regenere sempre que a lista de arquivos, um cabeçalho `Purpose:` ou uma contagem de linhas mudar. Como o mapa grava a contagem exata, isso na prática significa regenerar junto com quase toda edição — comite o mapa com o código que o produziu.

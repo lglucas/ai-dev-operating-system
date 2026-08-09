@@ -71,7 +71,10 @@ function describe(text) {
     for (let i = pi + 1; i < head.length; i++) {
       const stripped = head[i].replace(/^\s*(?:[*#/;-]+\s*)?/, '');
       if (!stripped.trim() || /^(Version|Sprint|Usage|Contract|Note)\s*:/i.test(stripped)) break;
-      if (/^\s{2,}/.test(head[i].replace(/^\s*\*/, ''))) s += ' ' + stripped.trim();
+      // Indentation marks the continuation, but it sits *after* the comment marker
+      // (`#          more`, ` *          more`). Strip the marker without eating the
+      // spaces that follow it, or hash-comment headers never continue.
+      if (/^\s{2,}/.test(head[i].replace(/^\s*[*#/;-]+/, ''))) s += ' ' + stripped.trim();
       else break;
     }
     return { text: clean(s), missingHeader: false };
@@ -97,7 +100,9 @@ function collect() {
     if (SKIP_DIR.test(rel)) continue;
     if (!CODE_EXT.has(path.extname(rel))) continue;
     const abs = path.join(ROOT, rel);
-    if (!fs.existsSync(abs)) continue;
+    // lstat, not exists: a tracked symlink can point outside the repo, and reading it
+    // would lift that file's first comment line into a committed CODEMAP.md.
+    if (!fs.existsSync(abs) || fs.lstatSync(abs).isSymbolicLink()) continue;
     const content = fs.readFileSync(abs, 'utf8');
     const { text, missingHeader } = describe(content);
     rows.push({ rel, dir: path.dirname(rel), lines: content.split('\n').length, text, missingHeader });

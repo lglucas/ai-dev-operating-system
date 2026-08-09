@@ -31,7 +31,7 @@ Phase 5 is the first phase with code, so it is the first phase with a codemap. T
 node scripts/codemap.js
 ```
 
-Commit the generated map alongside the code that produced it. Regenerate whenever a code file is added, removed or renamed — CI runs `--check` and fails on drift, because a stale map is worse than no map: the agent trusts it, skips reading, and acts on stale information.
+Commit the generated map alongside the code that produced it. Regenerate whenever anything the map records changes: the file list, a `Purpose:` header, or a line count — and since the map stores exact counts, that means most edits. CI runs `--check` and fails on drift, because a stale map is worse than no map: the agent trusts it, skips reading, and acts on stale information.
 
 The map is only as good as the `Purpose:` headers that the `code-style` rule already requires. A file without one shows up flagged — fix the header, not the map.
 

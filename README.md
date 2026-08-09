@@ -229,7 +229,7 @@ always   CHANGELOG.md
          session-log/
 ```
 
-That is the order the wizard produces them in. `CHANGELOG.md` and `session-log/` are maintained throughout every phase, not written at the end. `CODEMAP.md` cannot exist earlier — there is no code to map before Phase 5 — but from then on it is regenerated whenever a code file is added, removed or renamed.
+That is the order the wizard produces them in. `CHANGELOG.md` and `session-log/` are maintained throughout every phase, not written at the end. `CODEMAP.md` cannot exist earlier — there is no code to map before Phase 5 — but from then on it is regenerated whenever the file list, a `Purpose:` header, or a line count changes — which, since the map stores exact counts, is most edits.
 
 ---
 

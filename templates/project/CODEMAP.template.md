@@ -28,7 +28,7 @@ node scripts/codemap.js           # regenera
 node scripts/codemap.js --check   # verifica (o CI roda isto)
 ```
 
-Regenere ao criar, remover ou renomear arquivo de código. O CI falha se divergir.
+Regenere sempre que a lista de arquivos, um cabeçalho `Purpose:` ou uma contagem de linhas mudar. Como o mapa grava a contagem exata, na prática isso quer dizer junto com quase toda edição de código. O CI falha se divergir.
 
 Regra completa em `.claude/rules/codemap.md`.
 
