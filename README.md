@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-ready-7B61FF)](START-HERE.md)
-[![Status](https://img.shields.io/badge/status-v0.4.5%20course--vertical-green)](RELEASE-NOTES-v0.4.5.md)
+[![Status](https://img.shields.io/badge/status-v0.5.2%20kernel-green)](CHANGELOG.md)
 [![Made for SaaS](https://img.shields.io/badge/made%20for-SaaS%20builders-111827)](#what-this-gives-you)
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
@@ -54,6 +54,8 @@ Claude, vamos iniciar um novo projeto. Leia primeiro o arquivo START-HERE.md e s
 
 Claude should read the repo structure, understand the operating system, and start the **Project Genesis Wizard** — including Stage 1.2 (detach from OS-origin) if you used the fallback `git clone` path.
 
+> **Também é um plugin.** Desde a v0.5.2 o repo carrega [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json), então dá para instalá-lo como plugin do Claude Code em vez de clonar — útil quando você quer as skills e os hooks dentro de um projeto que já existe, sem trazer a estrutura de documentos junto.
+
 📘 Need help setting up your IDE, Git, GitHub account, or Claude Code? Start here: [`docs/installation.md`](docs/installation.md).
 
 🤝 Want to contribute back to the OS itself (bug fix, new skill, registry pack)? See [`CONTRIBUTING.md`](CONTRIBUTING.md). The `main` branch is protected — all changes go through PR.
@@ -62,7 +64,7 @@ Claude should read the repo structure, understand the operating system, and star
 
 ## 🧠 What this gives you
 
-- A ready-to-use `.claude/` runtime with agents, skills, commands, rules, and settings.
+- A ready-to-use `.claude/` runtime: **27 skills, 12 agents, 11 commands, 11 rules** — and **hooks that block secret commits mechanically**, not by asking nicely.
 - A single start file: [`START-HERE.md`](START-HERE.md).
 - A guided wizard for ideation, research, business planning, review, sprint planning, prototyping, and first implementation.
 - Agent workflows for market research, competitor analysis, red-team critique, technical/security review, coordination, and investor-ready copywriting.
@@ -70,6 +72,42 @@ Claude should read the repo structure, understand the operating system, and star
 - A disposable `prototype-lab/` for 3 HTML prototype directions — built before the Product Brief and Technical Plan, which are then reverse-engineered from the direction you approve.
 - Security, privacy, changelog, sprint, and coding rules from day zero.
 - Optional stack packs for SaaS, Next.js/Supabase, Solana, marketplace products, and other specialized projects.
+- A **1.346-project self-hosted catalogue**, so "managed or self-hosted?" is a real question with real answers.
+
+---
+
+## 🔑 Hooks — the kernel (v0.5.2)
+
+Everything else in this OS is **instruction**: rules the agent reads, skills it invokes, a wizard it follows. It works because the model cooperates.
+
+Hooks are the one layer that **does not depend on cooperation**.
+
+| Hook | Fires on | Blocks |
+|---|---|---|
+| [`block-secret-commit.js`](.claude/hooks/block-secret-commit.js) | `Bash` → any `git commit` | a diff that adds something credential-shaped, or stages `.env`/`.pem`/`.key` |
+| [`protect-env-files.js`](.claude/hooks/protect-env-files.js) | `Write`, `Edit`, `MultiEdit`, `NotebookEdit` | writing into a real `.env` (`.env.example` allowed) |
+
+Patterns require the **full token shape**, not the prefix — otherwise the hook would block committing `.claude/rules/secrets.md`, the file that documents those prefixes. The hook **never prints the matched value**: an alert that echoes a credential spreads it instead of containing it.
+
+Both fail **open** on a malformed payload, and each has a documented escape hatch. Details and the list of what deliberately did *not* become a hook: [`.claude/hooks/README.md`](.claude/hooks/README.md).
+
+Requires Node. Without it the hooks are skipped and the OS still works — it just loses the kernel.
+
+---
+
+## 🏠 Self-hosted catalogue (v0.5.0)
+
+The Technical Plan (stage 4.2) asks whether you want managed platforms, self-hosted, or hybrid. That question is only honest if there is a concrete answer on the self-hosted side.
+
+| File | What |
+|---|---|
+| [`docs/selfhosted/shortlist-saas.md`](docs/selfhosted/shortlist-saas.md) | **Start here.** ~20 categories a SaaS founder actually replaces, framed as "you pay for X → alternative Y" |
+| [`docs/selfhosted/gaps.md`](docs/selfhosted/gaps.md) | What awesome-selfhosted does **not** cover — auth, uptime, CI/CD, backup, PaaS, VPN, events — researched separately and ranked by GitHub stars |
+| [`docs/selfhosted/INDEX.md`](docs/selfhosted/INDEX.md) | All **1.346 projects**, 12 categories, generated from upstream |
+
+⚠️ The mirrored data is **CC-BY-SA 3.0**, not MIT like the rest of this OS. The carve-out is explained in [`docs/selfhosted/README.md`](docs/selfhosted/README.md).
+
+The catalogue also flags three kinds of licence trap — copyleft, source-available, and **open core**, where SSO and audit logs live in the paid edition.
 
 ---
 
@@ -176,18 +214,21 @@ Me fale sobre teu projeto.
 Behind the scenes, Claude is instructed to create and maintain:
 
 ```txt
-docs/business/BUSINESS-PLAN.md
-prototype-lab/
-docs/product/DESIGN-DIRECTION.md
-docs/product/PRODUCT-BRIEF.md
-docs/technical/TECHNICAL-PLAN.md
-docs/SPRINTS.md
-CHANGELOG.md
-session-log/
-knowledge-base/
+Phase 2  knowledge-base/                          ← Wave 1, before the BP
+         docs/business/BUSINESS-PLAN.md
+         docs/business/PITCH.md
+Phase 3  docs/technical/registry-pick-design.md   ← 3.1, before prototyping
+         prototype-lab/
+         docs/product/DESIGN-DIRECTION.md
+Phase 4  docs/product/PRODUCT-BRIEF.md
+         docs/technical/TECHNICAL-PLAN.md
+         docs/technical/registry-pick.md          ← 4.3, before the roadmap
+         docs/SPRINTS.md
+always   CHANGELOG.md
+         session-log/
 ```
 
-The order above is the order the wizard produces them in.
+That is the order the wizard produces them in. `CHANGELOG.md` and `session-log/` are maintained throughout every phase, not written at the end.
 
 ---
 
@@ -211,19 +252,39 @@ Core roles include:
 
 ## 🛠️ Skills
 
-The `.claude/skills/` layer contains reusable workflows.
+The `.claude/skills/` layer contains **27 reusable workflows**. Full inventory grouped by job: [`docs/skill-system.md`](docs/skill-system.md).
 
-Important skills include:
+One per wizard stage:
 
-- **project-genesis** — drives the full wizard.
-- **sprint-management** — opens/closes sprints and maintains sprint docs.
-- **feature-scaffold** — creates feature structure with rules and headers.
-- **business-plan-impact-review** — checks downstream impact after BP edits.
-- **prototype-lab** — creates three disposable HTML prototype directions.
-- **privacy-audit** — reviews privacy/LGPD-style risks.
-- **secrets-scan** — enforces secret scanning habits.
-- **release-check** — checks readiness before tagging/release.
-- **decision-log** — records why decisions were made.
+| Skill | Stage | Job |
+|---|---|---|
+| `project-genesis` | all | drives the full 5-phase wizard |
+| `research-waves` | 2.4–2.6 | market, competitors, red team, consolidation |
+| `business-plan-impact-review` | 2.8 | downstream impact of every BP change |
+| `pitch` | 2.9 | the pitch, plus the "BP online?" decision |
+| `registry-pick` | 3.1 + 4.3 | external packs — design pass, then stack pass |
+| `prototype-lab` | 3.2 | three visual directions, then design tokens |
+| `product-brief` | 4.1 | reverse-engineers the brief from the prototype |
+| `sprint-roadmap` | 4.4 | the 14–20 sprint roadmap |
+
+Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, `release-check`…), safety (`secrets-discipline`, `secrets-scan`, `privacy-audit`, `multi-ai-review`), money and growth (`cost-watchdog`, `usage-monitor`, `first-100-users`, `grow-sustainably`), and working-with-a-vibe-coder (`daily-standup`, `plain-portuguese-explainer`, `decision-log`, `processize`, `os-self-test`).
+
+**Every skill declares when to reach for it**, in Portuguese, in its frontmatter — a description that only says what a skill *does* never gets invoked. See the [skill audit](docs/skill-audit-2026-08-08.md) for how that was fixed.
+
+---
+
+## ✅ The OS tests itself
+
+```bash
+node scripts/os-self-test.js              # 8 coherence checks
+node --test scripts/test/*.test.js        # 75 unit tests
+```
+
+`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, and gitignore hygiene. It runs in CI on every push.
+
+It used to be a checklist a human had to remember — and three session logs record it going unrun exactly when it would have helped. That is why it is a script now.
+
+The unit tests cover the hooks and the catalogue generator. They earned their keep immediately: they found **two ways to bypass the secret-blocking hook** (`git -C dir commit` and `git add . && git commit`) that manual testing had missed.
 
 ---
 
@@ -234,6 +295,7 @@ Important skills include:
 | `START-HERE.md` | First file Claude reads. |
 | `WIZARD.md` | Full Project Genesis Wizard flow. |
 | `docs/business/BUSINESS-PLAN.md` | Business/investor/hackathon document. |
+| `docs/business/PITCH.md` | The BP in ten sections, plus the record of what may go public. |
 | `docs/product/DESIGN-DIRECTION.md` | The approved prototype direction: tokens, screens, flow. Bridge from Phase 3 to Phase 4. |
 | `docs/product/PRODUCT-BRIEF.md` | Operational product understanding, reverse-engineered from the prototype. |
 | `docs/technical/TECHNICAL-PLAN.md` | Stack, architecture, data, security, test plan. |
@@ -307,14 +369,15 @@ The first-class target is a SaaS project, but the system can be adapted for web3
 
 This repository is not a substitute for professional security review. It provides a baseline for safer AI-assisted development:
 
-- secrets scanning habits;
+- **hooks that mechanically block secret commits and `.env` writes** — the only layer that does not rely on the model cooperating;
+- secrets scanning habits (`secrets-discipline` preventive, `secrets-scan` detective);
 - security review agents;
 - dependency and release checks;
-- privacy audit workflow;
+- privacy audit workflow, extended to cover publishing documents;
 - documentation of security decisions;
 - optional references to security-focused external skills.
 
-See [`SECURITY.md`](SECURITY.md) and [`docs/security-baseline.md`](docs/security-baseline.md).
+See [`SECURITY.md`](SECURITY.md), [`docs/security-baseline.md`](docs/security-baseline.md), and [`.claude/hooks/README.md`](.claude/hooks/README.md).
 
 ---
 

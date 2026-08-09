@@ -1,6 +1,6 @@
 ---
 name: feature-scaffold
-description: Create a feature-based folder structure and initial implementation plan.
+description: Create a feature-based folder structure (components, actions, api, db, hooks, schemas, tests) plus an initial implementation plan, following `.claude/rules/feature-based-architecture.md`. Use when starting a new product feature during a coding sprint, and when the user says "vamos criar a tela de X", "quero adicionar tal funcionalidade", "onde eu coloco esse arquivo?", "como organizo isso?".
 ---
 
 # Feature Scaffold

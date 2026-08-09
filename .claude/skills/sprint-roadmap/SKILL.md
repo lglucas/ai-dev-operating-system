@@ -1,3 +1,8 @@
+---
+name: sprint-roadmap
+description: Create a 14–20 sprint roadmap in docs/SPRINTS.md plus individual sprint files, starting with Sprint -1 (consolidating the approved prototype into a design system). Runs at WIZARD stage 4.4, after BP v0.0.2, the approved prototype direction, the Product Brief, and the Technical Plan all exist. Use when the user asks "qual a ordem das coisas?", "quanto tempo isso leva?", "o que eu faço primeiro?", or runs /sprint-plan.
+---
+
 # Sprint Roadmap Skill
 
 Runs at **Phase 4.4** of `WIZARD.md` — last step before coding.

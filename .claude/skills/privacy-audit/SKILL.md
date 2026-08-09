@@ -1,6 +1,6 @@
 ---
 name: privacy-audit
-description: Review features that touch personal data, sensitive data, auth, logs, exports, or deletion flows.
+description: Review any feature that collects, stores, processes, exports, or displays personal data — answering the nine questions in `.claude/rules/privacy-audit.md` (what data, why, where, who can access, how controlled, retention, logs, deletion/export, policy impact). Mandatory before merging personal-data changes. Triggers on auth, user profiles, exports, analytics, logging, and when the user says "vou guardar o CPF", "preciso pedir o e-mail", "e a LGPD?", "posso salvar isso do usuário?".
 ---
 
 # Privacy Audit

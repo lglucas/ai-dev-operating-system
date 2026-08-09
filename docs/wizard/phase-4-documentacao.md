@@ -38,7 +38,17 @@ Reverse-engineering checks specific to the new order:
 
 `docs/technical/TECHNICAL-PLAN.md` — stack, rationale, architecture assumptions, data model, auth model, API conventions, security baseline, privacy/compliance baseline, testing strategy, CI/CD, environment variables, deployment assumptions, risks, open questions.
 
-The data model is derived from the entities visible in `prototype-lab/shared/mock-data.js`. Mock data written to make three screens look real is a surprisingly honest first schema — it contains exactly the fields the product actually displays, and nothing speculative.
+The data model **starts** from the entities visible in `prototype-lab/shared/mock-data.js`. Mock data written to make three screens look real is an honest first draft — it holds exactly the fields the product displays, and nothing speculative.
+
+**It is a starting point, not the schema.** Mock data shows what the UI renders; it routinely omits what the system needs. Reconcile it against BP v0.0.2, the approved design and the gaps table before calling it a data model:
+
+| Costuma faltar no mock | Por quê |
+|---|---|
+| Identificadores e chaves estrangeiras | a tela mostra nome, não `id` |
+| Dono do registro / tenant | uma tela só renderiza os dados de um usuário |
+| Timestamps, soft delete, versão | invisíveis na interface |
+| Papéis e estados de permissão | o mock assume o caminho feliz |
+| Campos de auditoria | ninguém desenha log |
 
 No alpha/beta stack unless the user explicitly accepts it.
 

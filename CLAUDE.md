@@ -23,16 +23,20 @@ The purpose of this repo is to provide a day-zero operating system for AI-assist
 
 ## Required generated artifacts for a new project
 
+Listed in the order the wizard produces them:
+
 ```txt
-docs/product/PRODUCT-BRIEF.md
-docs/business/BUSINESS-PLAN.md
-docs/technical/TECHNICAL-PLAN.md
-docs/SPRINTS.md
+knowledge-base/README.md                (Phase 2)
+docs/business/BUSINESS-PLAN.md          (Phase 2)
+docs/business/PITCH.md                  (Phase 2)
+prototype-lab/README.md                 (Phase 3)
+docs/product/DESIGN-DIRECTION.md        (Phase 3)
+docs/product/PRODUCT-BRIEF.md           (Phase 4)
+docs/technical/TECHNICAL-PLAN.md        (Phase 4)
+docs/SPRINTS.md                         (Phase 4)
 CHANGELOG.md
 session-log/INDEX.md
 session-log/YYYY-MM-DD-project-genesis.md
-knowledge-base/README.md
-prototype-lab/README.md
 ```
 
 ---
@@ -45,7 +49,7 @@ The canonical wizard is `WIZARD.md`. It runs in **5 phases**:
 |---|---|---|
 | 1 | Largada | detached repo, project intro |
 | 2 | Ideação | research, red team, BP v0.0.2 |
-| 3 | Protótipo | brand, color, UI, UX — three clickable directions |
+| 3 | Protótipo | brand, color, UI, UX — three clickable directions, one approved, and `docs/product/DESIGN-DIRECTION.md` written as the bridge into Phase 4 |
 | 4 | Documentação | Product Brief + Technical Plan reverse-engineered from the prototype, then the roadmap |
 | 5 | Chegada | Sprint 0 / Sprint 1 |
 

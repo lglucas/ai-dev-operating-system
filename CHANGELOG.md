@@ -10,10 +10,217 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 > v0.5.0 is being delivered in four independent PRs. This section accumulates until the last one lands, then gets cut as a release.
 >
-> - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec *(this entry)*
-> - [ ] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
-> - [ ] **PR 3** — Skill frontmatter fix + audit
-> - [ ] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+> - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec
+> - [x] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
+> - [x] **PR 3** — Skill frontmatter fix + audit
+> - [x] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+> - [x] **PR 5** — researched equivalents for the gap categories
+> - [x] **PR 6 (v0.5.2)** — the kernel: hooks, frontmatter, self-test in CI, plugin manifest, rule rebalance, tests
+
+---
+
+## v0.5.2 — o kernel
+
+Até aqui o OS era **100% persuasão**: regras que o modelo lê, skills que ele invoca, um wizard que ele segue. O `settings.json` versionado tinha três linhas e nenhum hook. A golden rule nº 1 é "nunca commite segredos" e nada impedia isso mecanicamente.
+
+### Added — hooks PreToolUse (enforcement de verdade)
+
+| Hook | Dispara em | Bloqueia |
+|---|---|---|
+| `block-secret-commit.js` | `Bash` → `git commit` | diff que adiciona algo com formato de credencial, ou `.env`/`.pem`/`.key` staged |
+| `protect-env-files.js` | `Write`, `Edit`, `MultiEdit`, `NotebookEdit` | escrita em `.env` real (`.env.example` liberado) |
+
+**Os padrões exigem formato completo, não prefixo.** `.claude/rules/secrets.md` cita `sk-` e `AKIA` como texto literal; casar por prefixo bloquearia commitar a própria regra que os define. Agora é `sk-` + 20 caracteres, `AKIA` + exatamente 16, `ghp_` + exatamente 36.
+
+Três decisões que não são óbvias: **o hook nunca imprime o valor casado** (um alerta que ecoa a credencial a espalha); **só linhas adicionadas disparam** (remover chave vazada precisa continuar possível); e **ambos falham abertos** em payload malformado, porque hook que trava a sessão por engano faz o usuário desligar tudo.
+
+Escape hatch por execução: `AIOS_ALLOW_SECRET_COMMIT=1`, `AIOS_ALLOW_ENV_WRITE=1`.
+
+`.claude/hooks/README.md` documenta também **o que deliberadamente não virou hook** — forçar ordem do wizard, exigir changelog, bloquear push. Regra de bolso: hook para o que é irreversível.
+
+### Fixed — frontmatter em comandos e agentes
+
+Mesmo defeito do PR 3, uma camada abaixo:
+
+| | Antes | Depois |
+|---|---|---|
+| Comandos com frontmatter | 0/11 | **11/11** |
+| Agentes com frase-gatilho | 2/12 | **12/12** |
+
+Os dois agentes que já tinham gatilho nasceram no pack v0.3.0 — a mesma fratura geracional das skills. `legal-compliance-agent` é acionado por dez arquivos vivos e tinha zero.
+
+### Changed — `os-self-test` virou script e roda no CI
+
+Era skill; dependia de alguém lembrar. Três session-logs registram ela **não sendo executada** quando teria ajudado.
+
+`scripts/os-self-test.js` verifica estrutura canônica, frontmatter, links relativos, integridade do registry nos dois sentidos, indexação do session-log, wiring dos hooks, gitignore e artefatos de projeto — com modo repo-do-OS vs. projeto derivado detectado pelo `.aios-self`. Novo job no CI. **67 verificações, zero erro.**
+
+### Added — manifesto de plugin
+
+`.claude-plugin/plugin.json`. Antes o OS só se distribuía por clone ou "Use this template", sem instalação versionada nem marketplace.
+
+### Changed — orçamento de contexto das regras reequilibrado
+
+Tudo em `.claude/rules/` entra em todo prompt. `security-baseline` tinha **3 linhas**; `wizard-stage-tags`, **60** — 25% do orçamento para uma convenção opt-in.
+
+Agora: `security-baseline` 42 linhas de procedimento acionável (incluindo testar com dois usuários para pegar IDOR, e rotacionar **antes** de investigar quando algo vaza), `wizard-stage-tags` 19 de ponteiro. Total 236 → 234: o ponto não era cortar, era gastar onde importa.
+
+### Added — 75 testes, que acharam 2 bypass reais
+
+`node:test`, zero dependências. E encontraram duas formas de contornar o hook de segredo:
+
+1. **`git -C /tmp commit`** não era reconhecido — o regex só tratava flags sem valor.
+2. **`git add . && git commit`** também passava — eu retornava no primeiro segmento do shell.
+
+`isGitCommit` virou tokenização em vez de regex. Um hook de segurança revisado e testado à mão ainda tinha dois furos que só apareceram quando um teste tentou quinze formas de escrever o comando.
+
+`sync-selfhosted.js` ganhou guarda `require.main` — sem ela, importá-lo num teste dispararia um `git clone`.
+
+### Added — `docs/selfhosted/gaps.md`, closing what the mirror cannot
+
+PR 4 documented that the awesome-selfhosted mirror covers nothing for auth, uptime, CI/CD, backup, PaaS, static sites or VPN. This closes that with original research: **90+ candidate repositories queried through the GitHub API on 2026-08-08** — stars, licence, last push, archived status. No figure written from memory.
+
+Unlike the rest of `docs/selfhosted/`, this file is **authored, not mirrored** — MIT rather than CC-BY-SA, and never touched by `sync-selfhosted.js`.
+
+Covers auth/SSO, uptime, CI/CD, backup, PaaS, static sites, VPN, BaaS and events, plus observability, error tracking, secrets, object storage, feature flags, search, workflow and LLM infrastructure. Each category ends with a single "if you only want one choice" recommendation — and for CI/CD that recommendation is to stay managed.
+
+### Added — "open core" as a third licence trap
+
+Reading the actual licence file wherever the API returned `NOASSERTION` surfaced a category the previous PR missed. **Thirteen projects open their licence with _"Portions of this software are licensed as follows"_** — authentik, SuperTokens, Dokploy, Pangolin, SigNoz, Infisical, n8n, LiteLLM, Langfuse, GrowthBook, Meilisearch, Windmill, Duplicati.
+
+Open core means the core is free but **SSO, RBAC and audit logs live in the paid edition**. It is the cruellest trap for a founder: the project presents as open source and gets adopted, and the limitation only appears when the first corporate customer asks for single sign-on. Stage 4.2 now instructs Claude to check which edition holds the needed feature before recommending.
+
+Reading the files also corrected facts that would otherwise have been wrong: **Sentry is FSL-1.1, not BUSL**; **Vault is BUSL-1.1**, which is precisely why **OpenBao** exists (pre-BUSL fork, MPL-2.0, Linux Foundation); **Open WebUI** ships a custom "all rights reserved" licence despite 148k stars. Conversely CapRover, Astro, NetBird and Borg looked suspicious as `NOASSERTION` but are plainly permissive.
+
+### Documented — Supabase self-hosts, Luma has no equivalent
+
+**Supabase** (Apache-2.0, 107.7k stars) is the most-starred repository in the entire research and does self-host — with the honest caveat that the compose file is ~10 services and running it in production is its own job.
+
+**There is no Luma clone.** What exists covers ticketing (Hi.Events, pretix, alf.io) or 1-to-1 scheduling (Cal.com), not Luma's community-calendar experience. The closest in spirit, Mobilizon, **does not live on GitHub** — it is on framagit — so it can never surface in a star-ranked search. Stated plainly rather than pushing Cal.com as a substitute.
+
+Two incidental warnings recorded: `calcom/cal.com` has been **renamed to `calcom/cal.diy`**, and **Attendize has had no commits since 2024-08** despite leading its category on stars — which is why stars rank candidates but do not choose them.
+
+### Added — self-hosted catalogue (1.346 projects) and the stage 4.2 question
+
+`docs/selfhosted/` mirrors [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted) so the WIZARD can offer concrete self-hosted alternatives without a network call.
+
+| Layer | What | Generated? |
+|---|---|---|
+| `shortlist-saas.md` | ~20 categories a SaaS founder actually replaces, framed as "you pay for X → alternative Y" | ✋ hand-curated |
+| `INDEX.md` + `catalog/` | all 1.346 entries; 95 upstream tags collapsed into 12 macro-categories | 🤖 generated |
+| `README.md` | licence carve-out, regeneration, honest trade-off table | ✋ hand-curated |
+| `scripts/sync-selfhosted.js` | regenerator; never overwrites the two hand-curated files | — |
+| `docs/registry/packs/awesome-selfhosted.md` | one-pager, so it is discoverable from the registry | ✋ |
+
+**New question at WIZARD stage 4.2**, before the stack is locked: managed platforms, self-hosted, or hybrid? Presented as a question with both sides, not a recommendation. The stage carries an explicit instruction *not* to push self-hosting — "managed for everything" is frequently right for a solo non-developer, and self-hosting trades vendor cost for time and operations: backup, uptime, patching, and being the person who wakes up at 3am.
+
+### Added — CC-BY-SA 3.0 carve-out
+
+The OS is MIT. **The data in `docs/selfhosted/` is not** — it is CC-BY-SA 3.0 Unported, share-alike, with authors credited upstream. Attribution is stamped on every generated file, and the boundary is documented in `docs/selfhosted/README.md`, `ATTRIBUTIONS.md` and `UPSTREAM-SOURCES.md`.
+
+`UPSTREAM-SOURCES.md` section 7 says to avoid vendoring and prefer linking. The new entry states this is a deliberate exception and gives four reasons it clears the bar: unambiguous licence, linking cannot serve stage 4.2, the copy is generated rather than forked, and it is quarantined to one directory. Future vendoring should clear the same four.
+
+### Documented — what the catalogue does NOT cover
+
+Measured, not assumed. **Nine upstream tags are orphaned** — the tag file exists and zero projects reference it: Backup, Federated Identity & Authentication, Identity Management, Monitoring & Status Pages, CI/CD, FaaS & Serverless, Static Site Generators, VPN, Distributed Filesystems.
+
+Verified absent from the dataset: Keycloak, Authentik, MinIO, Supabase, Uptime Kuma, Coolify, Woodpecker, Jenkins, WireGuard, restic, Borg, Hugo, Jekyll, Cal.com, Meilisearch.
+
+That is auth, observability, CI/CD, backup, PaaS, static sites and VPN — the first things a SaaS founder looks for. It follows from the upstream scope (self-hosted *network services and web applications*). The shortlist marks these as gaps in a dedicated table rather than omitting them silently.
+
+### Documented — licence traps, per entry
+
+Across the 1.346 entries: MIT 360, **AGPL-3.0 302**, **GPL-3.0 224**, Apache-2.0 143, BSD 51, **⊘ Proprietary 70** — roughly **39% copyleft**.
+
+Six entries in the curated shortlist are not permissive and carry a ⚠️ on their own row: Sentry Self-Hosted, Directus and Outline (BUSL-1.1), Chatwoot and Budibase (⊘ Proprietary), n8n (Apache-2.0 + Commons-Clause). The AGPL note is stated precisely: running unmodified triggers nothing; the obligation begins on modify-and-serve.
+
+### Added — Pitch artifact and the publication question (stage 2.9)
+
+**The OS had no Pitch artifact at all.** `docs/business/` produced only `BUSINESS-PLAN.md`; the word "pitch" appeared solely in registry packs describing other tools' use cases. So "put the BP and Pitch online" required inventing the Pitch first.
+
+New **stage 2.9** at the end of Phase 2 does two things:
+
+1. **Writes `docs/business/PITCH.md`** — ten sections derived from BP v0.0.2. The pitch *derives* and never *adds*: every claim must already exist in the BP. If it belongs in the pitch but is missing from the BP, the BP is incomplete. This prevents a founder from contradicting their own diligence materials.
+2. **Asks whether the BP and Pitch should live online** inside the product (`/pitch`, `/investors`) — as a **suggestion, not a default**, with three options: fully public, trimmed public plus gated full version, or nothing for now. **"Nada online por enquanto" is a complete answer** that closes the stage.
+
+Inserting stage 2.9 **renumbered zero other stages** — the first test of PR 1's phase structure, one commit later.
+
+- `templates/business/PITCH.template.md` — ten sections plus the redaction gate.
+- `.claude/skills/pitch/SKILL.md` — 27th skill, so the stage is auto-invocable (PR 3's audit flagged stages without skills as a defect).
+
+### Added — mandatory redaction gate before anything is published
+
+Publishing a Business Plan means publishing whatever is inside it. The gate splits the document and requires row-by-row sign-off.
+
+Never published without explicit, considered approval: financial projections, unit economics (CAC, LTV, margins), unannounced pricing, fundraising status and valuation, the internal risk register, supplier and partner terms, competitor teardowns naming specific weaknesses, and personas traceable to a real interviewee.
+
+Three carry consequences beyond embarrassment:
+
+- **Personas from real interviews are personal data** — LGPD applies. Consent to be interviewed is not consent to be published.
+- **Competitor teardowns invite legal and PR retaliation** — positioning is safe, naming a competitor's weakness is not.
+- **Published numbers become commitments** quoted back during diligence.
+
+The template also requires naming a **maintenance owner**. A stale public BP is worse than no public BP; if nobody owns it, the honest answer is "not now".
+
+### Changed — publication is now a privacy question
+
+`.claude/rules/privacy-audit.md` gained a section treating publication as a form of processing: traceable personas, interviewee consent, team exposure, **analytics on the public page (which re-triggers all nine questions)**, and the fact that publication is effectively irreversible — archives and screenshots outlive the page.
+
+### Changed — the decision routes into later phases
+
+Choosing public or gated creates product surface, not just a document. Routes and navigation land in the Product Brief (4.1); public-vs-gated, auth model, `robots.txt`, SEO and PDF export land in the Technical Plan (4.2); view analytics go through `privacy-audit`; the page becomes a `first-100-users` / `launch-agent` asset.
+
+### Fixed — `CLAUDE.md` artifact list, missed in PR 1
+
+PR 1's edit to the "Required generated artifacts" list never applied — the edit hit a tool gate and the retry re-applied a different edit. The list kept the old ordering with no `DESIGN-DIRECTION.md`. Corrected here; now lists all artifacts in production order with their phase.
+
+### Fixed — six core wizard skills were invisible to auto-invocation
+
+A `SKILL.md` advertises itself through the `description` field in its YAML frontmatter. Six skills had **no frontmatter at all**, so their entire advertised description was their own H1 title — "Product Brief Skill", "Research Waves Skill", and so on.
+
+They were precisely the six that drive the wizard: `project-genesis`, `research-waves`, `business-plan-impact-review`, `product-brief`, `prototype-lab`, `sprint-roadmap`. The twenty peripheral skills from the v0.3.0 vibe-coder pack all had proper frontmatter. **The oldest and most load-bearing skills were the least discoverable.**
+
+Worst case: five live files instruct Claude to invoke `business-plan-impact-review` by name, while the skill itself could not describe when it applied.
+
+### Changed — every skill description now states trigger conditions
+
+Ten further skills had frontmatter but zero trigger phrases: `cost-watchdog`, `decision-log`, `feature-scaffold`, `os-self-test`, `privacy-audit`, `release-check`, `secrets-discipline`, `secrets-scan`, `sprint-management`, `verify-build-works`.
+
+A description saying "Review features that touch personal data" is accurate and useless. What makes `privacy-audit` fire is `"vou guardar o CPF"` / `"e a LGPD?"`. All 26 descriptions now name conditions, not just behavior.
+
+| Metric | Before | After |
+|---|---|---|
+| Skills with frontmatter | 20 / 26 | **26 / 26** |
+| Skills with trigger phrases | 10 / 26 | **26 / 26** |
+
+### Fixed — three overlapping skill pairs now cross-link both ways
+
+The asymmetry always ran the same direction — the newer skill knew about the older, never the reverse.
+
+- `secrets-discipline` ↔ `secrets-scan` — preventive workflow vs. detection pass. Neither said so; the distinction lived only in `docs/registry/packs/gitleaks.md`.
+- `cost-watchdog` ↔ `usage-monitor` — preventive vs. post-launch, despite a v0.3.0 session log claiming they already cross-linked.
+- `first-100-users` ↔ `grow-sustainably` — `grow-sustainably` referenced its predecessor in 7 places; `first-100-users` referenced its successor in **zero**, so founders reaching 100 users were never routed forward.
+
+### Changed — `release-check` delegates instead of duplicating
+
+Its checklist said "Lint/build pass" and "Privacy/security review complete" while `verify-build-works`, `secrets-scan`, and `privacy-audit` sat unreferenced. It is now a delegation table naming the responsible skill per check, with blocking vs. warning severity and a `multi-ai-review` escalation for hard-to-reverse releases. Closes an open item from `session-log/2026-05-01-v0.4.3-quick-wins.md:75`.
+
+### Added
+
+- `docs/skill-audit-2026-08-08.md` — full audit of all 26 skills, with the verification script.
+
+### Changed — `docs/skill-system.md` rewritten
+
+Its example table listed `design-prototype` and `security-review`, **neither of which exists**. Replaced with the real inventory of 26 grouped by job, plus a mandatory-frontmatter section explaining why `description` must carry trigger conditions.
+
+### Known gaps, recorded not fixed
+
+- **No `technical-plan` skill.** `product-brief` drives stage 4.1 and `sprint-roadmap` drives 4.4; stage 4.2 has only `WIZARD.md` prose.
+- `templates/project/CLAUDE.md:62` advertises `/release-check`, which does not exist in `.claude/commands/`.
+
+### Note on GitHub provenance
+
+Checked, and **no change needed**. 23 of 26 skills are original to this repo. The three with declared upstream inspiration (`multi-ai-review`, `processize`, `grow-sustainably`) already link to registry packs carrying the URLs — the chain is `skill → registry pack → upstream URL`, which keeps license and review status in one place. A per-skill `source:` field was considered and declined as duplication.
 
 ### Changed — WIZARD is now 5 phases, and the prototype comes before the spec
 
@@ -29,7 +236,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - **Prototype Lab moved from last-before-coding to Phase 3** — before the Product Brief and Technical Plan, which are now reverse-engineered from the approved prototype.
 - **Fractional stages eliminated.** `Stage 0.5` (detach) → `1.2`. `Stage 11.5` (registry pick) → split into `3.1` (design packs, before prototyping) and `4.3` (stack packs, after the Technical Plan).
-- **Phases map 1:1 onto the five commit tags** in `.claude/rules/wizard-stage-tags.md`. No translation table. This also fixes a pre-existing bug: under the old order `PROTOTIPO` came chronologically *after* `DOCUMENTACAO`, so systems inferring progress from tag sequence saw projects moving backwards. The five tag values are unchanged; old commits stay valid.
+- **Phases map 1:1 onto the five commit tags** in `.claude/rules/wizard-stage-tags.md`. No translation table. This also corrects a pre-existing ordering bug: under the old order `PROTOTIPO` came chronologically *after* `DOCUMENTACAO`, so systems inferring progress from tag sequence saw projects moving backwards. The five tag values are unchanged; old commits stay valid.
+  > **The convention is fixed; the consumer is not yet.** The Grand Prix system that reads these tags lives in PR `#9`, which remains open. Progress inference stops moving backwards only once `#9` merges and adopts the monotonic order.
 - **Sprint -1 changed job** from building the prototype to consolidating it into a design system. `docs/sprints/sprint--1-prototype-lab.md` → `docs/sprints/sprint--1-design-system.md`.
 - **BP v0.0.2 gained an exit condition** at stage 2.8: it must explicitly state personas, positioning, MVP scope, and the primary user flow, because Phase 3 has no Product Brief to read.
 

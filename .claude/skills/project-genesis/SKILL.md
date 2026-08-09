@@ -1,3 +1,8 @@
+---
+name: project-genesis
+description: Drive the full 5-phase Project Genesis Wizard, from raw idea to first coding sprint. Use when starting a new project from the AI Dev Operating System, when the user runs /project-start, or when they say "vamos começar um projeto novo", "tenho uma ideia de SaaS", "quero criar um app", "por onde eu começo?". Enforces the prototype-before-spec ordering (Phase 3 before Phase 4) and refuses to write code before Phase 5.
+---
+
 # Project Genesis Skill
 
 Use this skill when starting a new project from the AI Dev Operating System.

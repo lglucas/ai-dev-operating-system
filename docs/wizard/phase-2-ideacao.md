@@ -1,7 +1,7 @@
 # Phase 2 — Ideação
 
 **Commit tag:** `[STAGE:IDEACAO]`
-**Canonical source:** [`WIZARD.md`](../../WIZARD.md) stages 2.1–2.8
+**Canonical source:** [`WIZARD.md`](../../WIZARD.md) stages 2.1–2.9
 
 ---
 
@@ -53,4 +53,40 @@ Claude applies the corrections, then runs a second pass checking every change fo
 
 `BP v0.0.2` becomes the contract that Phase 3 builds against.
 
-**Before leaving this phase**, confirm the BP explicitly states four things: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on — these four are its only specification.
+**Before leaving stage 2.8**, confirm the BP explicitly states four things: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on, so these four are the **minimum** it can rely on — the research in `knowledge-base/` and the ten strategic questions remain inputs too.
+
+---
+
+## 2.9 — Pitch, and the publication question
+
+Two outputs: `docs/business/PITCH.md` derived from the BP, and an explicit decision about whether either document goes on the public internet.
+
+### The pitch derives, it never adds
+
+Ten sections maximum, every claim already present in BP v0.0.2. If something belongs in the pitch but is missing from the BP, the BP is incomplete — fix it there and re-derive. A pitch that says something the BP does not is how a founder ends up contradicting their own diligence materials.
+
+### The publication question is a suggestion, not a default
+
+Most founders never consider putting the BP online. The wizard's job is to put the option on the table with honest trade-offs and then accept the answer. **"Nada online por enquanto" is a complete answer** and closes the stage.
+
+Three options are offered: everything public, a trimmed public page with the full version gated, or nothing for now.
+
+The case for it: a link beats a PDF attachment, it builds authority, and it lets an investor or large customer qualify themselves without a meeting. The case against: competitors read everything, published numbers become expectations you get held to, and a stale public BP is worse than no public BP.
+
+### The redaction gate
+
+Mandatory if the answer is public or gated. Publishing a Business Plan means publishing whatever is inside it — and several sections should never leave the building: financial projections, unit economics, fundraising status, the internal risk register, supplier terms.
+
+Three carry consequences beyond embarrassment:
+
+- **Personas from real interviews are personal data.** LGPD applies. Run `privacy-audit` before publishing any persona.
+- **Competitor teardowns invite retaliation.** Positioning is safe; naming a competitor's specific weakness is not.
+- **Published numbers become commitments** that get quoted back during diligence.
+
+### It becomes product surface
+
+If the answer is public or gated, this is no longer a document decision. Routes and navigation land in the Product Brief (4.1); public-vs-gated, auth, `robots.txt` and PDF export land in the Technical Plan (4.2); view analytics are personal data and go through `privacy-audit`; the page becomes a `first-100-users` and `launch-agent` asset.
+
+**Someone must own updating it.** If nobody does, the honest answer is "not now".
+
+Driven by the [`pitch`](../../.claude/skills/pitch/SKILL.md) skill.

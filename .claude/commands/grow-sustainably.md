@@ -1,3 +1,7 @@
+---
+description: Planeja o crescimento de 100 para ~1000 usuários sem queimar fundador, caixa nem base. Sucessor do first-100-users. Use ao dizer "já tenho 100 usuários, e agora?" ou "o WhatsApp 1-a-1 não escala mais".
+---
+
 # /grow-sustainably
 
 Plan post-first-100-users growth without burning out the founder, the budget, or the user base.

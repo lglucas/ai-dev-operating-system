@@ -1,84 +1,58 @@
 ---
 name: os-self-test
-description: Verify the AI Dev Operating System is in a coherent state inside a project. Detects missing canonical files, broken cross-references, version drift, gitignore gaps, stale paths after a migration, and orphaned artifacts. Run after major edits to the OS or before opening a new sprint.
+description: Verify the AI Dev Operating System is in a coherent state inside a project. Detects missing canonical files, broken cross-references, skills/agents/commands without frontmatter, registry drift, unindexed session logs, unwired hooks and gitignore gaps. Run after major edits to the OS, after renaming or moving canonical files, before opening a new sprint, before a release, and when the user says "tá tudo certo aqui?", "quebrou alguma coisa na estrutura?", "faz um check geral", "os links estão funcionando?".
 ---
 
 # OS Self-Test
 
-## When to run this skill
+## Rode o script
 
-- After the user manually edited the OS (rules, agents, skills, commands).
-- Before opening a new sprint.
-- Before tagging a release.
-- When something feels off ("Claude tá agindo estranho").
-
-## Checks
-
-### 1. Canonical structure present
-
-- [ ] `CLAUDE.md` at root
-- [ ] `START-HERE.md` at root
-- [ ] `WIZARD.md` at root
-- [ ] `.claude/` directory with `agents/`, `rules/`, `skills/`, `commands/`
-- [ ] No duplicate `agents/`, `rules/`, `skills/`, `commands/` at root
-
-### 2. Required artifacts (if a project is in progress)
-
-- [ ] `docs/product/PRODUCT-BRIEF.md`
-- [ ] `docs/business/BUSINESS-PLAN.md`
-- [ ] `docs/technical/TECHNICAL-PLAN.md`
-- [ ] `docs/SPRINTS.md`
-- [ ] `CHANGELOG.md`
-- [ ] `session-log/INDEX.md`
-
-### 3. Version consistency
-
-- [ ] README badge version matches latest `RELEASE-NOTES-vX.Y.Z.md`
-- [ ] CHANGELOG top entry version matches release notes
-- [ ] `templates/project/CLAUDE.md` version is a placeholder (`0.0.1`), not a real OS version
-
-### 4. Gitignore baseline
-
-- [ ] `.env` and friends ignored
-- [ ] `node_modules/` ignored
-- [ ] `CLAUDE.local.md` ignored
-- [ ] `*.zip` and archive patterns ignored
-- [ ] Personal canonical references (e.g. `docs/instrucoes-master.md`) ignored
-
-### 5. Cross-reference integrity
-
-- [ ] No reference to deleted paths (`agents/`, `rules/`, `skills/`, `commands/` at root)
-- [ ] No reference to stale release notes
-- [ ] All README links resolve to existing files
-
-### 6. Skill / agent header sanity
-
-- [ ] Every `SKILL.md` has frontmatter with `name` and `description`
-- [ ] Every agent file has clear "use when" guidance
-- [ ] No skill or agent references a deleted command
-
-## Output format
-
-```
-🩺 OS Self-Test — [date]
-
-Canonical structure:    ✅
-Required artifacts:     ⚠️  3 of 6 present (project may be early — OK if pre-coding)
-Version consistency:    ✅
-Gitignore baseline:     ✅
-Cross-reference scan:   ❌ 2 issues found:
-  • docs/foo.md links to deleted skills/secrets-scan/
-  • README badge points to RELEASE-NOTES-v0.1.0.md (deleted)
-Skill / agent headers:  ✅
-
-Action needed: fix the 2 cross-reference issues above before next sprint.
+```bash
+node scripts/os-self-test.js
 ```
 
-## Implementation note
+É a verificação inteira. Exit `0` = coerente, exit `1` = pelo menos um erro.
 
-When asked to run, Claude should:
-1. Glob the canonical paths.
-2. Grep for deleted-path references using known migration mappings.
-3. Read the README badge URL and verify the file exists.
-4. Read CHANGELOG top entry and compare versions.
-5. Produce the report above with specific line numbers for any failures.
+**Isto era um checklist manual dentro deste arquivo, e esse era o problema.** Verificação que depende de alguém lembrar não é verificação — três session-logs (`2026-04-30`, `2026-05-09`, `2026-08-08`) registram esta skill não sendo executada exatamente quando teria ajudado. Desde a v0.5.2 é script, e o CI roda em todo push e PR.
+
+## O que o script verifica
+
+| Grupo | Verifica |
+|---|---|
+| Estrutura canônica | `CLAUDE.md`, `START-HERE.md`, `WIZARD.md`, `README.md`, `CHANGELOG.md`, `LICENSE`, `.claude/{agents,rules,skills,commands}`, e duplicata na raiz |
+| Frontmatter | toda skill tem `name` + `description` e o `name` bate com o diretório; todo agente e comando tem `description` |
+| Links | todo link relativo `.md` do repo resolve |
+| Registry | todo pack está no `INDEX.md`, e todo link do `INDEX.md` aponta pack existente |
+| Session-log | toda entrada datada está indexada |
+| Hooks | os hooks declarados em `settings.json` existem em disco, e todo hook em disco está declarado |
+| Gitignore | cobre `.env`, `node_modules/`, `CLAUDE.local.md` |
+| Artefatos | modo repo-do-OS *versus* projeto derivado, detectado pelo marcador `.aios-self` |
+
+## Dois modos
+
+O script se adapta ao contexto:
+
+- **Repo do AI Dev OS** (tem `.aios-self`) — os artefatos de projeto (`BUSINESS-PLAN.md`, `PRODUCT-BRIEF.md`…) **não** devem existir; se existirem, avisa.
+- **Projeto derivado** — os mesmos artefatos são esperados, e a ausência vira aviso e não erro, porque o wizard pode simplesmente não ter chegado naquela fase.
+
+## Seu trabalho quando falha
+
+O script diz **o que** está quebrado. Interpretar e consertar continua sendo trabalho seu:
+
+1. Rode e leia os erros.
+2. Para cada um, decida se o certo é corrigir a referência ou remover o alvo — link quebrado às vezes significa que falta o arquivo, às vezes que sobra o link.
+3. Avisos (🟡) não bloqueiam, mas acumulam. Skill sem frase-gatilho na descrição é o caso típico: funciona, mas ninguém a invoca.
+4. Se consertar algo estrutural, registre no `session-log/`.
+
+## Quando rodar além do CI
+
+- Depois de renomear ou mover arquivo canônico.
+- Depois de mergear uma pilha de PRs.
+- Antes de abrir sprint ou cortar release — o `release-check` já delega para cá.
+- Quando o usuário desconfiar que alguma coisa quebrou.
+
+## Related
+
+- Script: `scripts/os-self-test.js`
+- Testes dos scripts e hooks: `node --test scripts/test/*.test.js` (sem aspas — o shell expande; aspas exigem Node 21+)
+- Gate de release que o invoca: [`release-check`](../release-check/SKILL.md)

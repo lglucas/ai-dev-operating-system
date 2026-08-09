@@ -1,3 +1,7 @@
+---
+description: Passa uma decisão difícil de reverter por 2–4 revisores independentes e reconcilia as divergências antes de você agir. Use ao dizer "não dá pra desfazer fácil" — arquitetura, segurança, preço, deploy, texto jurídico.
+---
+
 # /multi-ai-review
 
 Cross-review a hard-to-reverse decision through 2–4 independent reviewer roles, reconcile disagreements, and decide proceed / modify / block before committing.

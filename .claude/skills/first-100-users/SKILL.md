@@ -1,6 +1,6 @@
 ---
 name: first-100-users
-description: Get the first 100 real users for a vibe-coder SaaS without spending on ads. Hand-curated outreach, founder communities, niche-specific channels, retention check-ins. Activated after launch when the user asks "como pego os primeiros usuários", "ninguém tá usando", or after `launch-agent` Track A.
+description: Get the first 100 real users for a vibe-coder SaaS without spending on ads. Hand-curated outreach, founder communities, niche-specific channels, retention check-ins. Activated after launch when the user asks "como pego os primeiros usuários", "ninguém tá usando", "como divulgo isso?", or after `launch-agent` Track A. Hand off to `grow-sustainably` once the project passes ~100 active users — this skill is conversation-driven and does not scale past that.
 ---
 
 # First 100 Users

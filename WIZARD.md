@@ -299,7 +299,90 @@ docs/business/BUSINESS-PLAN.md
 
 BP version becomes `v0.0.2`.
 
-**BP v0.0.2 is the contract that Phase 3 builds against.** Before leaving this phase, confirm the BP explicitly states: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on — these four items are its only specification.
+**BP v0.0.2 is the contract that Phase 3 builds against.** Before leaving this phase, confirm the BP explicitly states: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on, so these four are the **minimum** it can rely on — alongside the research in `knowledge-base/` and the ten strategic questions, which remain inputs.
+
+---
+
+## 2.9 — Pitch, and the publication question
+
+Two outputs: a pitch derived from the BP, and an explicit decision about whether either document lives on the public internet.
+
+### Write the pitch
+
+```txt
+docs/business/PITCH.md
+```
+
+Ten slides or fewer, derived from BP v0.0.2 — not written from scratch. The BP is the argument; the pitch is the argument compressed to what someone will actually sit through. If a claim is not in the BP, it does not belong in the pitch.
+
+### Ask the publication question
+
+Claude must raise this as a **suggestion, not a default**. Many founders never consider it; the wizard's job is to put the option on the table with its real trade-offs, then accept whatever the user decides.
+
+```txt
+Uma opção que vale considerar: colocar o Business Plan e o Pitch online, dentro do próprio site/plataforma — por exemplo em /pitch ou /investors.
+
+Vantagens:
+- Vira ativo de captação: você manda um link em vez de anexar PDF.
+- Constrói autoridade e confiança ("build in public").
+- Investidor, parceiro ou cliente grande consegue se qualificar sozinho.
+- Some o problema de versão desatualizada circulando por aí.
+
+Custos reais:
+- Concorrente lê tudo, inclusive o que você acha que é vantagem.
+- Números publicados viram expectativa — e cobrança depois.
+- Exige manutenção: BP público desatualizado é pior que nenhum.
+- Parte do conteúdo NÃO pode ir ao ar (ver gate abaixo).
+
+Você quer:
+(a) tudo público,
+(b) uma versão pública enxuta + versão completa atrás de login/link secreto,
+(c) nada online por enquanto — decide depois do lançamento?
+```
+
+Whatever the user answers, record the decision and the reasoning in `session-log/`. "Not now" is a valid, complete answer and closes the stage.
+
+### Redaction gate — mandatory if the answer is (a) or (b)
+
+Publishing a Business Plan means publishing whatever is in it. Before anything goes to a public URL, Claude must run the following split and get explicit user sign-off on it.
+
+| Usually safe to publish | Do NOT publish without explicit, considered approval |
+|---|---|
+| Problem and solution narrative | Financial projections, burn, runway |
+| Positioning and differentiation | Unit economics — CAC, LTV, margins |
+| Market context with **public** sources | Pricing not yet announced (planned increases, discount policy) |
+| Personas, generalized | Personas traceable to a real interviewee |
+| Directional roadmap | Dated delivery commitments |
+| Team and mission | Fundraising status, valuation, cap table |
+| Metrics you are willing to be held to | The internal risk register |
+| — | Supplier and partner terms |
+| — | Competitor teardown naming specific weaknesses |
+
+Three of these carry consequences beyond embarrassment:
+
+- **Personas from real interviews are personal data.** Publishing "Marina, 34, gerente de clínica em Porto Alegre" when Marina is a real person you interviewed is an LGPD problem, not a style problem. Invoke `privacy-audit` before publishing any persona.
+- **Competitor teardowns invite legal and PR retaliation.** Positioning ("we are the one that does X") is safe; "Competitor Y's onboarding is broken and their support is worse" is not.
+- **Published numbers become commitments.** A projection on a public page will be quoted back during diligence.
+
+### Route the downstream consequences
+
+If the answer is (a) or (b), this is not just a document decision — it creates product surface. Record it so the later phases pick it up:
+
+| Consequence | Lands in |
+|---|---|
+| Routes (`/pitch`, `/investors`), navigation, whether it appears in the main nav | Product Brief (stage 4.1) |
+| Public vs. gated, auth model for the gated version, SEO/`robots.txt`, PDF export | Technical Plan (stage 4.2) |
+| Analytics on who views the page — **this is personal data** | `privacy-audit` |
+| The page as an acquisition and credibility asset | `first-100-users`, `launch-agent` |
+
+### Required outputs
+
+```txt
+docs/business/PITCH.md
+session-log/<date>-pitch-and-publication-decision.md
+```
+
+If the answer was (a) or (b), also record the approved public/private split inside `PITCH.md` so Phase 4 knows what it is building a page for.
 
 ---
 
@@ -426,6 +509,45 @@ The data model must be derived from the entities visible in the prototype's mock
 
 No alpha/beta stack should be recommended unless explicitly accepted.
 
+### Managed vs. self-hosted — ask, do not assume
+
+Before locking the stack, Claude must put the self-hosted option on the table explicitly. Most vibe coders default to managed platforms because nobody ever showed them the alternative — and some are paying monthly for services they could run themselves for the price of one small server.
+
+This is a **question**, not a recommendation. Present both sides and accept the answer.
+
+```txt
+Antes de fechar a stack: cada serviço externo que a gente escolher aqui é uma
+assinatura mensal e um pedaço dos teus dados na mão de outra empresa.
+
+Existe o caminho self-hosted — você roda o software no teu próprio servidor.
+
+(a) Gerenciado em tudo — Vercel, Supabase, Auth0, Sentry Cloud e afins.
+    Rápido de subir, você paga e não pensa mais nisso.
+(b) Self-hosted no que der — mais controle dos dados e custo previsível,
+    mas você vira o responsável por backup, uptime e patch de segurança.
+(c) Híbrido — gerenciado no que é crítico e barato, self-hosted no que é caro
+    por uso ou sensível em dados.
+
+Qual faz sentido pro teu momento?
+```
+
+Where to look for concrete alternatives:
+
+| File | Covers |
+|---|---|
+| [`docs/selfhosted/shortlist-saas.md`](docs/selfhosted/shortlist-saas.md) | analytics, CMS, CRM, helpdesk, email, BI, search, forms, wiki — what the mirrored catalogue has |
+| [`docs/selfhosted/gaps.md`](docs/selfhosted/gaps.md) | **auth, uptime, CI/CD, backup, PaaS, static sites, VPN, BaaS, events** — researched separately, ranked by GitHub stars |
+| [`docs/selfhosted/INDEX.md`](docs/selfhosted/README.md) | the full 1.346-project catalogue |
+
+Rules for this conversation:
+
+- **State the real cost of self-hosting.** It trades vendor cost for time and operations: backup, uptime, security patching, and being the person who wakes up when it breaks. A solo founder in Sprint 1 hosting eight services is doing SRE, not product.
+- **Do not push (b).** The maintainer of this OS prefers self-hosted, and that stance is recorded in `ETHOS.md` — explicitly as a stance, not a rule. "Managed for everything" is frequently the right answer for a solo non-developer.
+- **Flag the three licence traps, not just copyleft.** Roughly 39% of the mirrored catalogue is AGPL or GPL (modify **and** serve over a network triggers the obligation). Some options are source-available rather than open source — Vault is BUSL-1.1, Sentry is FSL-1.1. And **thirteen of the researched alternatives are open core**, where the free edition deliberately omits SSO, RBAC and audit logs. That last one bites hardest: the project looks open source until the founder needs corporate login. If the project will resell or embed the component, route it to `legal-compliance-agent`.
+- **Check whether the feature you need is in the free edition** before recommending an open-core option.
+- **Run `cost-watchdog`** to compare the projected cost of both paths before closing.
+- **Record the decision and its reasoning** in the Technical Plan and in `session-log/`. A founder who chose managed in year 1 will want to know why when the invoice grows in year 2.
+
 ---
 
 ## 4.3 — Stack pack pick
@@ -483,7 +605,17 @@ Each sprint should include objective, DoD, deliverables, agents, skills, securit
 
 ## 5.1 — Start coding only after approval
 
-Only after the user approves BP v0.0.2, the prototype direction, the Product Brief, the Technical Plan, and the sprint roadmap may Claude begin Sprint 0 / Sprint 1 implementation.
+Only after the user approves BP v0.0.2, the prototype direction, the Product Brief, the Technical Plan, and the sprint roadmap may Claude begin implementation.
+
+The sequence is **Sprint -1 → Sprint 0 → Sprint 1**:
+
+| Sprint | Job |
+|---|---|
+| **-1 — Design System** | Consolidate the approved prototype and `DESIGN-DIRECTION.md` into real tokens, components and layout primitives. Defined at stage 4.4. |
+| **0 — Setup** | Environment, repo hygiene, CI, deploy target. |
+| **1 — Foundation** | The first real feature, on top of the design system. |
+
+Skipping Sprint -1 means Sprint 1 reinvents the design decisions the prototype already made.
 
 The first coding sprint must follow `.claude/rules/`.
 

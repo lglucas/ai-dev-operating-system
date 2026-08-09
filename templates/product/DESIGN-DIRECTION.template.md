@@ -5,9 +5,19 @@
 > Replace every `<...>` placeholder. Delete this block when done.
 
 - **Project:** `<project name>`
-- **Chosen direction:** `<prototype-a | prototype-b | prototype-c | explicit combination>`
 - **Approved on:** `<YYYY-MM-DD>`
 - **Approved by:** `<name>`
+- **Chosen direction:** `<prototype-a | prototype-b | prototype-c | combination>`
+
+**Se for combinação**, dê a ela um identificador estável e liste toda pasta de origem. O resto deste documento e a Fase 4 referenciam `prototype-lab/<chosen>/`, e uma combinação não tem pasta única:
+
+| Identificador | `<combination-a-b>` |
+|---|---|
+| Pastas de origem | `prototype-lab/prototype-a/`, `prototype-lab/prototype-b/` |
+| O que veio de cada | `<layout e navegação de A; paleta e tipografia de B>` |
+| Pasta consolidada | `<prototype-lab/combination-a-b/ — crie antes de sair da Fase 3>` |
+
+Sem pasta consolidada, a Fase 4 não tem o que ler.
 
 ---
 
@@ -18,6 +28,15 @@
 ## What the other directions did better
 
 `<Be specific. Anything worth grafting later belongs here, or it is lost.>`
+
+## What was rejected, and why
+
+A Fase 3 exige registrar o que foi **descartado**, não só o que ficou. Sem isso, a mesma ideia volta daqui a três meses como se fosse nova.
+
+| Elemento rejeitado | Veio de | Por que não |
+|---|---|---|
+| `<sidebar fixa de navegação>` | `<prototype-c>` | `<come largura demais no mobile, que é 70% do tráfego previsto no BP>` |
+| `<...>` | `<...>` | `<...>` |
 
 ---
 

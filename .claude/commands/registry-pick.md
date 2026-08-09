@@ -1,3 +1,7 @@
+---
+description: Recomenda packs externos do registry que servem pro projeto atual. Roda duas vezes no wizard — packs de design no 3.1, stack completa no 4.3. Nunca instala nada.
+---
+
 # /registry-pick
 
 Recommend external repository packs from the registry that fit the current project.
@@ -14,7 +18,14 @@ Optional arguments:
 /registry-pick stack="<stack>" domain="<domain>" compliance="<compliance>"
 ```
 
-If arguments are omitted, the skill will read project signals from `docs/business/BUSINESS-PLAN.md`, `docs/product/PRODUCT-BRIEF.md`, `docs/technical/TECHNICAL-PLAN.md`, and the repo manifest files (`package.json`, `Anchor.toml`, etc.).
+If arguments are omitted, the skill reads project signals from whatever exists at that point in the wizard — the input contract differs per pass:
+
+| Pass | Lê | NÃO lê |
+|---|---|---|
+| **3.1** design | `docs/business/BUSINESS-PLAN.md` v0.0.2, `knowledge-base/` | Product Brief e Technical Plan — ainda não existem |
+| **4.3** stack | tudo acima + `docs/product/PRODUCT-BRIEF.md`, `docs/technical/TECHNICAL-PLAN.md`, `prototype-lab/`, manifestos (`package.json`, `Anchor.toml`…) | — |
+
+Pedir na passada de design um arquivo que a Fase 3 ainda não produziu trava o wizard sem motivo.
 
 ## Actions
 

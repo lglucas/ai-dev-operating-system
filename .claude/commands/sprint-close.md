@@ -1,3 +1,7 @@
+---
+description: Fecha a sprint ativa — atualiza changelog e session log, checa a DoD e prepara a tag. Use ao dizer "fecha a sprint" ou "terminei essa etapa".
+---
+
 # /sprint-close
 
 Close the active sprint.
