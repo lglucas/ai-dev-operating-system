@@ -237,7 +237,37 @@ function checkCodemap() {
   else pass('CODEMAP.md presente');
 }
 
-// ─────────────────────────────────────────────── 9. project artifacts
+// ─────────────────────────────────────────────── 9. plugin manifest freshness
+
+// The manifest advertises a version and component counts to anyone installing this
+// as a plugin. Nothing consumed those numbers, so they silently drifted a whole
+// release behind — it shipped "0.5.2 / 27 skills" while the repo was at 0.5.3 / 28.
+function checkPluginManifest() {
+  if (!isOsRepo) return; // derived projects ship no plugin manifest
+  if (!exists('.claude-plugin/plugin.json')) { warn('plugin', 'sem .claude-plugin/plugin.json'); return; }
+
+  let manifest;
+  try { manifest = JSON.parse(read('.claude-plugin/plugin.json')); }
+  catch { fail('plugin', 'plugin.json não é JSON válido'); return; }
+
+  const latest = (read('CHANGELOG.md').match(/^##\s*\[(\d+\.\d+\.\d+)\]/m) || [])[1];
+  if (!latest) warn('plugin', 'não achei a versão mais recente no CHANGELOG');
+  else if (manifest.version !== latest) fail('plugin', `plugin.json diz ${manifest.version}, CHANGELOG diz ${latest}`);
+  else pass(`plugin.json na versão do CHANGELOG (${latest})`);
+
+  const skills = fs.existsSync(path.join(ROOT, '.claude/skills'))
+    ? fs.readdirSync(path.join(ROOT, '.claude/skills'), { withFileTypes: true })
+        .filter(d => d.isDirectory() && exists(`.claude/skills/${d.name}/SKILL.md`)).length
+    : 0;
+  const claimed = (String(manifest.description || '').match(/(\d+)\s+skills/) || [])[1];
+  // No claim at all is its own defect: the check would go quiet exactly when someone
+  // drops the number from the description, which is how drift starts.
+  if (!claimed) warn('plugin', 'description não anuncia contagem de skills — nada a verificar');
+  else if (Number(claimed) !== skills) fail('plugin', `description anuncia ${claimed} skills, existem ${skills}`);
+  else pass(`plugin.json anuncia as ${skills} skills que existem`);
+}
+
+// ─────────────────────────────────────────────── 10. project artifacts
 
 function checkProjectArtifacts() {
   const artifacts = [
@@ -270,6 +300,7 @@ function main() {
   checkHooks();
   checkGitignore();
   checkCodemap();
+  checkPluginManifest();
   checkProjectArtifacts();
 
   console.log(`\nos-self-test — modo: ${isOsRepo ? 'repo do AI Dev OS' : 'projeto derivado'}\n`);

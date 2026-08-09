@@ -412,6 +412,18 @@ See [`SECURITY.md`](SECURITY.md), [`docs/security-baseline.md`](docs/security-ba
 
 ---
 
+## 🎓 The course lives elsewhere
+
+There is a 3-session workshop that teaches this method, applying Perestroika's **Experience Learning**, plus two systems that support it — a red-team pairing draw and a live progress board that moves each student's car by reading `[STAGE:X]` commit tags.
+
+It used to live in `course/` inside this repo. Since **v0.5.4** it has its own repository, `lglucas/ai-dev-os-course` (private for now).
+
+**Why it moved:** joint versioning was the reason to keep it here, and it did not hold. This repo went from v0.4.5 to v0.5.3 — inverting two wizard phases, adding the Pitch, adding the CODEMAP — and the course tracked none of it. What settled the question was inheritance: cloning the OS or using "Use this template" dragged `course/` along, while no entry file here ever mentioned it. Full reasoning is in that repo's README.
+
+**What stayed, deliberately:** [`.claude/rules/wizard-stage-tags.md`](.claude/rules/wizard-stage-tags.md). The `[STAGE:X]` convention is opt-in and useful to anyone tracking wizard progress through commits — the course is just its largest consumer, not its owner.
+
+---
+
 ## 🙌 Credits and upstream sources
 
 This project is based on real-world AI-assisted development workflows and informed by several open-source repositories and public specs.
