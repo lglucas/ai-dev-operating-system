@@ -6,16 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [Unreleased] — v0.5.0 in progress
+## [0.5.2] — 2026-08-08 — Prototype before spec, and the kernel that enforces the rules
 
-> v0.5.0 is being delivered in four independent PRs. This section accumulates until the last one lands, then gets cut as a release.
->
-> - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec
-> - [x] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
-> - [x] **PR 3** — Skill frontmatter fix + audit
-> - [x] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
-> - [x] **PR 5** — researched equivalents for the gap categories
-> - [x] **PR 6 (v0.5.2)** — the kernel: hooks, frontmatter, self-test in CI, plugin manifest, rule rebalance, tests
+The largest release since the OS went public. Two structural changes: the wizard now **prototypes before it specifies**, and the OS finally **enforces something mechanically** instead of only asking the model nicely.
+
+Shipped as six reviewed PRs (#11–#16). Full rationale in [`RELEASE-NOTES-v0.5.2.md`](RELEASE-NOTES-v0.5.2.md).
+
+| PR | Frente |
+|---|---|
+| #11 | WIZARD reestruturado em 5 fases, protótipo antes da spec |
+| #12 | Auditoria de skills — 6 sem frontmatter, 10 sem gatilho |
+| #13 | Artefato Pitch + a pergunta "BP online?" |
+| #14 | Catálogo self-hosted com 1.346 projetos |
+| #15 | Pesquisa de equivalentes para as 7 lacunas |
+| #16 | O kernel: hooks, self-test no CI, plugin, testes |
 
 ---
 
