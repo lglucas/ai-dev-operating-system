@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.5.4] — 2026-08-09 — O curso saiu de dentro do OS
+
+`course/` virou repositório próprio: **`lglucas/ai-dev-os-course`**. Nada de conteúdo mudou — os 11 arquivos foram para lá com histórico via `git subtree split`, e o Sprint 0 em andamento veio junto no branch `sprint-0-systems-html`.
+
+### Removed — `course/` (11 arquivos, 1.525 linhas)
+
+A justificativa original de morar junto era **versionamento conjunto**, e ela não se sustentou. Este repo foi da v0.4.5 à v0.5.3 — inverteu duas fases do wizard, criou o Pitch, criou o CODEMAP — e o curso não acompanhou nenhuma delas, acumulando 66 referências a uma numeração de estágios extinta. Mesmo repositório, mesmas releases, e o material envelheceu sozinho.
+
+O que decidiu foi a **herança**. Clonar o OS ou usar "Use this template" levava `course/` junto, e nenhum arquivo de entrada — README, `START-HERE.md`, `CLAUDE.md`, `WIZARD.md` — mencionava a pasta uma vez sequer. O aviso "pode apagar esta pasta" existia dentro da própria pasta que a pessoa não sabia que tinha, e o detach nunca a removia: quem usa o botão "Use this template" nem chega a rodar o detach.
+
+Com o CODEMAP da v0.5.3 isso pioraria. `course/systems/` tem `.js`, `.ts` e `.sql`, e o `SKIP_DIR` do gerador não cobria `course` — então o mapa de código de um fundador passaria a listar a infraestrutura do curso como se fosse dele. Justamente o arquivo cuja função é achar o próprio código rápido.
+
+### Kept — a convenção de tags
+
+[`.claude/rules/wizard-stage-tags.md`](.claude/rules/wizard-stage-tags.md) fica. A convenção `[STAGE:X]` é opt-in e serve a qualquer pessoa que queira rastrear progresso do wizard pelos commits. O curso é o maior consumidor dela, não o dono.
+
+### Added — o self-test agora verifica o manifesto do plugin
+
+Décimo grupo de verificação. Confere que `.claude-plugin/plugin.json` está na versão do topo do `CHANGELOG.md` e que o número de skills anunciado bate com os `SKILL.md` que existem.
+
+Foi escrito porque o defeito já tinha acontecido: o manifesto ficou parado em `"0.5.2"` e `"27 skills"` durante a v0.5.3 inteira. Atualizei as contagens do README naquela release e não propaguei para o manifesto — e como nada consumia aqueles números, nada acusou. Estreou pegando o próprio commit que a criou.
+
+### Fixed
+
+- `.claude-plugin/plugin.json`: versão e contagens atualizadas, e a descrição passou a citar o CODEMAP e as 12 regras.
+
+---
+
 ## [0.5.3] — 2026-08-08 — CODEMAP: a IA acha o arquivo sem ler o repositório
 
 Nova camada de documentação, e ela existe pelo mesmo motivo que o limite de 200 linhas: **menos token lido por tarefa**. Arquivos curtos resolvem metade; um índice de uma linha por arquivo resolve a outra.
