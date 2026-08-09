@@ -8,13 +8,18 @@ Ainda não há código para mapear. Assim que a Fase 5 começar e o primeiro arq
 
 ## O que você vai ver
 
+```markdown
+### src/features/auth/
+
 | Arquivo | Núcleo | Linhas |
 |---|---|---:|
-| [`app.ts`](src/app.ts) | boots the server, wires middleware and mounts the feature routers | 84 |
 | [`login.ts`](src/features/auth/login.ts) | handles the magic-link login flow end to end | 132 |
 | [`session.ts`](src/features/auth/session.ts) | ⚠️ sem cabeçalho — adicione purpose/version/sprint | 47 |
+```
 
-A terceira linha é o que acontece quando o arquivo não tem cabeçalho `Purpose:`. Evite — é uma linha inútil no mapa, e o conserto é escrever o cabeçalho, não editar aqui.
+Agrupado por diretório, com link e contagem de linhas.
+
+A segunda linha é o que acontece quando o arquivo não tem cabeçalho `Purpose:`. Evite — é uma linha inútil no mapa, e o conserto é escrever o cabeçalho, não editar aqui.
 
 ## Manutenção
 
@@ -27,4 +32,4 @@ Regenere ao criar, remover ou renomear arquivo de código. O CI falha se divergi
 
 Regra completa em `.claude/rules/codemap.md`.
 
-> Caminhos aqui são relativos à **raiz do projeto**, que é para onde este template vai. Por isso não são links — daqui, de `templates/project/`, eles não resolveriam.
+> Nota para quem edita **este template**: os caminhos acima são relativos à raiz do projeto derivado, o destino deste arquivo — não à pasta `templates/project/` onde ele mora hoje. É por isso que o exemplo fica dentro de um bloco de código e a regra é citada em texto: como links de verdade, o verificador de links do CI tentaria resolvê-los a partir daqui e falharia. No arquivo gerado eles são links normais, e resolvem.
