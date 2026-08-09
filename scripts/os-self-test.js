@@ -219,7 +219,25 @@ function checkGitignore() {
   if (bad === 0) pass('gitignore cobre .env, node_modules, CLAUDE.local.md');
 }
 
-// ─────────────────────────────────────────────── 8. project artifacts
+// ─────────────────────────────────────────────── 8. codemap wiring
+
+function checkCodemap() {
+  if (!exists('scripts/codemap.js')) { fail('codemap', 'scripts/codemap.js ausente — a camada não tem gerador'); return; }
+  pass('gerador do codemap presente');
+
+  if (isOsRepo) {
+    // The OS ships the machinery; the derived project owns the map.
+    if (exists('CODEMAP.md')) warn('codemap', 'CODEMAP.md existe no repo do OS — deveria ser só o template');
+    if (!exists('templates/project/CODEMAP.template.md')) fail('codemap', 'falta templates/project/CODEMAP.template.md');
+    else pass('template do codemap presente');
+    return;
+  }
+
+  if (!exists('CODEMAP.md')) warn('codemap', 'CODEMAP.md ainda não existe — rode `node scripts/codemap.js`');
+  else pass('CODEMAP.md presente');
+}
+
+// ─────────────────────────────────────────────── 9. project artifacts
 
 function checkProjectArtifacts() {
   const artifacts = [
@@ -251,6 +269,7 @@ function main() {
   checkSessionLog();
   checkHooks();
   checkGitignore();
+  checkCodemap();
   checkProjectArtifacts();
 
   console.log(`\nos-self-test — modo: ${isOsRepo ? 'repo do AI Dev OS' : 'projeto derivado'}\n`);

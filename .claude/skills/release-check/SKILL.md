@@ -16,6 +16,7 @@ Do not re-implement checks that already have a skill. Delegate, then record the 
 | No leaked secrets or credentials | [`secrets-scan`](../secrets-scan/SKILL.md) | yes |
 | Personal-data changes reviewed | [`privacy-audit`](../privacy-audit/SKILL.md) | yes, when applicable |
 | Changelog updated | — | yes |
+| Codemap em dia | [`codemap`](../codemap/SKILL.md) — `node scripts/codemap.js --check` | yes |
 | Sprint doc updated | [`sprint-management`](../sprint-management/SKILL.md) | yes |
 | Session logs or ADRs for important decisions | [`decision-log`](../decision-log/SKILL.md) | warning |
 | OS structure still coherent | [`os-self-test`](../os-self-test/SKILL.md) | warning |

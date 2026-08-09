@@ -34,6 +34,7 @@ docs/product/DESIGN-DIRECTION.md        (Phase 3)
 docs/product/PRODUCT-BRIEF.md           (Phase 4)
 docs/technical/TECHNICAL-PLAN.md        (Phase 4)
 docs/SPRINTS.md                         (Phase 4)
+CODEMAP.md                              (Phase 5, generated from the code)
 CHANGELOG.md
 session-log/INDEX.md
 session-log/YYYY-MM-DD-project-genesis.md
