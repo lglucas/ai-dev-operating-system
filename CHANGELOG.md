@@ -40,9 +40,9 @@ O mapa também reporta quem passou de 200 linhas. Nenhum dos dois avisos bloquei
 
 Foi essa a escolha porque já sabemos o que acontece sem gate: três session-logs registram o `os-self-test` não sendo executado quando era skill.
 
-### Added — 17 testes novos
+### Added — 19 testes novos
 
-92 no total. Cobrem extração de `Purpose:` (JSDoc, hash, multilinha), os três fallbacks, escape de pipe que quebraria a tabela, e a descoberta de arquivos — incluindo o caso de `src/distribuidor/` não ser confundido com `dist/`.
+94 no total. Cobrem extração de `Purpose:` (JSDoc, hash, multilinha nos dois estilos), os três fallbacks, escape de pipe que quebraria a tabela, a recusa em seguir symlink rastreado, e a descoberta de arquivos — incluindo o caso de `src/distribuidor/` não ser confundido com `dist/`.
 
 ### Fixed
 

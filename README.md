@@ -278,7 +278,7 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 
 ```bash
 node scripts/os-self-test.js              # 9 coherence checks
-node --test scripts/test/*.test.js        # 92 unit tests
+node --test scripts/test/*.test.js        # 94 tests (93 unit, 1 integration)
 node scripts/codemap.js --check           # codemap in sync with the code
 ```
 
