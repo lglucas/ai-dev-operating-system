@@ -26,7 +26,8 @@ If arguments are omitted, the skill will read project signals from `docs/busines
 
 ## When to use
 
-- Right after `WIZARD.md` Stage 11.5 (between Technical Plan and Sprint roadmap).
+- At `WIZARD.md` **stage 3.1** — design-scoped pass, before the Prototype Lab. Output: `docs/technical/registry-pick-design.md`.
+- At `WIZARD.md` **stage 4.3** — full stack pass, after the Technical Plan. Output: `docs/technical/registry-pick.md`.
 - When a new domain need surfaces mid-build.
 - After a new pack is added to `docs/registry/`.
 

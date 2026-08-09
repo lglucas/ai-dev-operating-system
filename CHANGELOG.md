@@ -6,6 +6,59 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [Unreleased] — v0.5.0 in progress
+
+> v0.5.0 is being delivered in four independent PRs. This section accumulates until the last one lands, then gets cut as a release.
+>
+> - [x] **PR 1** — WIZARD restructured into 5 phases, prototype before spec *(this entry)*
+> - [ ] **PR 2** — Pitch artifact + "BP/Pitch online?" decision
+> - [ ] **PR 3** — Skill frontmatter fix + audit
+> - [ ] **PR 4** — awesome-selfhosted catalog + managed-vs-self-hosted question
+
+### Changed — WIZARD is now 5 phases, and the prototype comes before the spec
+
+**Breaking for anyone referencing stages by number.** The four competing numberings (`README.md` 15 steps, `WIZARD.md` overview 17 items, `WIZARD.md` stage headings `0`–`14`, `docs/wizard/` files `01`–`08`) were unified into one:
+
+| Phase | Stages | Commit tag |
+|---|---|---|
+| 1 — Largada | 1.1–1.3 | `[STAGE:LARGADA]` |
+| 2 — Ideação | 2.1–2.8 | `[STAGE:IDEACAO]` |
+| 3 — Protótipo | 3.1–3.3 | `[STAGE:PROTOTIPO]` |
+| 4 — Documentação | 4.1–4.4 | `[STAGE:DOCUMENTACAO]` |
+| 5 — Chegada | 5.1 | `[STAGE:CHEGADA]` |
+
+- **Prototype Lab moved from last-before-coding to Phase 3** — before the Product Brief and Technical Plan, which are now reverse-engineered from the approved prototype.
+- **Fractional stages eliminated.** `Stage 0.5` (detach) → `1.2`. `Stage 11.5` (registry pick) → split into `3.1` (design packs, before prototyping) and `4.3` (stack packs, after the Technical Plan).
+- **Phases map 1:1 onto the five commit tags** in `.claude/rules/wizard-stage-tags.md`. No translation table. This also fixes a pre-existing bug: under the old order `PROTOTIPO` came chronologically *after* `DOCUMENTACAO`, so systems inferring progress from tag sequence saw projects moving backwards. The five tag values are unchanged; old commits stay valid.
+- **Sprint -1 changed job** from building the prototype to consolidating it into a design system. `docs/sprints/sprint--1-prototype-lab.md` → `docs/sprints/sprint--1-design-system.md`.
+- **BP v0.0.2 gained an exit condition** at stage 2.8: it must explicitly state personas, positioning, MVP scope, and the primary user flow, because Phase 3 has no Product Brief to read.
+
+### Added
+
+- `docs/product/DESIGN-DIRECTION.md` as a required Phase 3 artifact — the bridge to Phase 4. Records chosen direction, color tokens, typography scale, spacing, component inventory, screens, the flow as actually clicked, and a mandatory **"implied but never shown"** gaps table (empty states, errors, permissions, long data, offline, mobile, accessibility).
+- `templates/product/DESIGN-DIRECTION.template.md`.
+- `docs/technical/registry-pick-design.md` as the output of the new design-scoped registry pass.
+- `docs/wizard/phase-1-largada.md` … `phase-5-chegada.md` — five phase files replacing the eight `01`–`08` topic files. Includes Technical Plan guidance, which `docs/wizard/` never had.
+
+### Removed
+
+- `docs/wizard/01-ideation.md`, `02-research-waves.md`, `03-business-plan.md`, `04-business-plan-review.md`, `05-product-brief.md`, `06-sprint-planning.md`, `07-prototype-lab.md`, `08-first-coding-sprint.md` — consolidated into the five phase files. Migration table kept in `docs/wizard/README.md`.
+
+### Why
+
+A written spec invents its own completeness: it says "the user manages their projects" and moves on. A prototype forces the question *what does this screen look like when the list is empty?* — and either it was answered or the hole is visible. Phase 4 is now required to record those gaps rather than silently fill them.
+
+The Technical Plan gets a second benefit: its data model is derived from `prototype-lab/shared/mock-data.js`. Mock data written to make three screens look real contains exactly the fields the product displays and nothing speculative.
+
+Phases were chosen over a renumbered flat list because inserting a step into a flat list renumbers everything downstream — which is precisely how `0.5` and `11.5` came to exist. Under phases, insertion only renumbers within one phase, and the five phase names never move.
+
+### Migration notes
+
+- Historical records (`CHANGELOG.md` entries below, `RELEASE-NOTES-v0.4.*.md`, prior session logs) still say "Stage 0.5" / "Stage 11.5". They were deliberately not rewritten — they accurately record what was true at the time.
+- `course/` content still references the old ordering and will drift until updated separately.
+
+---
+
 ## [0.4.5] — 2026-05-04 — Course vertical: workshop em 3 aulas (Experience Learning) + 2 sistemas planejados
 
 ### Added — Vertical educacional `course/`

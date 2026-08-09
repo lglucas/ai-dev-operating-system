@@ -102,7 +102,7 @@ cd my-new-saas
   powershell scripts/detach-os.ps1 # Windows
   ```
 
-- Or let WIZARD Stage 0.5 walk you through it on first run.
+- Or let WIZARD stage 1.2 (Phase 1 — Largada) walk you through it on first run.
 
 The script (and the wizard) will explain what `origin` is, how to create a new GitHub repo, how to swap remotes, and how to keep `.env` out of the repo.
 

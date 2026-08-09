@@ -3,7 +3,8 @@
 Each document has one responsibility:
 
 - `BUSINESS-PLAN.md`: business narrative.
-- `PRODUCT-BRIEF.md`: operational product understanding.
+- `DESIGN-DIRECTION.md`: the approved prototype direction — tokens, screens, flow. Written in Phase 3, read by Phase 4.
+- `PRODUCT-BRIEF.md`: operational product understanding, reverse-engineered from the prototype.
 - `TECHNICAL-PLAN.md`: architecture, stack, security, tests.
 - `SPRINTS.md`: roadmap and execution plan.
 - `CHANGELOG.md`: what changed.
