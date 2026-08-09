@@ -89,7 +89,7 @@ A escolha por gate automático não foi preferência de estilo. Três session-lo
 | `.claude/rules/codemap.md` | A regra: ler antes de procurar, regenerar ao mexer em arquivo. |
 | `.claude/skills/codemap/SKILL.md` | 28ª skill, com gatilhos em português. |
 | `templates/project/CODEMAP.template.md` | Placeholder do projeto novo. |
-| `scripts/test/codemap.test.js` | 17 testes. |
+| `scripts/test/codemap.test.js` | 19 testes. |
 
 E a fiação: `documentation-layers` (regra e doc), `release-check`, `sprint-management`, `ci.yml`, `os-self-test.js`, `WIZARD.md` 5.1, `phase-5-chegada.md`, `templates/project/CLAUDE.md`, README e `docs/skill-system.md`.
 
@@ -97,13 +97,14 @@ E a fiação: `documentation-layers` (regra e doc), `release-check`, `sprint-man
 
 ## 7. Testes
 
-**92 no total**, 17 novos. Cobrem:
+**94 no total**, 19 novos. Cobrem:
 
 - extração de `Purpose:` em JSDoc, em comentário `#` e em cabeçalho multilinha;
 - os três fallbacks e o caso do arquivo sem cabeçalho;
 - escape de `|` na descrição, que quebraria a tabela Markdown;
 - descoberta de arquivos — incluindo `src/distribuidor/` **não** ser confundido com `dist/` pelo filtro de diretórios ignorados;
-- os dois modos: repo do OS (skip) e projeto derivado (gera).
+- os dois modos: repo do OS (skip) e projeto derivado (gera);
+- a recusa em seguir symlink rastreado, rodando o gerador num repo temporário e falhando se conteúdo de fora do repo vazar para o mapa.
 
 ---
 
