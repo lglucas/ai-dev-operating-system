@@ -10,7 +10,7 @@ Convenção **opcional**: marque a fase do WIZARD no fim da mensagem de commit c
 | `[STAGE:DOCUMENTACAO]` | 4 — Brief, Technical Plan, roadmap |
 | `[STAGE:CHEGADA]` | 5 — Sprint 1, deploy |
 
-```
+```text
 feat(prototype): três direções visuais [STAGE:PROTOTIPO]
 ```
 

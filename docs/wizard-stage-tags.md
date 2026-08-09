@@ -22,7 +22,7 @@ Adicione `[STAGE:X]` no fim da mensagem de commit. As 5 tags correspondem **1:1 
 
 ## Exemplos
 
-```
+```text
 feat: setup inicial e estrutura canônica [STAGE:LARGADA]
 docs: 10 perguntas estratégicas respondidas [STAGE:IDEACAO]
 docs(business): BP v0.0.2 com correções do red team [STAGE:IDEACAO]
@@ -46,9 +46,11 @@ Se a tag for esquecida, ferramentas que dependem dela podem inferir a fase pelos
 | Arquivos tocados | Fase inferida |
 |---|---|
 | `knowledge-base/`, `docs/business/BUSINESS-PLAN.md`, `docs/business/PITCH.md` | `IDEACAO` |
-| `prototype-lab/`, `docs/product/DESIGN-DIRECTION.md` | `PROTOTIPO` |
-| `docs/product/PRODUCT-BRIEF.md`, `docs/technical/`, `docs/SPRINTS.md` | `DOCUMENTACAO` |
+| `prototype-lab/`, `docs/product/DESIGN-DIRECTION.md`, **`docs/technical/registry-pick-design.md`** | `PROTOTIPO` |
+| `docs/product/PRODUCT-BRIEF.md`, `docs/technical/TECHNICAL-PLAN.md`, `docs/technical/registry-pick.md`, `docs/SPRINTS.md` | `DOCUMENTACAO` |
 | `src/`, `app/` | `CHEGADA` |
+
+⚠️ **A ordem das regras importa.** `registry-pick-design.md` mora em `docs/technical/` mas é produzido no estágio **3.1**, antes de prototipar. Uma regra genérica de `docs/technical/ → DOCUMENTACAO` o classificaria errado. Case o caminho específico **antes** do diretório.
 
 Tags explícitas são preferidas porque eliminam ambiguidade.
 

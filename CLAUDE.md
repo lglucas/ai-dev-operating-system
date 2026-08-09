@@ -49,7 +49,7 @@ The canonical wizard is `WIZARD.md`. It runs in **5 phases**:
 |---|---|---|
 | 1 | Largada | detached repo, project intro |
 | 2 | Ideação | research, red team, BP v0.0.2 |
-| 3 | Protótipo | brand, color, UI, UX — three clickable directions |
+| 3 | Protótipo | brand, color, UI, UX — three clickable directions, one approved, and `docs/product/DESIGN-DIRECTION.md` written as the bridge into Phase 4 |
 | 4 | Documentação | Product Brief + Technical Plan reverse-engineered from the prototype, then the roadmap |
 | 5 | Chegada | Sprint 0 / Sprint 1 |
 

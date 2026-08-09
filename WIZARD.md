@@ -299,7 +299,7 @@ docs/business/BUSINESS-PLAN.md
 
 BP version becomes `v0.0.2`.
 
-**BP v0.0.2 is the contract that Phase 3 builds against.** Before leaving this phase, confirm the BP explicitly states: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on — these four items are its only specification.
+**BP v0.0.2 is the contract that Phase 3 builds against.** Before leaving this phase, confirm the BP explicitly states: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on, so these four are the **minimum** it can rely on — alongside the research in `knowledge-base/` and the ten strategic questions, which remain inputs.
 
 ---
 
@@ -605,7 +605,17 @@ Each sprint should include objective, DoD, deliverables, agents, skills, securit
 
 ## 5.1 — Start coding only after approval
 
-Only after the user approves BP v0.0.2, the prototype direction, the Product Brief, the Technical Plan, and the sprint roadmap may Claude begin Sprint 0 / Sprint 1 implementation.
+Only after the user approves BP v0.0.2, the prototype direction, the Product Brief, the Technical Plan, and the sprint roadmap may Claude begin implementation.
+
+The sequence is **Sprint -1 → Sprint 0 → Sprint 1**:
+
+| Sprint | Job |
+|---|---|
+| **-1 — Design System** | Consolidate the approved prototype and `DESIGN-DIRECTION.md` into real tokens, components and layout primitives. Defined at stage 4.4. |
+| **0 — Setup** | Environment, repo hygiene, CI, deploy target. |
+| **1 — Foundation** | The first real feature, on top of the design system. |
+
+Skipping Sprint -1 means Sprint 1 reinvents the design decisions the prototype already made.
 
 The first coding sprint must follow `.claude/rules/`.
 

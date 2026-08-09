@@ -53,7 +53,7 @@ Claude applies the corrections, then runs a second pass checking every change fo
 
 `BP v0.0.2` becomes the contract that Phase 3 builds against.
 
-**Before leaving stage 2.8**, confirm the BP explicitly states four things: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on — these four are its only specification.
+**Before leaving stage 2.8**, confirm the BP explicitly states four things: personas, positioning, MVP scope, and the primary user flow. Phase 3 has no Product Brief to lean on, so these four are the **minimum** it can rely on — the research in `knowledge-base/` and the ten strategic questions remain inputs too.
 
 ---
 

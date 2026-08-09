@@ -176,19 +176,21 @@ Me fale sobre teu projeto.
 Behind the scenes, Claude is instructed to create and maintain:
 
 ```txt
-docs/business/BUSINESS-PLAN.md
-docs/business/PITCH.md
-prototype-lab/
-docs/product/DESIGN-DIRECTION.md
-docs/product/PRODUCT-BRIEF.md
-docs/technical/TECHNICAL-PLAN.md
-docs/SPRINTS.md
-CHANGELOG.md
-session-log/
-knowledge-base/
+Phase 2  knowledge-base/                          ← Wave 1, before the BP
+         docs/business/BUSINESS-PLAN.md
+         docs/business/PITCH.md
+Phase 3  docs/technical/registry-pick-design.md   ← 3.1, before prototyping
+         prototype-lab/
+         docs/product/DESIGN-DIRECTION.md
+Phase 4  docs/product/PRODUCT-BRIEF.md
+         docs/technical/TECHNICAL-PLAN.md
+         docs/technical/registry-pick.md          ← 4.3, before the roadmap
+         docs/SPRINTS.md
+always   CHANGELOG.md
+         session-log/
 ```
 
-The order above is the order the wizard produces them in.
+That is the order the wizard produces them in. `CHANGELOG.md` and `session-log/` are maintained throughout every phase, not written at the end.
 
 ---
 

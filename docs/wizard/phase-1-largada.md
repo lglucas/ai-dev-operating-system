@@ -9,6 +9,8 @@
 
 The user ends this phase with a repository that belongs to them, is detached from the OS origin, and is safe to commit to.
 
+**Exceção documentada:** o usuário pode adiar o setup de Git/GitHub. Nesse caso o wizard continua, mas o estágio 1.2 registra o adiamento e **nenhum commit pode acontecer até o desacoplamento estar completo** — commitar antes disso é exatamente o cenário que esta fase existe para evitar.
+
 ---
 
 ## 1.1 — Repository comprehension

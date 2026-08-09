@@ -63,4 +63,6 @@ Claude then writes `docs/product/DESIGN-DIRECTION.md`: chosen direction and why,
 
 **This file is the bridge to Phase 4.** Without it, the reverse engineering has nothing concrete to read.
 
+Além do artefato, a fase produz uma **decisão durável** — e decisão vai para o `session-log/`, por golden rule 4. Registre a direção aprovada, as alternativas rejeitadas e por quê, a data e quem aprovou. Daqui a seis meses "por que a gente escolheu essa cara?" é uma pergunta real, e o `DESIGN-DIRECTION.md` responde *o quê*, não *por quê*.
+
 Hard stop — Claude waits for explicit approval before entering Phase 4.
