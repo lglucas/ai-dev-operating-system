@@ -6,6 +6,7 @@ Each entry captures the reasoning behind a material decision: what was true befo
 
 | Date | Topic | File |
 |---|---|---|
+| 2026-08-08 | v0.5.3 — `CODEMAP.md` como camada de documentação: índice gerado do código, uma linha por arquivo, para achar sem ler; descrição extraída do cabeçalho `Purpose:` que a `code-style` já exigia; escopo no projeto derivado e gate de CI que falha na divergência | [`2026-08-08-v0.5.3-codemap.md`](2026-08-08-v0.5.3-codemap.md) |
 | 2026-08-08 | v0.5.2 — o kernel: hooks PreToolUse que bloqueiam commit de segredo e escrita em `.env`, frontmatter em comandos e agentes, `os-self-test` como script no CI, manifesto de plugin, reequilíbrio das regras, e 75 testes que acharam 2 bypass reais no hook | [`2026-08-08-v0.5.2-kernel.md`](2026-08-08-v0.5.2-kernel.md) |
 | 2026-08-08 | v0.5.1 — pesquisa de equivalentes self-hosted para as 7 lacunas + Supabase e alternativas ao Luma; 90+ repos consultados na API do GitHub, revelando "open core" como terceira armadilha de licença (13 projetos) | [`2026-08-08-v0.5.1-selfhosted-gaps.md`](2026-08-08-v0.5.1-selfhosted-gaps.md) |
 | 2026-08-08 | v0.5.0 PR 4 — awesome-selfhosted (1.346 projetos) espelhado em `docs/selfhosted/` sob CC-BY-SA 3.0 com carve-out de licença, shortlist curada por categoria de SaaS, e a pergunta gerenciado-vs-self-hosted no estágio 4.2 | [`2026-08-08-v0.5.0-selfhosted-catalog.md`](2026-08-08-v0.5.0-selfhosted-catalog.md) |

@@ -8,7 +8,7 @@ A skill tells the agent how to execute a workflow.
 
 ---
 
-## The 27 skills, by job
+## The 28 skills, by job
 
 Current inventory. For the full audit of how discoverable each one is, see [`skill-audit-2026-08-08.md`](skill-audit-2026-08-08.md).
 
@@ -35,6 +35,7 @@ Current inventory. For the full audit of how discoverable each one is, see [`ski
 | `sprint-management` | Open, track, and close sprints |
 | `verify-build-works` | Smoke-test build, dev server, main flow |
 | `rollback-safe` | Undo the last AI change without losing work |
+| `codemap` | Regenerate `CODEMAP.md`; read it to locate code without reading code |
 | `deploy-vercel-supabase` | First production deploy |
 | `release-check` | Pre-release gate, delegating to the skills below |
 

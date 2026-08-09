@@ -36,9 +36,23 @@ project/
 │   └── agents/
 ├── docs/
 ├── session-log/
+├── CODEMAP.md
 ├── CHANGELOG.md
 └── src/
 ```
+
+## Finding code
+
+Read `CODEMAP.md` **before** grepping or opening files — it lists every code file with one line about its core, so you locate the right file with one read instead of several.
+
+It is generated, not written by hand:
+
+```bash
+node scripts/codemap.js           # regenerate after adding, removing or renaming a code file
+node scripts/codemap.js --check   # CI runs this and fails if the map is stale
+```
+
+If a file's line in the map is unhelpful, the defect is in that file's `Purpose:` header. Fix the header and regenerate — never edit `CODEMAP.md` by hand.
 
 ## Agents
 

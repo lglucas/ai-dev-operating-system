@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-ready-7B61FF)](START-HERE.md)
-[![Status](https://img.shields.io/badge/status-v0.5.2%20kernel-green)](CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v0.5.3%20codemap-green)](CHANGELOG.md)
 [![Made for SaaS](https://img.shields.io/badge/made%20for-SaaS%20builders-111827)](#what-this-gives-you)
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
@@ -64,11 +64,11 @@ Claude should read the repo structure, understand the operating system, and star
 
 ## 🧠 What this gives you
 
-- A ready-to-use `.claude/` runtime: **27 skills, 12 agents, 11 commands, 11 rules** — and **hooks that block secret commits mechanically**, not by asking nicely.
+- A ready-to-use `.claude/` runtime: **28 skills, 12 agents, 11 commands, 12 rules** — and **hooks that block secret commits mechanically**, not by asking nicely.
 - A single start file: [`START-HERE.md`](START-HERE.md).
 - A guided wizard for ideation, research, business planning, review, sprint planning, prototyping, and first implementation.
 - Agent workflows for market research, competitor analysis, red-team critique, technical/security review, coordination, and investor-ready copywriting.
-- Documentation layers: `PRODUCT-BRIEF.md`, `BUSINESS-PLAN.md`, `TECHNICAL-PLAN.md`, `SPRINTS.md`, `CHANGELOG.md`, and `session-log/`.
+- Documentation layers: `PRODUCT-BRIEF.md`, `BUSINESS-PLAN.md`, `TECHNICAL-PLAN.md`, `SPRINTS.md`, `CODEMAP.md`, `CHANGELOG.md`, and `session-log/`.
 - A disposable `prototype-lab/` for 3 HTML prototype directions — built before the Product Brief and Technical Plan, which are then reverse-engineered from the direction you approve.
 - Security, privacy, changelog, sprint, and coding rules from day zero.
 - Optional stack packs for SaaS, Next.js/Supabase, Solana, marketplace products, and other specialized projects.
@@ -224,11 +224,12 @@ Phase 4  docs/product/PRODUCT-BRIEF.md
          docs/technical/TECHNICAL-PLAN.md
          docs/technical/registry-pick.md          ← 4.3, before the roadmap
          docs/SPRINTS.md
+Phase 5  CODEMAP.md                               ← generated, once code exists
 always   CHANGELOG.md
          session-log/
 ```
 
-That is the order the wizard produces them in. `CHANGELOG.md` and `session-log/` are maintained throughout every phase, not written at the end.
+That is the order the wizard produces them in. `CHANGELOG.md` and `session-log/` are maintained throughout every phase, not written at the end. `CODEMAP.md` cannot exist earlier — there is no code to map before Phase 5 — but from then on it is regenerated whenever the file list, a `Purpose:` header, or a line count changes — which, since the map stores exact counts, is most edits.
 
 ---
 
@@ -252,7 +253,7 @@ Core roles include:
 
 ## 🛠️ Skills
 
-The `.claude/skills/` layer contains **27 reusable workflows**. Full inventory grouped by job: [`docs/skill-system.md`](docs/skill-system.md).
+The `.claude/skills/` layer contains **28 reusable workflows**. Full inventory grouped by job: [`docs/skill-system.md`](docs/skill-system.md).
 
 One per wizard stage:
 
@@ -267,7 +268,7 @@ One per wizard stage:
 | `product-brief` | 4.1 | reverse-engineers the brief from the prototype |
 | `sprint-roadmap` | 4.4 | the 14–20 sprint roadmap |
 
-Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, `release-check`…), safety (`secrets-discipline`, `secrets-scan`, `privacy-audit`, `multi-ai-review`), money and growth (`cost-watchdog`, `usage-monitor`, `first-100-users`, `grow-sustainably`), and working-with-a-vibe-coder (`daily-standup`, `plain-portuguese-explainer`, `decision-log`, `processize`, `os-self-test`).
+Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, `codemap`, `release-check`…), safety (`secrets-discipline`, `secrets-scan`, `privacy-audit`, `multi-ai-review`), money and growth (`cost-watchdog`, `usage-monitor`, `first-100-users`, `grow-sustainably`), and working-with-a-vibe-coder (`daily-standup`, `plain-portuguese-explainer`, `decision-log`, `processize`, `os-self-test`).
 
 **Every skill declares when to reach for it**, in Portuguese, in its frontmatter — a description that only says what a skill *does* never gets invoked. See the [skill audit](docs/skill-audit-2026-08-08.md) for how that was fixed.
 
@@ -276,15 +277,44 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 ## ✅ The OS tests itself
 
 ```bash
-node scripts/os-self-test.js              # 8 coherence checks
-node --test scripts/test/*.test.js        # 75 unit tests
+node scripts/os-self-test.js              # 9 coherence checks
+node --test scripts/test/*.test.js        # 92 unit tests
+node scripts/codemap.js --check           # codemap in sync with the code
 ```
 
-`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, and gitignore hygiene. It runs in CI on every push.
+`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, and that the codemap layer is wired. It runs in CI on every push.
 
 It used to be a checklist a human had to remember — and three session logs record it going unrun exactly when it would have helped. That is why it is a script now.
 
 The unit tests cover the hooks and the catalogue generator. They earned their keep immediately: they found **two ways to bypass the secret-blocking hook** (`git -C dir commit` and `git add . && git commit`) that manual testing had missed.
+
+---
+
+## 🗺️ CODEMAP — finding code without reading it
+
+Two rules in this OS exist for the same reason, and they only pay off together:
+
+- **Code files stay under 200 lines** (`code-style`) — so any single file is cheap to read.
+- **`CODEMAP.md` lists every code file with one line about its core** (`codemap`) — so you rarely need to read one you didn't want.
+
+Without the map, an agent looking for "where login happens" greps, guesses, opens four files and reads three it didn't need. With it, it reads one file — the map — and then the right file. That is the whole idea: **fewer tokens per task**, which is also fewer chances to act on the wrong file.
+
+```bash
+node scripts/codemap.js           # regenerate
+node scripts/codemap.js --check   # CI runs this; exits 1 if stale
+```
+
+The description is **generated, never hand-written** — pulled from the `Purpose:` header that `code-style` already requires. Falls back to the leading block comment, then to the first line comment, and finally to `⚠️ sem cabeçalho`. That last case is deliberate: a file with no header shows up flagged in the map, so the codemap ends up policing the header rule as a side effect. Fix the header, not the map.
+
+**Scope: the derived project, not this repo.** Inside the AI Dev OS itself the script self-skips and exits 0 — the OS ships the machinery, your project owns the map. `templates/project/CODEMAP.template.md` is the placeholder a new project starts from.
+
+A stale map is worse than no map — the agent trusts it, skips reading, and acts on stale information. So it is enforced in three places rather than suggested in one:
+
+| Where | When |
+|---|---|
+| `.github/workflows/ci.yml` | Every push and PR. Fails on drift. |
+| `sprint-management` | Regenerated during the sprint and again at sprint close. |
+| `release-check` | Blocking gate before any release. |
 
 ---
 
@@ -300,6 +330,7 @@ The unit tests cover the hooks and the catalogue generator. They earned their ke
 | `docs/product/PRODUCT-BRIEF.md` | Operational product understanding, reverse-engineered from the prototype. |
 | `docs/technical/TECHNICAL-PLAN.md` | Stack, architecture, data, security, test plan. |
 | `docs/SPRINTS.md` | Detailed sprint roadmap. |
+| `CODEMAP.md` | One line per code file, generated. Read it to find code instead of reading the code. |
 | `CHANGELOG.md` | What changed by version. |
 | `session-log/` | Why decisions were made. |
 | `knowledge-base/` | Research outputs and source summaries. |

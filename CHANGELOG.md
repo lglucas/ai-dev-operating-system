@@ -6,6 +6,51 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.5.3] — 2026-08-08 — CODEMAP: a IA acha o arquivo sem ler o repositório
+
+Nova camada de documentação, e ela existe pelo mesmo motivo que o limite de 200 linhas: **menos token lido por tarefa**. Arquivos curtos resolvem metade; um índice de uma linha por arquivo resolve a outra.
+
+Detalhes em [`RELEASE-NOTES-v0.5.3.md`](RELEASE-NOTES-v0.5.3.md).
+
+### Added — `CODEMAP.md` como camada de documentação
+
+Todo arquivo de código com uma linha sobre seu núcleo, agrupado por diretório, com contagem de linhas. **Leia antes de procurar** — uma leitura contra dezenas.
+
+| Peça | O que faz |
+|---|---|
+| `scripts/codemap.js` | gera e verifica; `--check` sai 1 se divergir |
+| `.claude/rules/codemap.md` | a regra, curta — ler antes de buscar, regenerar ao mexer em arquivo |
+| `.claude/skills/codemap/SKILL.md` | 28ª skill, com gatilhos ("onde fica o arquivo de X?") |
+| `templates/project/CODEMAP.template.md` | placeholder para projeto novo |
+| Job de CI | falha quando o mapa está desatualizado |
+
+**Escopo: o projeto derivado, não o OS.** Dentro do repositório do próprio AI Dev OS o script se desliga e sai 0 — o OS entrega a maquinaria, o projeto é que tem o código.
+
+### Changed — a descrição é gerada, não escrita à mão
+
+Extraída do cabeçalho `Purpose:` que a `code-style` **já exigia**. Fallback: bloco de comentário → comentário de linha → `⚠️ sem cabeçalho`.
+
+Esse último caso é deliberado: arquivo sem cabeçalho aparece marcado no mapa, ou seja, **o codemap acaba fiscalizando a regra de cabeçalho** como efeito colateral. Se uma descrição ficou ruim, o defeito está no cabeçalho — o conserto é lá, não no mapa.
+
+O mapa também reporta quem passou de 200 linhas. Nenhum dos dois avisos bloqueia; o que bloqueia é o mapa estar **desatualizado**.
+
+### Changed — enforcement contínuo, não boa intenção
+
+`sprint-management` regenera durante a sprint e no fechamento; `release-check` delega antes de qualquer release; `os-self-test` valida que a camada está fiada. E o CI falha na divergência.
+
+Foi essa a escolha porque já sabemos o que acontece sem gate: três session-logs registram o `os-self-test` não sendo executado quando era skill.
+
+### Added — 17 testes novos
+
+92 no total. Cobrem extração de `Purpose:` (JSDoc, hash, multilinha), os três fallbacks, escape de pipe que quebraria a tabela, e a descoberta de arquivos — incluindo o caso de `src/distribuidor/` não ser confundido com `dist/`.
+
+### Fixed
+
+- `templates/project/CODEMAP.template.md` linkava `.claude/rules/codemap.md`, que resolve na raiz do projeto derivado mas não de `templates/project/`. Pego pelo próprio `os-self-test`. Virou caminho em texto, com a razão explicada.
+- Numeração duplicada em "Close sprint" após inserir o passo do codemap.
+
+---
+
 ## [0.5.2] — 2026-08-08 — Prototype before spec, and the kernel that enforces the rules
 
 The largest release since the OS went public. Two structural changes: the wizard now **prototypes before it specifies**, and the OS finally **enforces something mechanically** instead of only asking the model nicely.

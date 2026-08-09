@@ -33,6 +33,13 @@ jobs:
       - name: Script unit tests
         run: node --test scripts/test/*.test.js
 
+      # Fails when CODEMAP.md drifts from the code. A stale codemap is worse than none:
+      # the agent trusts it, skips reading, and acts on wrong information.
+      # Inside this repo the script self-skips — the OS ships the machinery, the derived
+      # project owns the map — so here this step only proves the script still runs.
+      - name: Codemap up to date
+        run: node scripts/codemap.js --check
+
   lint-docs:
     runs-on: ubuntu-latest
     name: Markdown structure & links

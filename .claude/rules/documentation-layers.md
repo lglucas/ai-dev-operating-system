@@ -8,6 +8,7 @@ Each document has one responsibility:
 - `PRODUCT-BRIEF.md`: operational product understanding, reverse-engineered from the prototype.
 - `TECHNICAL-PLAN.md`: architecture, stack, security, tests.
 - `SPRINTS.md`: roadmap and execution plan.
+- `CODEMAP.md`: where the code is — every file with one line on its core. Generated; read it before searching the repo. See [`codemap.md`](codemap.md).
 - `CHANGELOG.md`: what changed.
 - `session-log/`: why decisions were made.
 - `knowledge-base/`: research and source notes.

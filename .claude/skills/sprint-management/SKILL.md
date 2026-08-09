@@ -20,6 +20,7 @@ description: Manage the sprint lifecycle — open a sprint, maintain the sprint 
 - Merge into sprint branch.
 - Keep sprint doc updated with scope changes and delivered work.
 - Use session logs for important decisions.
+- **Regenerate `CODEMAP.md` whenever a code file is created, removed or renamed** — `node scripts/codemap.js`. Doing it as you go beats doing it all at close.
 
 ## Close sprint
 
@@ -28,6 +29,7 @@ description: Manage the sprint lifecycle — open a sprint, maintain the sprint 
 3. Invoke coordinator review.
 4. Invoke adversarial review for meaningful releases.
 5. Update changelog.
-6. Update sprint doc with final status and retrospective.
-7. Merge sprint branch into `main`.
-8. Tag release.
+6. Regenerate the codemap — `node scripts/codemap.js` — and commit it if it changed.
+7. Update sprint doc with final status and retrospective.
+8. Merge sprint branch into `main`.
+9. Tag release.
