@@ -277,7 +277,7 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 
 ```bash
 node scripts/os-self-test.js              # 8 coherence checks
-node --test "scripts/test/*.test.js"      # 75 unit tests
+node --test scripts/test/*.test.js        # 75 unit tests
 ```
 
 `os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, and gitignore hygiene. It runs in CI on every push.

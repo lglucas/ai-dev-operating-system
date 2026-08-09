@@ -54,5 +54,5 @@ O script diz **o que** está quebrado. Interpretar e consertar continua sendo tr
 ## Related
 
 - Script: `scripts/os-self-test.js`
-- Testes dos scripts e hooks: `node --test "scripts/test/*.test.js"`
+- Testes dos scripts e hooks: `node --test scripts/test/*.test.js` (sem aspas — o shell expande; aspas exigem Node 21+)
 - Gate de release que o invoca: [`release-check`](../release-check/SKILL.md)

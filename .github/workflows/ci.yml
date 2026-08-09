@@ -24,10 +24,14 @@ jobs:
         run: node scripts/os-self-test.js
 
       # Unit tests for the hooks and the catalogue generator. Node's built-in runner —
-      # no dependencies, nothing to install. The glob is required: passing the directory
-      # makes Node v24 resolve it as a module path and fail with "Cannot find module".
+      # no dependencies, nothing to install.
+      #
+      # The glob is UNQUOTED on purpose, so the shell expands it. Passing the directory
+      # makes Node resolve it as a module path ("Cannot find module"), and quoting the
+      # glob only works on Node 21+, which added glob support to --test. Node 20 reports
+      # "Could not find '.../scripts/test/*.test.js'". Shell expansion works everywhere.
       - name: Script unit tests
-        run: node --test "scripts/test/*.test.js"
+        run: node --test scripts/test/*.test.js
 
   lint-docs:
     runs-on: ubuntu-latest
@@ -81,9 +85,15 @@ jobs:
       - name: Lychee link checker
         uses: lycheeverse/lychee-action@v2
         with:
+          # docs/selfhosted/catalog/ is excluded on purpose: it is a generated mirror of
+          # 1.346 third-party project URLs from awesome-selfhosted. We do not control those
+          # hosts, and a handful always fail CI for TLS, HTTP/2 or plain downtime — none of
+          # which is a defect in this repo. Upstream already runs its own dead-link checker,
+          # and `node scripts/sync-selfhosted.js` pulls the cleaned result.
           args: >-
             --no-progress
             --exclude-loopback
+            --exclude-path docs/selfhosted/catalog
             --exclude 'github\.com/lglucas/boringco'
             --exclude 'linkedin\.com'
             --exclude 'lume\.ufrgs\.br'
