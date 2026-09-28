@@ -22,6 +22,7 @@ Uma passada de `prompt-audit` sobre toda a superfície que o modelo lê — `CLA
 - `privacy-audit` prometia as nove perguntas da regra e a saída tinha seis campos. Entraram quem acessa, logs, caminho de exclusão/exportação e impacto em política.
 - `secrets-discipline` listava `sk_`, `pk_`, `re_` e `AIza`, mas não os padrões de `rules/secrets.md` — `sk-`, `ghp_`, `AKIA` —, justamente os das chaves que a própria descrição cita.
 - `os-self-test`: a tabela de verificações parou em 8 grupos; o script roda 11.
+- CI: `x.com` passou a responder 403 a robôs, e o lychee reprovava o link real do perfil em `README.md` e `ATTRIBUTIONS.md`. Entrou na lista de exclusão ao lado do `linkedin.com`, pelo mesmo motivo.
 
 ### Changed — texto escrito para modelos anteriores
 

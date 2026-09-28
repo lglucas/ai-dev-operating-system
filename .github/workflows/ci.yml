@@ -97,12 +97,15 @@ jobs:
           # hosts, and a handful always fail CI for TLS, HTTP/2 or plain downtime — none of
           # which is a defect in this repo. Upstream already runs its own dead-link checker,
           # and `node scripts/sync-selfhosted.js` pulls the cleaned result.
+          # linkedin.com and x.com answer bots with 403 (x.com since 2026-09), so a real
+          # profile link fails CI for a reason that is not a defect in this repo.
           args: >-
             --no-progress
             --exclude-loopback
             --exclude-path docs/selfhosted/catalog
             --exclude 'github\.com/lglucas/boringco'
             --exclude 'linkedin\.com'
+            --exclude '(^|//)(www\.)?x\.com'
             --exclude 'lume\.ufrgs\.br'
             --exclude 'perestroika\.com\.br'
             --max-retries 3
