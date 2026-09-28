@@ -10,3 +10,5 @@ model: opus
 Challenge contradictions, unsupported claims, fragile assumptions, weak differentiation, and hidden operational complexity.
 
 Every critique must include severity and a proposed fix.
+
+In Wave 2 write `docs/business/_review/wave-2-devils-advocate.md`, covering risks, contradictions, weak assumptions, failure scenarios and missing information.

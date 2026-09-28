@@ -6,6 +6,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.5.5] — 2026-09-28 — Auditoria de prompts para o Opus 5.5, e o drift de instruções vira check
+
+Uma passada de `prompt-audit` sobre toda a superfície que o modelo lê — `CLAUDE.md`, template de projeto, regras, 12 agentes, 11 comandos, 28 skills — com o Opus 5.5 como alvo. Dezesseis achados com edição, cinco só sinalizados. Detalhes e raciocínio em [`session-log/2026-09-28-v0.5.5-prompt-audit.md`](session-log/2026-09-28-v0.5.5-prompt-audit.md).
+
+### Fixed — instruções que apontavam para o que não existe
+
+- `templates/project/CLAUDE.md` — o arquivo que vira a constituição de **todo projeto derivado** — citava `security-agent`, `/feature-new`, `/privacy-check` e `/session-log`, nenhum dos quais existe. Vinha do commit inicial. A auditoria de skills de 2026-08-08 já tinha registrado parte disso por escrito, e o defeito sobreviveu mesmo assim.
+- `SECURITY.md` citava `technical-red-team-agent`; o nome é `technical-security-red-team-agent`.
+- `rollback-safe`: `git revert <bad-commit>..HEAD` **não reverte o primeiro commit ruim** — o intervalo exclui a ponta esquerda. O texto já dizia "pegue o último commit bom"; o comando agora usa esse commit.
+
+### Fixed — arquivos que contradiziam regras mais novas
+
+- `sprint-management` e o template mandavam regenerar o codemap só ao criar, remover ou renomear arquivo. A regra `codemap.md` diz que mudar a contagem de linhas basta — é o que faz o CI falhar.
+- `privacy-audit` prometia as nove perguntas da regra e a saída tinha seis campos. Entraram quem acessa, logs, caminho de exclusão/exportação e impacto em política.
+- `secrets-discipline` listava `sk_`, `pk_`, `re_` e `AIza`, mas não os padrões de `rules/secrets.md` — `sk-`, `ghp_`, `AKIA` —, justamente os das chaves que a própria descrição cita.
+- `os-self-test`: a tabela de verificações parou em 8 grupos; o script roda 11.
+
+### Changed — texto escrito para modelos anteriores
+
+- `prototype-lab` passa a nomear os estilos-padrão que o modelo usa quando não recebe direção (fundo creme, itálico em manchete, rótulos "01/02/03", monoespaçado, botão pílula). Pedir "três direções distintas" sem isso tende a produzir três variações do mesmo padrão.
+- Os sete agentes de uma linha (os três red teams, competitor, market, coordinator, copywriter) carregam o caminho de saída e o formato que o WIZARD define. Quem os chamava pela frase-gatilho, fora do wizard, rodava sem isso.
+- Modelos fixados por versão (`cost-watchdog`, exemplo Next.js + Supabase) viraram nome de tier.
+- Narrativa de versão ("invertido na v0.5.0", "Sprint -1 mudou de função", "desde a v0.5.2") saiu de `CLAUDE.md`, `project-genesis`, `sprint-roadmap`, `os-self-test`, `WIZARD.md` e `docs/wizard/phase-4`. A regra e o motivo ficaram; a arqueologia mora aqui e no session-log.
+- Tetos numéricos que contradiziam o próprio template (`daily-standup` "exactly 4 bullets", `plain-portuguese-explainer` "three-line max") viraram descrição do objetivo.
+
+### Added — `instruction-drift`, 11º grupo do `os-self-test`
+
+`scripts/instruction-drift.js` varre a superfície de instruções e **falha** quando um arquivo cita agente, comando ou estágio do WIZARD que não existe; **avisa** quando fixa uma geração de modelo em prosa. Registros datados, `CHANGELOG` e release notes ficam fora — são história, não instrução.
+
+Rodado contra a `main` anterior a esta release, pega os cinco defeitos de referência e os quatro modelos fixados. Na primeira execução no branch, achou o do `SECURITY.md`, que a auditoria manual tinha deixado passar.
+
+16 testes novos, 110 no total.
+
+---
+
 ## [0.5.4] — 2026-08-09 — O curso saiu de dentro do OS
 
 `course/` virou repositório próprio: **`lglucas/ai-dev-os-course`**. Nada de conteúdo mudou — os 11 arquivos foram para lá com histórico via `git subtree split`, e o Sprint 0 em andamento veio junto no branch `sprint-0-systems-html`.

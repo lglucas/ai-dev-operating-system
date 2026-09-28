@@ -1,6 +1,6 @@
 ---
 name: daily-standup
-description: At the start of a session (or on user request "o que a gente fez", "onde paramos"), produce a 4-bullet briefing — what's done, what's in progress, what's next, what's blocked. Replaces the dev habit of standup for solo vibe coders.
+description: At the start of a session (or on user request "o que a gente fez", "onde paramos"), produce a four-part briefing — what's done, what's in progress, what's next, what's blocked. Replaces the dev habit of standup for solo vibe coders.
 ---
 
 # Daily Standup
@@ -19,7 +19,7 @@ description: At the start of a session (or on user request "o que a gente fez", 
 - `docs/SPRINTS.md` or current sprint doc.
 - `CHANGELOG.md` recent entries.
 
-## Output format (always exactly 4 bullets, plain Portuguese)
+## Output format (four sections, plain Portuguese)
 
 ```
 ☀️ Bom dia. Onde a gente parou:

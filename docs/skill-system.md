@@ -61,7 +61,7 @@ Current inventory. For the full audit of how discoverable each one is, see [`ski
 
 | Skill | Purpose |
 |---|---|
-| `daily-standup` | 4-bullet "where we left off" briefing |
+| `daily-standup` | Four-part "where we left off" briefing |
 | `plain-portuguese-explainer` | Translate jargon into actionable Portuguese |
 | `decision-log` | Record why a decision was made |
 | `processize` | Codify a manually-validated workflow |

@@ -158,7 +158,7 @@ A coordinated set of agents, skills, and templates designed for **non-developers
 | [`secrets-discipline`](.claude/skills/secrets-discipline/SKILL.md) | Blocks accidental commits of API keys. |
 | [`cost-watchdog`](.claude/skills/cost-watchdog/SKILL.md) | Flags expensive choices (Opus loops, paid tiers, scale-poor DB) before they ship. |
 | [`plain-portuguese-explainer`](.claude/skills/plain-portuguese-explainer/SKILL.md) | Translates jargon and errors into plain Portuguese with non-tech analogies. |
-| [`daily-standup`](.claude/skills/daily-standup/SKILL.md) | 4-bullet "where we left off" briefing every session. |
+| [`daily-standup`](.claude/skills/daily-standup/SKILL.md) | Four-part "where we left off" briefing every session. |
 | [`os-self-test`](.claude/skills/os-self-test/SKILL.md) | Verifies the OS is internally coherent. |
 | [`.github/`](.github) | PR + issue templates with vibe-coder dimension and CI workflow enforcing canon. |
 
@@ -278,7 +278,7 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 
 ```bash
 node scripts/os-self-test.js              # 9 coherence checks
-node --test scripts/test/*.test.js        # 94 tests (93 unit, 1 integration)
+node --test scripts/test/*.test.js        # 110 tests (109 unit, 1 integration)
 node scripts/codemap.js --check           # codemap in sync with the code
 ```
 

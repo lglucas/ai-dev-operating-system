@@ -8,7 +8,7 @@ description: Enforce safe handling of API keys, tokens, passwords, and credentia
 ## When to run this skill
 
 - The user is adding a new integration (Stripe, Supabase, OpenAI, etc.).
-- The user pastes a string that looks like a secret (long random, starts with `sk_`, `pk_`, `re_`, etc.).
+- The user pastes a string that looks like a secret (long random, starts with `sk-`, `sk_`, `pk_`, `re_`, `ghp_`, `AKIA`, etc.).
 - Before any commit if any file in the changeset contains an `=` followed by a long opaque string.
 - The user says "vou colocar a chave" / "where do I put my key".
 
@@ -31,7 +31,7 @@ description: Enforce safe handling of API keys, tokens, passwords, and credentia
 2. Confirm each is referenced via `process.env.X` (or equivalent).
 3. Confirm `.env.example` documents each new variable with a comment explaining purpose.
 4. Confirm `.env`, `.env.local` are in `.gitignore`.
-5. Run a quick scan: search for accidental literal API keys (regex: `sk_[a-zA-Z0-9]{20,}`, `pk_[a-zA-Z0-9]{20,}`, `re_[a-zA-Z0-9]{20,}`, `AIza[a-zA-Z0-9\-_]{35}`).
+5. Run a quick scan: search for accidental literal API keys — the patterns in [`.claude/rules/secrets.md`](../../rules/secrets.md) (`sk-`, `ghp_`, `github_pat_`, `AKIA`, private-key headers) — the hook in [`.claude/hooks/`](../../hooks/README.md) blocks the same set at commit time — plus `sk_[a-zA-Z0-9]{20,}`, `pk_[a-zA-Z0-9]{20,}`, `re_[a-zA-Z0-9]{20,}`, `AIza[a-zA-Z0-9\-_]{35}`.
 6. If any literal secret is found in a tracked file, stop and ask the user to rotate.
 
 ## Output

@@ -20,8 +20,12 @@ description: Review any feature that collects, stores, processes, exports, or di
 Data involved:
 Purpose:
 Storage:
+Who can access:
 Access control:
 Retention:
+Logs generated:
+Deletion / export path:
+Policy, docs or consent updates:
 Risks:
 Required changes before merge:
 Verdict: PASS | PASS_WITH_NOTES | BLOCK

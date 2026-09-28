@@ -89,7 +89,7 @@ The project includes a baseline approach for safer AI-assisted development:
 - `.claude/skills/privacy-audit/`
 - `.claude/skills/release-check/`
 - `docs/security-baseline.md`
-- `technical-red-team-agent` style workflows
+- `technical-security-red-team-agent` style workflows
 - release and changelog discipline
 - session logs for decision traceability
 

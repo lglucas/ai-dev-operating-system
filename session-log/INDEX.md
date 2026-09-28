@@ -6,6 +6,7 @@ Each entry captures the reasoning behind a material decision: what was true befo
 
 | Date | Topic | File |
 |---|---|---|
+| 2026-09-28 | v0.5.5 — auditoria de prompts com o Opus 5.5 como alvo: 12 dos 16 achados eram referências inexistentes ou contradições entre arquivos, não prosa datada; o drift de instruções vira o 11º grupo do `os-self-test`, porque o achado escrito em agosto sobreviveu até setembro | [`2026-09-28-v0.5.5-prompt-audit.md`](2026-09-28-v0.5.5-prompt-audit.md) |
 | 2026-08-09 | v0.5.4 — curso extraído para repositório próprio (`ai-dev-os-course`): versionamento conjunto não produziu manutenção conjunta, e a herança via clone/template era invisível na documentação; `os-self-test` ganha verificação do manifesto do plugin, que estava uma release atrás | [`2026-08-09-v0.5.4-course-extraction.md`](2026-08-09-v0.5.4-course-extraction.md) |
 | 2026-08-08 | v0.5.3 — `CODEMAP.md` como camada de documentação: índice gerado do código, uma linha por arquivo, para achar sem ler; descrição extraída do cabeçalho `Purpose:` que a `code-style` já exigia; escopo no projeto derivado e gate de CI que falha na divergência | [`2026-08-08-v0.5.3-codemap.md`](2026-08-08-v0.5.3-codemap.md) |
 | 2026-08-08 | v0.5.2 — o kernel: hooks PreToolUse que bloqueiam commit de segredo e escrita em `.env`, frontmatter em comandos e agentes, `os-self-test` como script no CI, manifesto de plugin, reequilíbrio das regras, e 75 testes que acharam 2 bypass reais no hook | [`2026-08-08-v0.5.2-kernel.md`](2026-08-08-v0.5.2-kernel.md) |

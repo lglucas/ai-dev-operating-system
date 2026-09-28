@@ -48,7 +48,7 @@ Read `CODEMAP.md` **before** grepping or opening files — it lists every code f
 It is generated, not written by hand:
 
 ```bash
-node scripts/codemap.js           # regenerate after adding, removing or renaming a code file
+node scripts/codemap.js           # regenerate with any code change — the map records line counts
 node scripts/codemap.js --check   # CI runs this and fails if the map is stale
 ```
 
@@ -63,18 +63,18 @@ If a file's line in the map is unhelpful, the defect is in that file's `Purpose:
 | research-agent | External research or benchmarking |
 | devils-advocate-agent | Stress-test assumptions before release |
 | copywriter-agent | Copy, messaging, docs, landing pages |
-| security-agent | Security, privacy, secrets, access control |
+| technical-security-red-team-agent | Security, privacy, secrets, access control |
 
-## Commands
+## Commands and skills
 
-| Command | Purpose |
+| Command or skill | Purpose |
 |---|---|
 | `/sprint-start` | Start a new sprint |
 | `/sprint-close` | Close sprint, update changelog, prepare tag |
-| `/feature-new` | Scaffold a new feature |
-| `/privacy-check` | Run personal-data and compliance review |
-| `/release-check` | Run pre-release quality gate |
-| `/session-log` | Create decision memory |
+| `feature-scaffold` skill | Scaffold a new feature |
+| `privacy-audit` skill | Run personal-data and compliance review |
+| `release-check` skill | Run pre-release quality gate |
+| `decision-log` skill | Create decision memory |
 
 ## Current sprint
 

@@ -17,7 +17,7 @@ All prototypes must reflect `BP v0.0.2` (personas, positioning, MVP scope, prima
 
 ## Rules
 
-- Three directions, genuinely distinct — not three shades of one idea.
+- Three directions, genuinely distinct — not three shades of one idea. Without direction the model falls back on a few default looks; none of the three should rest on them: cream or beige background, italic accent words in headlines, numbered "01 / 02 / 03" section labels, monospace labels, pill-shaped buttons. If a first draft uses one, replace it and add it to this list.
 - **All three read the same file: `prototype-lab/shared/mock-data.js`.** Not "equivalent data" — the same file. Phase 4.2 derives the Technical Plan's entities from it, so it needs one guaranteed shared source.
 - Same core flows across all three, so the comparison is about design and not content.
 - Each direction carries an explicit brand hypothesis: palette, typography, density, tone.

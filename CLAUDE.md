@@ -56,6 +56,6 @@ The canonical wizard is `WIZARD.md`. It runs in **5 phases**:
 
 Do not simplify it. Do not skip phases.
 
-**Phase 3 runs before Phase 4, deliberately.** The prototype is built from BP v0.0.2 and the research; the Product Brief and Technical Plan are then derived from the approved prototype. Never write the Product Brief first and prototype against it — that is the old order and it was inverted on purpose in v0.5.0.
+**Phase 3 runs before Phase 4, deliberately.** The prototype is built from BP v0.0.2 and the research; the Product Brief and Technical Plan are then derived from the approved prototype. Never write the Product Brief first and prototype against it — a spec written before the prototype invents completeness the prototype would have shown as gaps.
 
 Do not move to code before all of Phase 1–4 is complete and approved.

@@ -9,7 +9,7 @@ description: Flag potentially expensive technical choices BEFORE they are commit
 
 - Before introducing any third-party service (LLM provider, DB, queue, monitoring, search, image, email).
 - Before suggesting a paid tier of any service the user is currently on free tier of.
-- When proposing model selection (Claude Opus vs Sonnet vs Haiku, GPT-4 vs 4o-mini, etc.).
+- When proposing model selection (Opus vs Sonnet vs Haiku tier, or the equivalent tiers of another provider).
 - When implementing patterns that scale poorly: N+1 queries, polling loops, full-text scans, unbounded retries.
 - When the user says "está caro" / "está cobrando demais" / "fiquei sem créditos".
 
@@ -17,7 +17,7 @@ description: Flag potentially expensive technical choices BEFORE they are commit
 
 ### LLM costs
 
-- **Default to Claude Haiku 4.5 or Sonnet 4.6** for routine work. Use Opus only for tasks that justify it (deep reasoning, business strategy, architecture).
+- **Default to the current Haiku or Sonnet tier** for routine work, and lower effort before dropping a tier. Use Opus only for tasks that justify it (deep reasoning, business strategy, architecture). Check the provider's current model and pricing page before quoting a number.
 - **Always cache prompts** that have a stable system prefix (saves up to 90% of input tokens).
 - **Loops are dangerous.** If a feature calls the LLM in a loop, calculate worst case before shipping.
 - **Streaming + early termination** when user might stop reading.
@@ -52,7 +52,7 @@ description: Flag potentially expensive technical choices BEFORE they are commit
 
 [HIGH]  Using Claude Opus inside a loop that may run 50+ times per user action.
         Estimated cost: $0.45 per user action. At 1000 users/day = $13,500/month.
-        Suggest: switch to Sonnet 4.6 ($0.06/action) or Haiku 4.5 ($0.01/action).
+        Suggest: switch to the Sonnet tier (~$0.06/action) or the Haiku tier (~$0.01/action).
 
 [MED]   Realtime Supabase subscription on `messages` table without filter.
         Will fire on every insert across all users.
