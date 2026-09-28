@@ -38,7 +38,7 @@ Uma passada de `prompt-audit` sobre toda a superfície que o modelo lê — `CLA
 
 Rodado contra a `main` anterior a esta release, pega os cinco defeitos de referência e os quatro modelos fixados. Na primeira execução no branch, achou o do `SECURITY.md`, que a auditoria manual tinha deixado passar.
 
-16 testes novos, 110 no total.
+21 testes novos, 115 no total.
 
 ---
 

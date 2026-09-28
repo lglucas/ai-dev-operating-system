@@ -19,7 +19,7 @@ const os = require('os');
 const path = require('path');
 
 const {
-  danglingCommands, danglingAgents, danglingStages, pinnedModels,
+  danglingCommands, danglingAgents, danglingStages, expandRange, pinnedModels,
   wizardHeadings, instructionFiles, scanRepo,
 } = require('../instruction-drift.js');
 
@@ -63,6 +63,23 @@ describe('danglingStages', () => {
   test('Phase N.N também é estágio', () => {
     assert.deepEqual(danglingStages('Runs at **Phase 4.4**', headings), ['4.4']);
   });
+  test('buraco no meio do intervalo é pego', () => {
+    const gap = wizardHeadings('## 2.4 — A\n## 2.6 — C\n');
+    assert.deepEqual(danglingStages('stages 2.4–2.6', gap), ['2.5']);
+  });
+});
+
+describe('expandRange', () => {
+  test('mesma fase expande todos os estágios', () => {
+    assert.deepEqual(expandRange('2.4', '2.6'), ['2.4', '2.5', '2.6']);
+  });
+  test('fases diferentes ou intervalo invertido ficam só nas pontas', () => {
+    assert.deepEqual(expandRange('2.9', '3.1'), ['2.9', '3.1']);
+    assert.deepEqual(expandRange('2.6', '2.4'), ['2.6', '2.4']);
+  });
+  test('estágio sozinho', () => {
+    assert.deepEqual(expandRange('3.2'), ['3.2']);
+  });
 });
 
 describe('pinnedModels', () => {
@@ -83,6 +100,9 @@ describe('scanRepo', () => {
   put('.claude/agents/coordinator-agent.md', '---\nname: coordinator-agent\n---\n');
   put('.claude/commands/sprint-start.md', '---\ndescription: x\n---\n');
   put('.claude/skills/release-check/SKILL.md', '---\nname: release-check\n---\n');
+  put('.claude/skills/external/README.md', 'reference folder, not a skill\n');
+  put('.claude/agents/notes.txt', 'not an agent\n');
+  put('docs/guide.md', 'invoke `/external` here\n');
   put('WIZARD.md', '## 2.5 — Red team\n');
   // The defect as it shipped in templates/project/CLAUDE.md until v0.5.5.
   put('templates/project/CLAUDE.md', '| security-agent | x |\n| `/feature-new` | x |\n| `/release-check` | x |\n');
@@ -96,6 +116,9 @@ describe('scanRepo', () => {
   test('reproduz o defeito do template', () => {
     assert.ok(refs.includes('templates/project/CLAUDE.md security-agent'), refs.join('\n'));
     assert.ok(refs.includes('templates/project/CLAUDE.md /feature-new'), refs.join('\n'));
+  });
+  test('pasta de referência sem SKILL.md não é comando invocável', () => {
+    assert.ok(refs.includes('docs/guide.md /external'), refs.join('\n'));
   });
   test('skill existente invocada como /nome não é defeito', () => {
     assert.ok(!refs.some(r => r.endsWith('/release-check')));

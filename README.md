@@ -277,12 +277,12 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 ## ✅ The OS tests itself
 
 ```bash
-node scripts/os-self-test.js              # 9 coherence checks
-node --test scripts/test/*.test.js        # 110 tests (109 unit, 1 integration)
+node scripts/os-self-test.js              # 11 coherence groups
+node --test scripts/test/*.test.js        # 115 tests (114 unit, 1 integration)
 node scripts/codemap.js --check           # codemap in sync with the code
 ```
 
-`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, and that the codemap layer is wired. It runs in CI on every push.
+`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, the codemap generator, the plugin manifest against the changelog, and instruction drift — agents, commands or WIZARD stages cited but missing (error) and model generations pinned in prose (warning). It runs in CI on every push.
 
 It used to be a checklist a human had to remember — and three session logs record it going unrun exactly when it would have helped. That is why it is a script now.
 

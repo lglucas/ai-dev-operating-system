@@ -52,7 +52,7 @@ description: Flag potentially expensive technical choices BEFORE they are commit
 
 [HIGH]  Using Claude Opus inside a loop that may run 50+ times per user action.
         Estimated cost: $0.45 per user action. At 1000 users/day = $13,500/month.
-        Suggest: switch to the Sonnet tier (~$0.06/action) or the Haiku tier (~$0.01/action).
+        Suggest: switch to the Sonnet tier or the Haiku tier; check current provider pricing before quoting the per-action cost.
 
 [MED]   Realtime Supabase subscription on `messages` table without filter.
         Will fire on every insert across all users.

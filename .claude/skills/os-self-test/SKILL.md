@@ -26,7 +26,7 @@ Rode o script em vez de conferir à mão: verificação que depende de alguém l
 | Session-log | toda entrada datada está indexada |
 | Hooks | os hooks declarados em `settings.json` existem em disco, e todo hook em disco está declarado |
 | Gitignore | cobre `.env`, `node_modules/`, `CLAUDE.local.md` |
-| Codemap | a camada de codemap está fiada (script, regra, skill, CI) |
+| Codemap | `scripts/codemap.js` e, conforme o modo, o template ou `CODEMAP.md` |
 | Manifesto do plugin | versão de `.claude-plugin/plugin.json` bate com o topo do `CHANGELOG.md`, e a contagem de skills bate com os `SKILL.md` |
 | Drift de instruções | CLAUDE.md, templates, `.claude/`, WIZARD e `docs/` só citam agentes, comandos e estágios que existem (erro); geração de modelo fixada em prosa, tipo "Sonnet X.Y", vira aviso |
 | Artefatos | modo repo-do-OS *versus* projeto derivado, detectado pelo marcador `.aios-self` |
