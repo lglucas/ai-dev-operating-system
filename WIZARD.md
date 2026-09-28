@@ -592,7 +592,7 @@ docs/sprints/sprint-01-foundation.md
 
 Each sprint should include objective, DoD, deliverables, agents, skills, security gates, tests, risks, dependencies, expected artifacts, changelog, and session-log requirements.
 
-**Note on Sprint -1.** In earlier versions this sprint built the prototype. The prototype now exists before the roadmap is written, so Sprint -1 changed job: it consolidates the approved prototype and `DESIGN-DIRECTION.md` into a real design system (tokens, components, layout primitives) that Sprint 1 can build on.
+**Sprint -1 — Design System.** The prototype already exists when the roadmap is written, so Sprint -1 consolidates the approved prototype and `DESIGN-DIRECTION.md` into a real design system (tokens, components, layout primitives) that Sprint 1 can build on.
 
 ---
 

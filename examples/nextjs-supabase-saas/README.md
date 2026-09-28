@@ -12,7 +12,7 @@ This is **opinionated documentation**, not a runnable scaffold. The wizard gener
 - **Payments:** Stripe Checkout + webhooks.
 - **Email:** Resend.
 - **Hosting:** Vercel.
-- **AI:** Anthropic Claude (default Sonnet 4.6 / Haiku 4.5; Opus only when justified).
+- **AI:** Anthropic Claude (default the current Sonnet or Haiku tier; Opus only when justified).
 
 ## Layout
 

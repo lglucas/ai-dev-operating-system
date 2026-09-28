@@ -1,6 +1,6 @@
 ---
 name: os-self-test
-description: Verify the AI Dev Operating System is in a coherent state inside a project. Detects missing canonical files, broken cross-references, skills/agents/commands without frontmatter, registry drift, unindexed session logs, unwired hooks and gitignore gaps. Run after major edits to the OS, after renaming or moving canonical files, before opening a new sprint, before a release, and when the user says "tá tudo certo aqui?", "quebrou alguma coisa na estrutura?", "faz um check geral", "os links estão funcionando?".
+description: Verify the AI Dev Operating System is in a coherent state inside a project. Detects missing canonical files, broken cross-references, skills/agents/commands without frontmatter, registry drift, unindexed session logs, unwired hooks, gitignore gaps, a stale codemap layer or plugin manifest, and instruction files citing agents, commands or wizard stages that do not exist. Run after major edits to the OS, after renaming or moving canonical files, before opening a new sprint, before a release, and when the user says "tá tudo certo aqui?", "quebrou alguma coisa na estrutura?", "faz um check geral", "os links estão funcionando?".
 ---
 
 # OS Self-Test
@@ -13,7 +13,7 @@ node scripts/os-self-test.js
 
 É a verificação inteira. Exit `0` = coerente, exit `1` = pelo menos um erro.
 
-**Isto era um checklist manual dentro deste arquivo, e esse era o problema.** Verificação que depende de alguém lembrar não é verificação — três session-logs (`2026-04-30`, `2026-05-09`, `2026-08-08`) registram esta skill não sendo executada exatamente quando teria ajudado. Desde a v0.5.2 é script, e o CI roda em todo push e PR.
+Rode o script em vez de conferir à mão: verificação que depende de alguém lembrar não acontece quando mais importa. O CI também roda em todo push e PR.
 
 ## O que o script verifica
 
@@ -26,6 +26,9 @@ node scripts/os-self-test.js
 | Session-log | toda entrada datada está indexada |
 | Hooks | os hooks declarados em `settings.json` existem em disco, e todo hook em disco está declarado |
 | Gitignore | cobre `.env`, `node_modules/`, `CLAUDE.local.md` |
+| Codemap | `scripts/codemap.js` e, conforme o modo, o template ou `CODEMAP.md` |
+| Manifesto do plugin | versão de `.claude-plugin/plugin.json` bate com o topo do `CHANGELOG.md`, e a contagem de skills bate com os `SKILL.md` |
+| Drift de instruções | CLAUDE.md, templates, `.claude/`, WIZARD e `docs/` só citam agentes, comandos e estágios que existem (erro); geração de modelo fixada em prosa, tipo "Sonnet X.Y", vira aviso |
 | Artefatos | modo repo-do-OS *versus* projeto derivado, detectado pelo marcador `.aios-self` |
 
 ## Dois modos

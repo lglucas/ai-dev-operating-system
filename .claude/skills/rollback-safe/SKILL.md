@@ -31,8 +31,9 @@ Creates a new commit that undoes the previous one. History stays linear, nothing
 ### Level 2 — Several commits to undo
 Pick the last good commit hash and:
 ```bash
-git revert <bad-commit>..<HEAD> --no-edit
+git revert <last-good-commit>..HEAD --no-edit
 ```
+The range excludes its left end, so it reverts every commit after the last good one.
 Each bad commit gets its own undo commit.
 
 ### Level 3 — Already pushed and remote needs cleaning

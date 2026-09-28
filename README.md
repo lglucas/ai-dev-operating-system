@@ -158,7 +158,7 @@ A coordinated set of agents, skills, and templates designed for **non-developers
 | [`secrets-discipline`](.claude/skills/secrets-discipline/SKILL.md) | Blocks accidental commits of API keys. |
 | [`cost-watchdog`](.claude/skills/cost-watchdog/SKILL.md) | Flags expensive choices (Opus loops, paid tiers, scale-poor DB) before they ship. |
 | [`plain-portuguese-explainer`](.claude/skills/plain-portuguese-explainer/SKILL.md) | Translates jargon and errors into plain Portuguese with non-tech analogies. |
-| [`daily-standup`](.claude/skills/daily-standup/SKILL.md) | 4-bullet "where we left off" briefing every session. |
+| [`daily-standup`](.claude/skills/daily-standup/SKILL.md) | Four-part "where we left off" briefing every session. |
 | [`os-self-test`](.claude/skills/os-self-test/SKILL.md) | Verifies the OS is internally coherent. |
 | [`.github/`](.github) | PR + issue templates with vibe-coder dimension and CI workflow enforcing canon. |
 
@@ -277,12 +277,12 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 ## ✅ The OS tests itself
 
 ```bash
-node scripts/os-self-test.js              # 9 coherence checks
-node --test scripts/test/*.test.js        # 94 tests (93 unit, 1 integration)
+node scripts/os-self-test.js              # 11 coherence groups
+node --test scripts/test/*.test.js        # 115 tests (114 unit, 1 integration)
 node scripts/codemap.js --check           # codemap in sync with the code
 ```
 
-`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, and that the codemap layer is wired. It runs in CI on every push.
+`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, the codemap generator, the plugin manifest against the changelog, and instruction drift — agents, commands or WIZARD stages cited but missing (error) and model generations pinned in prose (warning). It runs in CI on every push.
 
 It used to be a checklist a human had to remember — and three session logs record it going unrun exactly when it would have helped. That is why it is a script now.
 

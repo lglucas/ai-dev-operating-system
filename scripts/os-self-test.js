@@ -289,6 +289,18 @@ function checkProjectArtifacts() {
   }
 }
 
+// ─────────────────────────────────────────────── 11. instruction drift
+
+// Instruction files that name an agent, command or wizard stage that does not exist send
+// the model after nothing. Pinned model generations are only warned: they are not wrong
+// on the day they are written, they just stop being current.
+function checkInstructionDrift() {
+  const { dangling, pinned } = require('./instruction-drift.js').scanRepo(ROOT);
+  for (const d of dangling) fail('instruções', `${d.file} cita ${d.kind} inexistente: ${d.ref}`);
+  if (!dangling.length) pass('instruções só citam agentes, comandos e estágios que existem');
+  for (const p of pinned) warn('instruções', `${p.file} fixa a geração de modelo "${p.ref}" — prefira o nome do tier`);
+}
+
 // ─────────────────────────────────────────────── report
 
 function main() {
@@ -302,6 +314,7 @@ function main() {
   checkCodemap();
   checkPluginManifest();
   checkProjectArtifacts();
+  checkInstructionDrift();
 
   console.log(`\nos-self-test — modo: ${isOsRepo ? 'repo do AI Dev OS' : 'projeto derivado'}\n`);
 

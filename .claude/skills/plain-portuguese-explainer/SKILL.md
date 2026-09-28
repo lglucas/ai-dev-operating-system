@@ -16,7 +16,7 @@ description: Translate technical decisions, architecture, errors, or AI-generate
 
 1. **Use everyday Portuguese.** No English jargon unless impossible to translate, and even then explain it once.
 2. **Use analogies from outside tech.** Restaurant, mailbox, car, building.
-3. **Three-line max** for the core idea. Then optional "se quiser detalhes" expansion.
+3. **Core idea first, short enough to read in one glance.** Then optional "se quiser detalhes" expansion.
 4. **No condescension.** The user is smart, just not a dev.
 5. **End with one concrete action** the user should take, or "nada que precise fazer agora".
 
@@ -45,7 +45,7 @@ description: Translate technical decisions, architecture, errors, or AI-generate
 ```
 🗣️  Tradução
 
-[Termo / situação]: [3 linhas em português corriqueiro com analogia]
+[Termo / situação]: [a ideia central em português corriqueiro, com analogia]
 
 Detalhe técnico (opcional): [só se o usuário pedir]
 

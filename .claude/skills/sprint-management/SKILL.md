@@ -20,7 +20,7 @@ description: Manage the sprint lifecycle — open a sprint, maintain the sprint 
 - Merge into sprint branch.
 - Keep sprint doc updated with scope changes and delivered work.
 - Use session logs for important decisions.
-- **Regenerate `CODEMAP.md` whenever a code file is created, removed or renamed** — `node scripts/codemap.js`. Doing it as you go beats doing it all at close.
+- **Regenerate `CODEMAP.md` with every code change** — `node scripts/codemap.js`. The map records each file's line count, so editing a mapped file is usually enough to make `--check` fail. Commit the map together with the change.
 
 ## Close sprint
 

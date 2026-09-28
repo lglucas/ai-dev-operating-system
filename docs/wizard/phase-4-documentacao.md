@@ -68,4 +68,4 @@ Output: `docs/technical/registry-pick.md`, with packs sorted into must-install /
 
 Each sprint carries objective, DoD, deliverables, agents, skills, security gates, tests, risks, dependencies, expected artifacts, and changelog/session-log requirements.
 
-**Sprint -1 changed job.** It used to build the prototype. The prototype now exists before this roadmap is written, so Sprint -1 consolidates the approved prototype and `DESIGN-DIRECTION.md` into a real design system — tokens, components, layout primitives — that Sprint 1 builds on.
+**Sprint -1 — Design System.** The prototype already exists when this roadmap is written, so Sprint -1 consolidates the approved prototype and `DESIGN-DIRECTION.md` into a real design system — tokens, components, layout primitives — that Sprint 1 builds on.
