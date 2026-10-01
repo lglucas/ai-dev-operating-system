@@ -23,7 +23,9 @@ const pkg = (over = {}) =>
     devDependencies: { '@biomejs/biome': '2.5.15' },
     ...over,
   });
-const settings = JSON.stringify({ hooks: { PostToolUse: [{ matcher: 'Write', hooks: [] }] } });
+const settings = JSON.stringify({
+  hooks: { PostToolUse: [{ matcher: 'Write', hooks: [{ type: 'command', command: 'node lint-on-edit.js' }] }] },
+});
 const wired = (over = {}) => ({
   pkgText: pkg(),
   lintConfig: 'biome.json',
@@ -104,6 +106,13 @@ describe('sensor-wiring: sensor que existe e não barra nada', () => {
   test('sem hook PostToolUse avisa', () => {
     const r = evaluate(wired({ settingsText: JSON.stringify({ hooks: { PreToolUse: [] } }) }));
     assert.ok(r.warnings.some((w) => w.includes('PostToolUse')));
+  });
+
+  test('entrada PostToolUse sem comando não conta como hook', () => {
+    const empty = JSON.stringify({ hooks: { PostToolUse: [{ matcher: 'Write', hooks: [] }] } });
+    const r = evaluate(wired({ settingsText: empty }));
+    assert.ok(r.warnings.some((w) => w.includes('PostToolUse')));
+    assert.ok(!r.passes.some((p) => p.includes('PostToolUse')));
   });
 
   test('dependência sem lockfile avisa', () => {

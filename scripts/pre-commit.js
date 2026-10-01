@@ -18,7 +18,7 @@
 'use strict';
 
 const { execFileSync, spawnSync } = require('node:child_process');
-const { scan } = require('../.claude/hooks/block-secret-commit.js');
+const { scan, stagedFiles } = require('../.claude/hooks/block-secret-commit.js');
 const { findBiome } = require('../.claude/hooks/lint-on-edit.js');
 
 function git(args) {
@@ -37,8 +37,7 @@ function git(args) {
 function secretsOk() {
   if (process.env.AIOS_ALLOW_SECRET_COMMIT === '1') return true;
 
-  const staged = git(['diff', '--cached', '--name-only']).split('\n').filter(Boolean);
-  const findings = scan(git(['diff', '--cached', '--unified=0']), staged);
+  const findings = scan(git(['diff', '--cached', '--unified=0']), stagedFiles(process.cwd()));
   if (findings.length === 0) return true;
 
   process.stderr.write(

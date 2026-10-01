@@ -36,14 +36,19 @@ Os hooks do Claude Code só veem o que o Claude faz; um commit pelo terminal ou 
 
 `.claude/rules/secrets.md` trazia o cabeçalho literal de chave privada na lista de padrões, e o `block-secret-commit` casa com ele: editar aquela linha barraria o commit da própria regra. O teste que deveria garantir o contrário usava um trecho escrito à mão que omitia justamente essa linha. A regra passa a escrever `-----BEGIN ... PRIVATE KEY-----`, e o teste agora lê os arquivos reais — `CLAUDE.md` e todo `.md` de `.claude/`.
 
+### Fixed — remover um `.env` rastreado era barrado
+
+O gate listava os arquivos staged sem filtrar deleções, então `git rm .env` — a correção para um arquivo de segredo commitado — era tratado como "arquivo de segredo no stage". Presente desde a v0.5.2; apontado na revisão do PR. `stagedFiles()` agora ignora deleções e é compartilhada pelo gate e pelo pre-commit.
+
 ### Changed
 
+- `npm test` chama `scripts/run-tests.js`, que lista os arquivos de teste. Um glob no script dependia do shell e falhava no Windows com Node 20.
 - CI: `npm ci`, `npm test` e um passo novo de `npm run lint`.
 - `templates/project/CLAUDE.md` e `stack-packs/README.md` dizem ao projeto derivado que o manifesto herdado é o ponto de partida: mesclar a stack nele, não deixar um scaffolder sobrescrever.
 - `CLAUDE.md` ganha "Checking your work"; `code-style` registra que estilo é da ferramenta.
 - Código existente: `require('fs')` virou `require('node:fs')`, duas atribuições dentro de expressão foram abertas, e uma passada de formatação.
 
-46 testes novos, 161 no total. 80 verificações no `os-self-test`.
+48 testes novos, 163 no total. 80 verificações no `os-self-test`.
 
 ---
 

@@ -76,6 +76,16 @@ describe('pre-commit: sai do caminho', () => {
     });
   });
 
+  // Removing a committed secret file is the fix, not the offence.
+  test('remover um .env rastreado continua possível', () => {
+    inTempDir({ gitRepo: true, files: { '.env': 'PORT=3000\n' } }, (dir) => {
+      const identity = ['-c', 'user.name=test', '-c', 'user.email=test@example.com'];
+      execFileSync('git', [...identity, 'commit', '-q', '-m', 'seed'], { cwd: dir });
+      execFileSync('git', ['rm', '-q', '.env'], { cwd: dir });
+      assert.equal(runHook(dir).status, 0);
+    });
+  });
+
   test('fora de um repositório git, falha aberto', () => {
     inTempDir({ gitRepo: false, files: { 'config.js': `const k = '${FAKE_KEY}';\n` } }, (dir) => {
       assert.equal(runHook(dir).status, 0);

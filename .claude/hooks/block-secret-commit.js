@@ -55,6 +55,15 @@ function git(args, cwd) {
   }
 }
 
+/**
+ * Staged paths, minus deletions. Without the filter, `git rm .env` — the fix for a
+ * committed secret file — would be blocked as "secret-bearing file staged".
+ * Shared with scripts/pre-commit.js so both entry points list files the same way.
+ */
+function stagedFiles(cwd) {
+  return git(['diff', '--cached', '--name-only', '--diff-filter=d'], cwd).split('\n').filter(Boolean);
+}
+
 /** Exported for tests: scan a unified diff and a staged file list, return findings. */
 function scan(diff, stagedFiles) {
   const findings = [];
@@ -140,9 +149,7 @@ function main() {
   const includeUnstaged = /\bcommit\b[^&|;]*\s-[a-zA-Z]*a/.test(command);
   const diff =
     git(['diff', '--cached', '--unified=0'], cwd) + (includeUnstaged ? git(['diff', '--unified=0'], cwd) : '');
-  const staged = git(['diff', '--cached', '--name-only'], cwd).split('\n').filter(Boolean);
-
-  const findings = scan(diff, staged);
+  const findings = scan(diff, stagedFiles(cwd));
   if (findings.length === 0) process.exit(0);
 
   const lines = findings.map((f) => `  • ${f.file} — ${f.label}`);
@@ -160,6 +167,6 @@ function main() {
   process.exit(2);
 }
 
-module.exports = { scan, isGitCommit, PATTERNS, FORBIDDEN_FILE, ALLOWED_FILE };
+module.exports = { scan, stagedFiles, isGitCommit, PATTERNS, FORBIDDEN_FILE, ALLOWED_FILE };
 
 if (require.main === module) main();

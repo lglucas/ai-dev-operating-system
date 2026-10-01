@@ -31,11 +31,8 @@ jobs:
         run: node scripts/os-self-test.js
 
       # Unit tests for the hooks and the scripts, on Node's built-in runner.
-      #
-      # The glob inside the `test` script is UNQUOTED on purpose, so the shell expands it.
-      # Passing the directory makes Node resolve it as a module path ("Cannot find
-      # module"), and quoting the glob only works on Node 21+, which added glob support
-      # to --test. Node 20 reports "Could not find '.../scripts/test/*.test.js'".
+      # scripts/run-tests.js lists the files itself: a glob would depend on the shell
+      # (cmd.exe does not expand it) or on Node 21+ (which added glob support to --test).
       - name: Script unit tests
         run: npm test
 

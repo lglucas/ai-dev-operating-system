@@ -69,7 +69,7 @@ Run them before calling a change done. A `PostToolUse` hook already runs Biome o
 - Rename the package — `os-self-test` warns while it is still called `ai-dev-operating-system`.
 - When the stack is chosen in Phase 4, **merge** its scripts and dependencies into this `package.json`. Do not let a scaffolder overwrite it.
 - Extend `npm test` to run the project's own tests alongside `scripts/test/`.
-- A stack with its own linter may replace Biome. Keep `npm run lint` pointing at whatever replaces it, so the hook, the CI and `os-self-test` stay wired.
+- A stack with its own linter may replace Biome. Keep `npm run lint` pointing at whatever replaces it, so the CI and `os-self-test` stay wired — and **adapt the two hooks**, which call Biome directly: `.claude/hooks/lint-on-edit.js` and `scripts/pre-commit.js`. Without Biome on disk both skip the lint silently, even when `npm run lint` works.
 
 ## Agents
 

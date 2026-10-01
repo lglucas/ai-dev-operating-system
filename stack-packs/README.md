@@ -25,5 +25,6 @@ Each stack pack may include:
 A derived project already has a root `package.json` (with `npm test` and `npm run lint`), a `biome.json`, and a `PostToolUse` hook that lints each edited file. A pack builds on that manifest instead of replacing it:
 
 - **Merge, do not overwrite.** A scaffolder that writes its own `package.json` (`create-next-app` and friends) must be run so that the existing scripts survive — scaffold into a temporary folder and merge, or re-add `test`, `lint`, `self-test` and `codemap` afterwards.
-- **`npm test` and `npm run lint` are the contract.** The hook, the CI and `os-self-test` call those two names. A pack may change what they run (Vitest, ESLint, `cargo test` behind an npm script), not remove them.
+- **`npm test` and `npm run lint` are the contract.** The CI and `os-self-test` call those two names. A pack may change what they run (Vitest, ESLint, `cargo test` behind an npm script), not remove them.
+- **The lint hooks call Biome directly, not the npm script.** A pack that replaces Biome must adapt `.claude/hooks/lint-on-edit.js` and `scripts/pre-commit.js` to the new linter, or keep Biome for them. Otherwise both skip the lint silently.
 - **A pack on another ecosystem keeps the manifest anyway.** The OS's own scripts and hooks are Node, and their tests run through it.

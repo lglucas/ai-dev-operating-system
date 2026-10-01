@@ -66,7 +66,9 @@ function evaluate({ pkgText, lintConfig, lockfile, settingsText, ciText, preComm
   } catch {
     // An unparseable settings.json is reported by the hooks check; nothing to add here.
   }
-  if (feedbackHooks.length === 0) {
+  // A matcher entry with no command runs nothing, however registered it looks.
+  const runsSomething = feedbackHooks.some((entry) => (entry?.hooks || []).some((h) => h?.command));
+  if (!runsSomething) {
     out.warnings.push('nenhum hook PostToolUse — o agente só descobre erro de lint no CI');
   } else out.passes.push('hook de feedback (PostToolUse) registrado');
 

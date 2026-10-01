@@ -283,7 +283,7 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 ```bash
 npm install                               # once — Biome, and the git pre-commit hook
 node scripts/os-self-test.js              # 12 coherence groups
-npm test                                  # 161 tests (150 unit, 11 that spawn a real process)
+npm test                                  # 163 tests (151 unit, 12 that spawn a real process)
 npm run lint                              # Biome: lint + format check
 node scripts/codemap.js --check           # codemap in sync with the code
 ```

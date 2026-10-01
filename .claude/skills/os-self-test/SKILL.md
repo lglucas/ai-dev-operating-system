@@ -58,6 +58,6 @@ O script diz **o que** está quebrado. Interpretar e consertar continua sendo tr
 ## Related
 
 - Script: `scripts/os-self-test.js`
-- Testes dos scripts e hooks: `npm test`, que roda `node --test scripts/test/*.test.js` (sem aspas — o shell expande; aspas exigem Node 21+)
+- Testes dos scripts e hooks: `npm test`, que roda `scripts/run-tests.js` (lista os `*.test.js` em vez de depender do glob do shell)
 - Lint e formatação: `npm run lint` (Biome). Verificação dos sensores: `scripts/sensor-wiring.js`
 - Gate de release que o invoca: [`release-check`](../release-check/SKILL.md)
