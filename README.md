@@ -2,7 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-ready-7B61FF)](START-HERE.md)
-[![Status](https://img.shields.io/badge/status-v0.5.3%20codemap-green)](CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v0.5.6%20sensors-green)](CHANGELOG.md)
+[![Harness Score L4](https://paladini.github.io/harness-score/maturity/badge-l4.svg)](#-the-os-tests-itself)
 [![Made for SaaS](https://img.shields.io/badge/made%20for-SaaS%20builders-111827)](#what-this-gives-you)
 
 **Day-zero operating system for serious vibe coding and AI-assisted SaaS development.**
@@ -291,6 +292,8 @@ node scripts/codemap.js --check           # codemap in sync with the code
 `os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, the codemap generator, the plugin manifest against the changelog, instruction drift — agents, commands or WIZARD stages cited but missing (error) and model generations pinned in prose (warning) — and sensor wiring: a `test` and a `lint` script, a linter config, a lockfile, a feedback hook, a git pre-commit, and a CI that actually runs them. It runs in CI on every push.
 
 It used to be a checklist a human had to remember — and three session logs record it going unrun exactly when it would have helped. That is why it is a script now.
+
+**An outside measurement.** [harness-score](https://github.com/paladini/harness-score) v1.7.5 rated this repo **L4 · Self-correcting, 101/108** on 2026-10-01. It is a deterministic scan we ran ourselves, and it checks that the harness *exists and is wired* — context files, skills, hooks, sensors, CI. It is not a security audit, not a certification, and by its own account says nothing about whether the tests are good or the rules are true. The badge is pinned, so it reflects that date. A project derived from this repo has its own score: run the scan there.
 
 The unit tests cover the hooks, the catalogue generator and the self-test's own modules. They earned their keep immediately: they found **two ways to bypass the secret-blocking hook** (`git -C dir commit` and `git add . && git commit`) that manual testing had missed.
 

@@ -47,6 +47,7 @@ O gate listava os arquivos staged sem filtrar deleções, então `git rm .env` �
 - `templates/project/CLAUDE.md` e `stack-packs/README.md` dizem ao projeto derivado que o manifesto herdado é o ponto de partida: mesclar a stack nele, não deixar um scaffolder sobrescrever.
 - `CLAUDE.md` ganha "Checking your work"; `code-style` registra que estilo é da ferramenta.
 - Código existente: `require('fs')` virou `require('node:fs')`, duas atribuições dentro de expressão foram abertas, e uma passada de formatação.
+- README: selo fixo "Harness Score L4" com um parágrafo datado dizendo o que a nota é e o que não é — não é auditoria de segurança nem certificação, e não vale para o projeto derivado. O selo de status, parado em v0.5.3, foi para v0.5.6.
 
 48 testes novos, 163 no total. 80 verificações no `os-self-test`.
 
