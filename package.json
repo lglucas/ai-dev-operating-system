@@ -1,0 +1,21 @@
+{
+  "name": "ai-dev-operating-system",
+  "private": true,
+  "description": "Day-zero operating system for AI-assisted SaaS development. In a derived project this file is the starting manifest: rename it and merge your stack into it.",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node scripts/run-tests.js",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "self-test": "node scripts/os-self-test.js",
+    "codemap": "node scripts/codemap.js",
+    "prepare": "git config core.hooksPath .husky || echo \"git hooks not installed (not a git repository?)\""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15"
+  }
+}

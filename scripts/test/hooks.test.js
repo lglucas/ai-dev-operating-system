@@ -1,5 +1,5 @@
 /**
- * hooks.test.js — unit tests for the PreToolUse hooks.
+ * hooks.test.js — unit tests for the PreToolUse gates and the PostToolUse feedback hook.
  *
  * Version: v0.5.2 · Sprint: v0.5.2 P6
  * Run: node --test scripts/test/
@@ -17,9 +17,14 @@
 
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
+const { spawnSync } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 
 const { scan, isGitCommit } = require('../../.claude/hooks/block-secret-commit.js');
 const { isProtectedEnvPath } = require('../../.claude/hooks/protect-env-files.js');
+const { isLintable, isInside, findBiome } = require('../../.claude/hooks/lint-on-edit.js');
 
 const diffAdding = (file, line) => `+++ b/${file}\n+${line}\n`;
 
@@ -46,6 +51,30 @@ describe('block-secret-commit: não bloqueia a documentação dos próprios padr
   test('a regra secrets.md pode ser commitada', () => {
     const doc = '+++ b/.claude/rules/secrets.md\n+- sk-\n+- ghp_\n+- AKIA\n+- .env\n';
     assert.equal(scan(doc, []).length, 0);
+  });
+
+  // The hand-written sample above once hid a real defect: secrets.md carried a literal
+  // private-key header, which the gate matches. Read the actual files instead.
+  test('nenhum arquivo de instrução real dispara o gate', () => {
+    const files = [path.join(ROOT, 'CLAUDE.md')];
+    const walk = (dir) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (entry.name.endsWith('.md')) files.push(full);
+      }
+    };
+    walk(path.join(ROOT, '.claude'));
+
+    for (const file of files) {
+      const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+      const asDiff = `+++ b/${rel}\n${fs
+        .readFileSync(file, 'utf8')
+        .split('\n')
+        .map((line) => `+${line}`)
+        .join('\n')}\n`;
+      assert.deepEqual(scan(asDiff, []), [], `${rel} seria barrado pelo próprio gate`);
+    }
   });
 
   test('prosa que menciona prefixo passa', () => {
@@ -99,16 +128,16 @@ describe('block-secret-commit: reconhece o comando', () => {
     'git commit -m "x"',
     'git commit',
     'git   commit  --amend',
-    'git -C /tmp commit -am y',           // global flag consuming a value
-    'git -c user.name=x commit -m y',     // -c takes a value too
+    'git -C /tmp commit -am y', // global flag consuming a value
+    'git -c user.name=x commit -m y', // -c takes a value too
     'git --git-dir /r/.git commit',
-    'cd /projeto && git commit -m y',     // segundo segmento do shell
+    'cd /projeto && git commit -m y', // segundo segmento do shell
     'git add . && git commit -m y',
   ];
   const isNotCommit = [
     'git status',
     'git push',
-    'git commit-tree abc',                // subcomando diferente, prefixo igual
+    'git commit-tree abc', // subcomando diferente, prefixo igual
     'npm run commit-lint',
     'echo "git commitment"',
     'git log --format=commit',
@@ -120,10 +149,97 @@ describe('block-secret-commit: reconhece o comando', () => {
 
 describe('protect-env-files: caminhos', () => {
   const B = String.fromCharCode(92); // barra invertida, sem depender do escaping do shell
-  const blocked = ['/p/.env', '/p/.env.local', '/p/.env.production', `C:${B}p${B}.env`, `C:${B}p${B}.env.local`, '.env'];
-  const allowed = ['/p/.env.example', '/p/.env.sample', '/p/.env.template', '/p/.env.dist',
-                   '/p/src/index.ts', '/p/environment.ts', '/p/envelope.md', ''];
+  const blocked = [
+    '/p/.env',
+    '/p/.env.local',
+    '/p/.env.production',
+    `C:${B}p${B}.env`,
+    `C:${B}p${B}.env.local`,
+    '.env',
+  ];
+  const allowed = [
+    '/p/.env.example',
+    '/p/.env.sample',
+    '/p/.env.template',
+    '/p/.env.dist',
+    '/p/src/index.ts',
+    '/p/environment.ts',
+    '/p/envelope.md',
+    '',
+  ];
 
   for (const p of blocked) test(`bloqueia ${JSON.stringify(p)}`, () => assert.equal(isProtectedEnvPath(p), true));
   for (const p of allowed) test(`permite ${JSON.stringify(p)}`, () => assert.equal(isProtectedEnvPath(p), false));
+});
+
+// ─────────────────────────────────────────────── lint-on-edit (PostToolUse)
+
+const ROOT = path.join(__dirname, '..', '..');
+const LINT_HOOK = path.join(ROOT, '.claude', 'hooks', 'lint-on-edit.js');
+const runLintHook = (input, env) =>
+  spawnSync(process.execPath, [LINT_HOOK], { input, encoding: 'utf8', env: { ...process.env, ...env } });
+
+describe('lint-on-edit: quais arquivos são verificados', () => {
+  for (const p of ['a.js', 'src/x.tsx', 'b.mjs', 'c.cjs', 'package.json', 'x.jsonc', 's.css', 'C:/p/a.ts']) {
+    test(`verifica ${p}`, () => assert.equal(isLintable(p), true));
+  }
+  for (const p of ['README.md', '.env', 'a.py', 'notes.json.bak', '']) {
+    test(`ignora ${p || '(vazio)'}`, () => assert.equal(isLintable(p), false));
+  }
+
+  test('só olha arquivo dentro do projeto', () => {
+    assert.equal(isInside('/p', '/p/src/a.js'), true);
+    assert.equal(isInside('/p', 'src/a.js'), true);
+    assert.equal(isInside('/p', '/q/a.js'), false);
+    assert.equal(isInside('/p', '../a.js'), false);
+  });
+});
+
+describe('lint-on-edit: falha aberto', () => {
+  test('payload malformado não trava a sessão', () => assert.equal(runLintHook('{not json', {}).status, 0));
+
+  // The state of a fresh clone, or of a derived project that never ran `npm install`.
+  test('sem Biome instalado, fica em silêncio', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aios-lint-'));
+    try {
+      const file = path.join(dir, 'a.js');
+      fs.writeFileSync(file, 'debugger;\n');
+      assert.equal(findBiome(dir), null);
+      const r = runLintHook(JSON.stringify({ tool_input: { file_path: file } }), { CLAUDE_PROJECT_DIR: dir });
+      assert.equal(r.status, 0);
+      assert.equal(r.stderr, '');
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('lint-on-edit: devolve o problema ao agente', () => {
+  const skip = findBiome(ROOT) ? false : 'Biome não instalado — rode npm install';
+  const fixture = path.join(__dirname, `.lint-fixture-${process.pid}.js`);
+  const payload = JSON.stringify({ tool_input: { file_path: fixture } });
+  const withFixture = (content, env) => {
+    fs.writeFileSync(fixture, content);
+    try {
+      return runLintHook(payload, { CLAUDE_PROJECT_DIR: ROOT, AIOS_SKIP_LINT_HOOK: '', ...env });
+    } finally {
+      fs.rmSync(fixture, { force: true });
+    }
+  };
+
+  test('erro de lint sai com 2 e nomeia o arquivo', { skip }, () => {
+    const r = withFixture('debugger;\n');
+    assert.equal(r.status, 2);
+    assert.match(r.stderr, /lint-fixture/);
+  });
+
+  test('arquivo limpo fica em silêncio', { skip }, () => {
+    const r = withFixture('module.exports = 1;\n');
+    assert.equal(r.status, 0);
+    assert.equal(r.stderr, '');
+  });
+
+  test('o escape hatch desliga o hook', { skip }, () => {
+    assert.equal(withFixture('debugger;\n', { AIOS_SKIP_LINT_HOOK: '1' }).status, 0);
+  });
 });

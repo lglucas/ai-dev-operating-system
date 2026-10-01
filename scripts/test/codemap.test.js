@@ -26,7 +26,9 @@ suite('describe: extrai o cabeçalho Purpose que a code-style exige', () => {
   });
 
   test('comentário de hash (Python, shell)', () => {
-    const r = describe(`#!/usr/bin/env python\n# Purpose: normalises the incoming webhook payload.\n# Version: v0.2.0\n`);
+    const r = describe(
+      `#!/usr/bin/env python\n# Purpose: normalises the incoming webhook payload.\n# Version: v0.2.0\n`,
+    );
     assert.equal(r.text, 'normalises the incoming webhook payload');
     assert.equal(r.missingHeader, false);
   });
@@ -111,7 +113,14 @@ suite('descoberta de arquivos', () => {
   });
 
   test('diretórios gerados são ignorados', () => {
-    for (const p of ['node_modules/x/i.js', 'dist/a.js', 'build/b.js', '.next/c.js', 'src/vendor/d.js', 'coverage/e.js']) {
+    for (const p of [
+      'node_modules/x/i.js',
+      'dist/a.js',
+      'build/b.js',
+      '.next/c.js',
+      'src/vendor/d.js',
+      'coverage/e.js',
+    ]) {
       assert.ok(SKIP_DIR.test(p), `${p} deveria ser pulado`);
     }
   });
@@ -119,10 +128,10 @@ suite('descoberta de arquivos', () => {
   test('symlink rastreado não é seguido para fora do repo', () => {
     // collect() lê de ROOT, fixado na carga do módulo, então este caso só dá para
     // exercitar rodando o script inteiro num repo temporário.
-    const fs = require('fs');
-    const os = require('os');
-    const path = require('path');
-    const { execFileSync } = require('child_process');
+    const fs = require('node:fs');
+    const os = require('node:os');
+    const path = require('node:path');
+    const { execFileSync } = require('node:child_process');
 
     const base = fs.mkdtempSync(path.join(os.tmpdir(), 'codemap-symlink-'));
     const outside = path.join(base, 'fora.js');

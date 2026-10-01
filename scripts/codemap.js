@@ -22,18 +22,36 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const { execFileSync } = require('child_process');
+const fs = require('node:fs');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 
 const ROOT = process.cwd();
 const CHECK = process.argv.includes('--check');
 const OUT = path.join(ROOT, 'CODEMAP.md');
 
 const CODE_EXT = new Set([
-  '.js', '.jsx', '.mjs', '.cjs', '.ts', '.tsx', '.vue', '.svelte', '.astro',
-  '.py', '.rb', '.go', '.rs', '.java', '.kt', '.swift', '.php', '.cs',
-  '.sql', '.sh', '.ps1',
+  '.js',
+  '.jsx',
+  '.mjs',
+  '.cjs',
+  '.ts',
+  '.tsx',
+  '.vue',
+  '.svelte',
+  '.astro',
+  '.py',
+  '.rb',
+  '.go',
+  '.rs',
+  '.java',
+  '.kt',
+  '.swift',
+  '.php',
+  '.cs',
+  '.sql',
+  '.sh',
+  '.ps1',
 ]);
 
 // Generated or vendored directories — mapping them adds noise, not signal.
@@ -47,7 +65,8 @@ const clean = (s) => String(s).replace(/\s+/g, ' ').replace(/\|/g, '\\|').replac
 function trackedFiles() {
   try {
     return execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 })
-      .split('\n').filter(Boolean);
+      .split('\n')
+      .filter(Boolean);
   } catch {
     return [];
   }
@@ -65,7 +84,7 @@ function describe(text) {
   const head = text.split('\n').slice(0, 40);
 
   // 1. The documented convention: "Purpose: ...", possibly wrapped across lines.
-  const pi = head.findIndex(l => /^\s*(?:[*#/;-]+\s*)?Purpose\s*:/i.test(l));
+  const pi = head.findIndex((l) => /^\s*(?:[*#/;-]+\s*)?Purpose\s*:/i.test(l));
   if (pi >= 0) {
     let s = head[pi].replace(/^\s*(?:[*#/;-]+\s*)?Purpose\s*:\s*/i, '');
     for (let i = pi + 1; i < head.length; i++) {
@@ -74,7 +93,7 @@ function describe(text) {
       // Indentation marks the continuation, but it sits *after* the comment marker
       // (`#          more`, ` *          more`). Strip the marker without eating the
       // spaces that follow it, or hash-comment headers never continue.
-      if (/^\s{2,}/.test(head[i].replace(/^\s*[*#/;-]+/, ''))) s += ' ' + stripped.trim();
+      if (/^\s{2,}/.test(head[i].replace(/^\s*[*#/;-]+/, ''))) s += ` ${stripped.trim()}`;
       else break;
     }
     return { text: clean(s), missingHeader: false };
@@ -83,12 +102,15 @@ function describe(text) {
   // 2. First sentence of a leading block comment or docstring.
   const block = text.match(/^(?:#!.*\n)?\s*(?:\/\*\*?|"""|''')([\s\S]{0,600}?)(?:\*\/|"""|''')/);
   if (block) {
-    const first = block[1].split('\n').map(l => l.replace(/^\s*\*\s?/, '').trim()).find(l => l.length > 3);
+    const first = block[1]
+      .split('\n')
+      .map((l) => l.replace(/^\s*\*\s?/, '').trim())
+      .find((l) => l.length > 3);
     if (first) return { text: clean(first), missingHeader: true };
   }
 
   // 3. First line comment that is not a shebang.
-  const line = head.find(l => /^\s*(\/\/|#)\s*\S/.test(l) && !/^\s*#!/.test(l));
+  const line = head.find((l) => /^\s*(\/\/|#)\s*\S/.test(l) && !/^\s*#!/.test(l));
   if (line) return { text: clean(line.replace(/^\s*(\/\/|#)\s*/, '')), missingHeader: true };
 
   return { text: '⚠️ sem cabeçalho — adicione purpose/version/sprint', missingHeader: true };
@@ -113,10 +135,13 @@ function collect() {
 
 function render(rows) {
   const byDir = {};
-  for (const r of rows) (byDir[r.dir] ||= []).push(r);
+  for (const r of rows) {
+    byDir[r.dir] ||= [];
+    byDir[r.dir].push(r);
+  }
 
-  const over = rows.filter(r => r.lines > 200);
-  const noHeader = rows.filter(r => r.missingHeader);
+  const over = rows.filter((r) => r.lines > 200);
+  const noHeader = rows.filter((r) => r.missingHeader);
 
   let md = `# CODEMAP
 
@@ -136,13 +161,13 @@ Todo arquivo de código do projeto, com uma linha sobre o núcleo de cada um.
 
   if (over.length) {
     md += `## ⚠️ Acima do limite de 200 linhas\n\nA regra diz "under 200 lines where practical". Estes passaram — vale checar se dá pra separar:\n\n`;
-    md += over.map(r => `- \`${r.rel}\` — ${r.lines} linhas`).join('\n') + '\n\n';
+    md += `${over.map((r) => `- \`${r.rel}\` — ${r.lines} linhas`).join('\n')}\n\n`;
   }
 
   md += `---\n\n`;
   for (const dir of Object.keys(byDir).sort()) {
-    md += `## \`${dir === '.' ? '(raiz)' : dir + '/'}\`\n\n| Arquivo | Núcleo | Linhas |\n|---|---|---:|\n`;
-    md += byDir[dir].map(r => `| [\`${path.basename(r.rel)}\`](${r.rel}) | ${r.text} | ${r.lines} |`).join('\n');
+    md += `## \`${dir === '.' ? '(raiz)' : `${dir}/`}\`\n\n| Arquivo | Núcleo | Linhas |\n|---|---|---:|\n`;
+    md += byDir[dir].map((r) => `| [\`${path.basename(r.rel)}\`](${r.rel}) | ${r.text} | ${r.lines} |`).join('\n');
     md += '\n\n';
   }
 
@@ -172,16 +197,18 @@ function main() {
       console.log(`codemap: em dia (${rows.length} arquivos).`);
       process.exit(0);
     }
-    console.error(current === null
-      ? 'codemap: CODEMAP.md não existe. Rode `node scripts/codemap.js`.'
-      : 'codemap: CODEMAP.md está desatualizado. Rode `node scripts/codemap.js` e commite.');
+    console.error(
+      current === null
+        ? 'codemap: CODEMAP.md não existe. Rode `node scripts/codemap.js`.'
+        : 'codemap: CODEMAP.md está desatualizado. Rode `node scripts/codemap.js` e commite.',
+    );
     process.exit(1);
   }
 
   fs.writeFileSync(OUT, next);
   console.log(`codemap: ${rows.length} arquivos mapeados em CODEMAP.md`);
-  const over = rows.filter(r => r.lines > 200).length;
-  const noHeader = rows.filter(r => r.missingHeader).length;
+  const over = rows.filter((r) => r.lines > 200).length;
+  const noHeader = rows.filter((r) => r.missingHeader).length;
   if (over) console.log(`  ⚠️  ${over} acima de 200 linhas`);
   if (noHeader) console.log(`  ⚠️  ${noHeader} sem cabeçalho Purpose:`);
 }

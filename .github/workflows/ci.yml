@@ -16,22 +16,29 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
+
+      # The scripts and hooks themselves have no dependencies. The one thing installed
+      # here is Biome, the linter — and the lint-on-edit hook's integration test, which
+      # skips itself when Biome is absent, only runs for real after this step.
+      - name: Install dev dependencies
+        run: npm ci
 
       # Canonical structure, frontmatter coverage across skills/agents/commands,
       # relative link integrity, registry ↔ INDEX consistency, session-log indexing,
-      # hooks wiring, gitignore hygiene. Exits non-zero on any error.
+      # hooks wiring, gitignore hygiene, sensor wiring. Exits non-zero on any error.
       - name: Run os-self-test
         run: node scripts/os-self-test.js
 
-      # Unit tests for the hooks and the catalogue generator. Node's built-in runner —
-      # no dependencies, nothing to install.
-      #
-      # The glob is UNQUOTED on purpose, so the shell expands it. Passing the directory
-      # makes Node resolve it as a module path ("Cannot find module"), and quoting the
-      # glob only works on Node 21+, which added glob support to --test. Node 20 reports
-      # "Could not find '.../scripts/test/*.test.js'". Shell expansion works everywhere.
+      # Unit tests for the hooks and the scripts, on Node's built-in runner.
+      # scripts/run-tests.js lists the files itself: a glob would depend on the shell
+      # (cmd.exe does not expand it) or on Node 21+ (which added glob support to --test).
       - name: Script unit tests
-        run: node --test scripts/test/*.test.js
+        run: npm test
+
+      # Lint and format, the same check the lint-on-edit hook runs per file. Here it gates.
+      - name: Lint
+        run: npm run lint
 
       # Fails when CODEMAP.md drifts from the code. A stale codemap is worse than none:
       # the agent trusts it, skips reading, and acts on wrong information.

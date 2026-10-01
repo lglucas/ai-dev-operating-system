@@ -59,3 +59,16 @@ Do not simplify it. Do not skip phases.
 **Phase 3 runs before Phase 4, deliberately.** The prototype is built from BP v0.0.2 and the research; the Product Brief and Technical Plan are then derived from the approved prototype. Never write the Product Brief first and prototype against it — a spec written before the prototype invents completeness the prototype would have shown as gaps.
 
 Do not move to code before all of Phase 1–4 is complete and approved.
+
+---
+
+## Checking your work
+
+```bash
+npm install                    # once — installs Biome and wires the git pre-commit hook
+npm test                       # unit tests for the scripts and hooks
+npm run lint                   # Biome: lint + format check (`npm run format` fixes)
+node scripts/os-self-test.js   # coherence of the OS itself
+```
+
+Run the ones your change touches before calling it done. A `PostToolUse` hook already runs Biome on each file you edit and reports back; CI runs all four.
