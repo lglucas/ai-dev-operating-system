@@ -6,6 +6,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.5.6] — 2026-10-01 — Sensores com ponto de entrada: `npm test`, Biome e um hook de feedback
+
+Um scanner externo de maturidade de harness ([harness-score](https://github.com/paladini/harness-score) v1.7.5, rodado de fora do repositório) mediu o OS em **L2, 80/108**. Quatro das seis dimensões estavam entre 78% e 100%; "Sensors & Feedback" estava em 2/20, por uma causa só: os testes existiam e rodavam no CI, mas sem `package.json` não havia ponto de entrada padrão por onde um agente — ou uma ferramenta — os encontrasse. Depois desta release o mesmo scan dá **L4, 96/108**. Raciocínio e o que ficou de fora em [`session-log/2026-10-01-v0.5.6-harness-sensors.md`](session-log/2026-10-01-v0.5.6-harness-sensors.md).
+
+Tudo aqui foi desenhado para ser **herdado**: o que entra na raiz do OS entra na raiz de todo projeto derivado.
+
+### Added — manifesto e linter
+
+- `package.json` na raiz, com `npm test`, `npm run lint`, `npm run format`, `npm run self-test` e `npm run codemap`. Sem campo `version`, de propósito: seria um terceiro lugar para a versão divergir. `"type": "commonjs"` é explícito porque, sem ele, o Biome trata os scripts como módulos ES e manda remover o `'use strict'` de arquivos que precisam dele.
+- Biome 2.5.15 (versão exata) como única dependência, com `biome.json` no estilo que o código já usava: dois espaços, aspas simples, largura 120. `prototype-lab/` fica fora — protótipo é descartável por definição.
+- `package-lock.json` commitado.
+
+### Added — `lint-on-edit`, o primeiro hook de feedback
+
+`.claude/hooks/lint-on-edit.js` roda em `PostToolUse` e devolve ao Claude o que o Biome achou no arquivo que ele acabou de editar. Não bloqueia e não reescreve o arquivo — formatar por baixo do agente faz o próximo `Edit` falhar em conteúdo que ele não viu mudar. Sem o Biome instalado, sai em silêncio: um clone novo se comporta como antes.
+
+O README dos hooks passa a separar **gate** (irreversível, bloqueia) de **feedback** (reversível, avisa). Ainda durante a implementação, o hook pegou uma função declarada e nunca chamada no próprio `os-self-test.js`.
+
+### Added — `sensor-wiring`, 12º grupo do `os-self-test`
+
+`scripts/sensor-wiring.js` verifica que existem script `test` e `lint`, configuração de linter, lockfile e hook `PostToolUse`, e que o CI roda os dois — sensor que existe e não barra nada é decoração. Sensor ausente é **erro** no repo do OS e **aviso** no projeto derivado, que pode ter trocado de stack. No derivado, avisa também enquanto o `package.json` ainda se chamar `ai-dev-operating-system`.
+
+### Changed
+
+- CI: `npm ci`, `npm test` e um passo novo de `npm run lint`.
+- `templates/project/CLAUDE.md` e `stack-packs/README.md` dizem ao projeto derivado que o manifesto herdado é o ponto de partida: mesclar a stack nele, não deixar um scaffolder sobrescrever.
+- `CLAUDE.md` ganha "Checking your work"; `code-style` registra que estilo é da ferramenta.
+- Código existente: `require('fs')` virou `require('node:fs')`, duas atribuições dentro de expressão foram abertas, e uma passada de formatação.
+
+38 testes novos, 153 no total. 79 verificações no `os-self-test`.
+
+---
+
 ## [0.5.5] — 2026-09-28 — Auditoria de prompts para o Opus 5.5, e o drift de instruções vira check
 
 Uma passada de `prompt-audit` sobre toda a superfície que o modelo lê — `CLAUDE.md`, template de projeto, regras, 12 agentes, 11 comandos, 28 skills — com o Opus 5.5 como alvo. Dezesseis achados com edição, cinco só sinalizados. Detalhes e raciocínio em [`session-log/2026-09-28-v0.5.5-prompt-audit.md`](session-log/2026-09-28-v0.5.5-prompt-audit.md).

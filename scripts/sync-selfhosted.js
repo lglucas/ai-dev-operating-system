@@ -21,10 +21,10 @@
 
 'use strict';
 
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { execFileSync } = require('child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 
 const UPSTREAM = 'https://github.com/awesome-selfhosted/awesome-selfhosted-data.git';
 const REPO = path.resolve(__dirname, '..');
@@ -220,12 +220,15 @@ function render(entries) {
   for (const [id, title, blurb] of MACRO) {
     const list = buckets[id];
     const byTag = {};
-    for (const e of list) (byTag[e.sectionTag] ||= []).push(e);
+    for (const e of list) {
+      byTag[e.sectionTag] ||= [];
+      byTag[e.sectionTag].push(e);
+    }
 
     let md = `# Self-hosted — ${title}\n\n${blurb}\n\n**${list.length} projetos** nesta categoria.\n\n${ATTRIBUTION}\n\n[← Voltar ao índice](../INDEX.md) · [Shortlist SaaS](../shortlist-saas.md)\n\n---\n\n`;
     for (const t of Object.keys(byTag).sort()) {
       md += `## ${t}\n\n| Projeto | O que é | Licença | Plataforma | ⭐ |\n|---|---|---|---|---|\n`;
-      md += byTag[t].map(row).join('\n') + '\n\n';
+      md += `${byTag[t].map(row).join('\n')}\n\n`;
     }
     fs.writeFileSync(path.join(CATALOG, `${id}.md`), md);
   }

@@ -21,8 +21,8 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
 const QUIET = process.argv.includes('--quiet');
@@ -301,6 +301,17 @@ function checkInstructionDrift() {
   for (const p of pinned) warn('instruções', `${p.file} fixa a geração de modelo "${p.ref}" — prefira o nome do tier`);
 }
 
+// ─────────────────────────────────────────────── 12. sensor wiring
+
+// Tests, lint and the feedback hook only help when a standard entry point reaches them
+// and something actually runs them. Severity depends on the mode — see the module.
+function checkSensorWiring() {
+  const { errors: errs, warnings: warns, passes: oks } = require('./sensor-wiring.js').checkSensors(ROOT, isOsRepo);
+  for (const e of errs) fail('sensores', e);
+  for (const w of warns) warn('sensores', w);
+  for (const p of oks) pass(p);
+}
+
 // ─────────────────────────────────────────────── report
 
 function main() {
@@ -315,6 +326,7 @@ function main() {
   checkPluginManifest();
   checkProjectArtifacts();
   checkInstructionDrift();
+  checkSensorWiring();
 
   console.log(`\nos-self-test — modo: ${isOsRepo ? 'repo do AI Dev OS' : 'projeto derivado'}\n`);
 

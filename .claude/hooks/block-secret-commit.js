@@ -20,8 +20,8 @@
 
 'use strict';
 
-const { execFileSync } = require('child_process');
-const fs = require('fs');
+const { execFileSync } = require('node:child_process');
+const fs = require('node:fs');
 
 const PATTERNS = [
   ['OpenAI-style key', /\bsk-[A-Za-z0-9_-]{20,}/],

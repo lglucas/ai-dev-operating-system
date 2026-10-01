@@ -13,8 +13,8 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Tokens that look like references but name something outside this repo, each with a reason.
 const ALLOWED_COMMANDS = new Set([

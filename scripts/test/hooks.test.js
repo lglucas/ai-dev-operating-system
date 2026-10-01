@@ -1,5 +1,5 @@
 /**
- * hooks.test.js — unit tests for the PreToolUse hooks.
+ * hooks.test.js — unit tests for the PreToolUse gates and the PostToolUse feedback hook.
  *
  * Version: v0.5.2 · Sprint: v0.5.2 P6
  * Run: node --test scripts/test/
@@ -17,9 +17,14 @@
 
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
+const { spawnSync } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 
 const { scan, isGitCommit } = require('../../.claude/hooks/block-secret-commit.js');
 const { isProtectedEnvPath } = require('../../.claude/hooks/protect-env-files.js');
+const { isLintable, isInside, findBiome } = require('../../.claude/hooks/lint-on-edit.js');
 
 const diffAdding = (file, line) => `+++ b/${file}\n+${line}\n`;
 
@@ -126,4 +131,76 @@ describe('protect-env-files: caminhos', () => {
 
   for (const p of blocked) test(`bloqueia ${JSON.stringify(p)}`, () => assert.equal(isProtectedEnvPath(p), true));
   for (const p of allowed) test(`permite ${JSON.stringify(p)}`, () => assert.equal(isProtectedEnvPath(p), false));
+});
+
+// ─────────────────────────────────────────────── lint-on-edit (PostToolUse)
+
+const ROOT = path.join(__dirname, '..', '..');
+const LINT_HOOK = path.join(ROOT, '.claude', 'hooks', 'lint-on-edit.js');
+const runLintHook = (input, env) =>
+  spawnSync(process.execPath, [LINT_HOOK], { input, encoding: 'utf8', env: { ...process.env, ...env } });
+
+describe('lint-on-edit: quais arquivos são verificados', () => {
+  for (const p of ['a.js', 'src/x.tsx', 'b.mjs', 'c.cjs', 'package.json', 'x.jsonc', 's.css', 'C:/p/a.ts']) {
+    test(`verifica ${p}`, () => assert.equal(isLintable(p), true));
+  }
+  for (const p of ['README.md', '.env', 'a.py', 'notes.json.bak', '']) {
+    test(`ignora ${p || '(vazio)'}`, () => assert.equal(isLintable(p), false));
+  }
+
+  test('só olha arquivo dentro do projeto', () => {
+    assert.equal(isInside('/p', '/p/src/a.js'), true);
+    assert.equal(isInside('/p', 'src/a.js'), true);
+    assert.equal(isInside('/p', '/q/a.js'), false);
+    assert.equal(isInside('/p', '../a.js'), false);
+  });
+});
+
+describe('lint-on-edit: falha aberto', () => {
+  test('payload malformado não trava a sessão', () => assert.equal(runLintHook('{not json', {}).status, 0));
+
+  // The state of a fresh clone, or of a derived project that never ran `npm install`.
+  test('sem Biome instalado, fica em silêncio', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aios-lint-'));
+    try {
+      const file = path.join(dir, 'a.js');
+      fs.writeFileSync(file, 'debugger;\n');
+      assert.equal(findBiome(dir), null);
+      const r = runLintHook(JSON.stringify({ tool_input: { file_path: file } }), { CLAUDE_PROJECT_DIR: dir });
+      assert.equal(r.status, 0);
+      assert.equal(r.stderr, '');
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('lint-on-edit: devolve o problema ao agente', () => {
+  const skip = findBiome(ROOT) ? false : 'Biome não instalado — rode npm install';
+  const fixture = path.join(__dirname, `.lint-fixture-${process.pid}.js`);
+  const payload = JSON.stringify({ tool_input: { file_path: fixture } });
+  const withFixture = (content, env) => {
+    fs.writeFileSync(fixture, content);
+    try {
+      return runLintHook(payload, { CLAUDE_PROJECT_DIR: ROOT, AIOS_SKIP_LINT_HOOK: '', ...env });
+    } finally {
+      fs.rmSync(fixture, { force: true });
+    }
+  };
+
+  test('erro de lint sai com 2 e nomeia o arquivo', { skip }, () => {
+    const r = withFixture('debugger;\n');
+    assert.equal(r.status, 2);
+    assert.match(r.stderr, /lint-fixture/);
+  });
+
+  test('arquivo limpo fica em silêncio', { skip }, () => {
+    const r = withFixture('module.exports = 1;\n');
+    assert.equal(r.status, 0);
+    assert.equal(r.stderr, '');
+  });
+
+  test('o escape hatch desliga o hook', { skip }, () => {
+    assert.equal(withFixture('debugger;\n', { AIOS_SKIP_LINT_HOOK: '1' }).status, 0);
+  });
 });

@@ -29,6 +29,7 @@ Rode o script em vez de conferir à mão: verificação que depende de alguém l
 | Codemap | `scripts/codemap.js` e, conforme o modo, o template ou `CODEMAP.md` |
 | Manifesto do plugin | versão de `.claude-plugin/plugin.json` bate com o topo do `CHANGELOG.md`, e a contagem de skills bate com os `SKILL.md` |
 | Drift de instruções | CLAUDE.md, templates, `.claude/`, WIZARD e `docs/` só citam agentes, comandos e estágios que existem (erro); geração de modelo fixada em prosa, tipo "Sonnet X.Y", vira aviso |
+| Sensores | `package.json` tem `test` e `lint`, o linter tem configuração, há lockfile, existe hook `PostToolUse`, e o CI roda os dois. Sensor ausente é erro no repo do OS e aviso no projeto derivado, que pode ter trocado de stack |
 | Artefatos | modo repo-do-OS *versus* projeto derivado, detectado pelo marcador `.aios-self` |
 
 ## Dois modos
@@ -57,5 +58,6 @@ O script diz **o que** está quebrado. Interpretar e consertar continua sendo tr
 ## Related
 
 - Script: `scripts/os-self-test.js`
-- Testes dos scripts e hooks: `node --test scripts/test/*.test.js` (sem aspas — o shell expande; aspas exigem Node 21+)
+- Testes dos scripts e hooks: `npm test`, que roda `node --test scripts/test/*.test.js` (sem aspas — o shell expande; aspas exigem Node 21+)
+- Lint e formatação: `npm run lint` (Biome). Verificação dos sensores: `scripts/sensor-wiring.js`
 - Gate de release que o invoca: [`release-check`](../release-check/SKILL.md)

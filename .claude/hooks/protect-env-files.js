@@ -19,7 +19,7 @@
 
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 
 const REAL_ENV = /(^|[\\/])\.env(\.[A-Za-z0-9_-]+)?$/i;
 const TEMPLATE_ENV = /(^|[\\/])\.env\.(example|sample|template|dist)$/i;

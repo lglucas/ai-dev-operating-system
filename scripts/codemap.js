@@ -22,9 +22,9 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const { execFileSync } = require('child_process');
+const fs = require('node:fs');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 
 const ROOT = process.cwd();
 const CHECK = process.argv.includes('--check');
@@ -74,7 +74,7 @@ function describe(text) {
       // Indentation marks the continuation, but it sits *after* the comment marker
       // (`#          more`, ` *          more`). Strip the marker without eating the
       // spaces that follow it, or hash-comment headers never continue.
-      if (/^\s{2,}/.test(head[i].replace(/^\s*[*#/;-]+/, ''))) s += ' ' + stripped.trim();
+      if (/^\s{2,}/.test(head[i].replace(/^\s*[*#/;-]+/, ''))) s += ` ${stripped.trim()}`;
       else break;
     }
     return { text: clean(s), missingHeader: false };
@@ -113,7 +113,10 @@ function collect() {
 
 function render(rows) {
   const byDir = {};
-  for (const r of rows) (byDir[r.dir] ||= []).push(r);
+  for (const r of rows) {
+    byDir[r.dir] ||= [];
+    byDir[r.dir].push(r);
+  }
 
   const over = rows.filter(r => r.lines > 200);
   const noHeader = rows.filter(r => r.missingHeader);
@@ -136,12 +139,12 @@ Todo arquivo de código do projeto, com uma linha sobre o núcleo de cada um.
 
   if (over.length) {
     md += `## ⚠️ Acima do limite de 200 linhas\n\nA regra diz "under 200 lines where practical". Estes passaram — vale checar se dá pra separar:\n\n`;
-    md += over.map(r => `- \`${r.rel}\` — ${r.lines} linhas`).join('\n') + '\n\n';
+    md += `${over.map(r => `- \`${r.rel}\` — ${r.lines} linhas`).join('\n')}\n\n`;
   }
 
   md += `---\n\n`;
   for (const dir of Object.keys(byDir).sort()) {
-    md += `## \`${dir === '.' ? '(raiz)' : dir + '/'}\`\n\n| Arquivo | Núcleo | Linhas |\n|---|---|---:|\n`;
+    md += `## \`${dir === '.' ? '(raiz)' : `${dir}/`}\`\n\n| Arquivo | Núcleo | Linhas |\n|---|---|---:|\n`;
     md += byDir[dir].map(r => `| [\`${path.basename(r.rel)}\`](${r.rel}) | ${r.text} | ${r.lines} |`).join('\n');
     md += '\n\n';
   }

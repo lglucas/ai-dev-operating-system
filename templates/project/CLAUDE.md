@@ -54,6 +54,23 @@ node scripts/codemap.js --check   # CI runs this and fails if the map is stale
 
 If a file's line in the map is unhelpful, the defect is in that file's `Purpose:` header. Fix the header and regenerate — never edit `CODEMAP.md` by hand.
 
+## Checking your work
+
+```bash
+npm install     # once — without it the lint hook stays silent
+npm test        # tests
+npm run lint    # Biome: lint + format check (`npm run format` fixes)
+```
+
+Run them before calling a change done. A `PostToolUse` hook already runs Biome on each file you edit and reports back; CI runs both.
+
+`package.json` and `biome.json` came with the AI Dev OS. They are this project's starting manifest, not a second one:
+
+- Rename the package — `os-self-test` warns while it is still called `ai-dev-operating-system`.
+- When the stack is chosen in Phase 4, **merge** its scripts and dependencies into this `package.json`. Do not let a scaffolder overwrite it.
+- Extend `npm test` to run the project's own tests alongside `scripts/test/`.
+- A stack with its own linter may replace Biome. Keep `npm run lint` pointing at whatever replaces it, so the hook, the CI and `os-self-test` stay wired.
+
 ## Agents
 
 | Agent | Use when |

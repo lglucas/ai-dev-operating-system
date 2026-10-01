@@ -119,10 +119,10 @@ suite('descoberta de arquivos', () => {
   test('symlink rastreado não é seguido para fora do repo', () => {
     // collect() lê de ROOT, fixado na carga do módulo, então este caso só dá para
     // exercitar rodando o script inteiro num repo temporário.
-    const fs = require('fs');
-    const os = require('os');
-    const path = require('path');
-    const { execFileSync } = require('child_process');
+    const fs = require('node:fs');
+    const os = require('node:os');
+    const path = require('node:path');
+    const { execFileSync } = require('node:child_process');
 
     const base = fs.mkdtempSync(path.join(os.tmpdir(), 'codemap-symlink-'));
     const outside = path.join(base, 'fora.js');
