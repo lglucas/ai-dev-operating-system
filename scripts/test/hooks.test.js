@@ -53,6 +53,30 @@ describe('block-secret-commit: não bloqueia a documentação dos próprios padr
     assert.equal(scan(doc, []).length, 0);
   });
 
+  // The hand-written sample above once hid a real defect: secrets.md carried a literal
+  // private-key header, which the gate matches. Read the actual files instead.
+  test('nenhum arquivo de instrução real dispara o gate', () => {
+    const files = [path.join(ROOT, 'CLAUDE.md')];
+    const walk = (dir) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (entry.name.endsWith('.md')) files.push(full);
+      }
+    };
+    walk(path.join(ROOT, '.claude'));
+
+    for (const file of files) {
+      const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+      const asDiff = `+++ b/${rel}\n${fs
+        .readFileSync(file, 'utf8')
+        .split('\n')
+        .map((line) => `+${line}`)
+        .join('\n')}\n`;
+      assert.deepEqual(scan(asDiff, []), [], `${rel} seria barrado pelo próprio gate`);
+    }
+  });
+
   test('prosa que menciona prefixo passa', () => {
     const prose = diffAdding('README.md', 'Chaves da OpenAI começam com sk- e as da AWS com AKIA.');
     assert.equal(scan(prose, []).length, 0);

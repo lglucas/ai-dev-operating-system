@@ -12,7 +12,8 @@
     "lint": "biome check .",
     "format": "biome check --write .",
     "self-test": "node scripts/os-self-test.js",
-    "codemap": "node scripts/codemap.js"
+    "codemap": "node scripts/codemap.js",
+    "prepare": "git config core.hooksPath .husky || echo \"git hooks not installed (not a git repository?)\""
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15"

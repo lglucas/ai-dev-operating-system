@@ -2,7 +2,7 @@
  * sensor-wiring.js — checks that the feedback sensors are wired, not just present.
  *
  * Purpose: verify the repo has a standard test entry point, a linter with its config, a
- *          lockfile, a feedback hook, and a CI that actually runs them. The tests existed
+ *          lockfile, a feedback hook, a git pre-commit, and a CI that actually runs them. The tests existed
  *          for two releases with no `npm test` to find them by — a sensor nobody can
  *          discover is a sensor the agent does not run.
  * Version: v0.5.6
@@ -27,7 +27,7 @@ const LOCKFILES = ['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lock
  * In a derived project it is a warning — the project may have moved to another stack, and
  * a self-test that fails on a legitimate choice gets switched off.
  */
-function evaluate({ pkgText, lintConfig, lockfile, settingsText, ciText, isOsRepo }) {
+function evaluate({ pkgText, lintConfig, lockfile, settingsText, ciText, preCommit, isOsRepo }) {
   const out = { errors: [], warnings: [], passes: [] };
   const missing = (msg) => (isOsRepo ? out.errors : out.warnings).push(msg);
 
@@ -70,6 +70,12 @@ function evaluate({ pkgText, lintConfig, lockfile, settingsText, ciText, isOsRep
     out.warnings.push('nenhum hook PostToolUse — o agente só descobre erro de lint no CI');
   } else out.passes.push('hook de feedback (PostToolUse) registrado');
 
+  // The PreToolUse gate only sees commits Claude makes; the git hook covers everyone else.
+  if (!preCommit) missing('sem .husky/pre-commit — commit feito fora do Claude Code não passa pelo scan de segredo');
+  else if (!/hooksPath/.test(scripts.prepare || '')) {
+    out.warnings.push('.husky/pre-commit existe, mas nenhum script "prepare" aponta o git para ele');
+  } else out.passes.push('pre-commit do git ligado');
+
   // A sensor that exists but never gates is decoration. Skipped when there is no CI at all.
   if (ciText != null) {
     for (const [command, script] of [
@@ -104,6 +110,7 @@ function checkSensors(root, isOsRepo) {
     lockfile: firstExisting(root, LOCKFILES),
     settingsText: readIf(path.join(root, '.claude', 'settings.json')),
     ciText,
+    preCommit: fs.existsSync(path.join(root, '.husky', 'pre-commit')),
     isOsRepo,
   });
 }

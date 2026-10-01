@@ -57,7 +57,7 @@ If a file's line in the map is unhelpful, the defect is in that file's `Purpose:
 ## Checking your work
 
 ```bash
-npm install     # once — without it the lint hook stays silent
+npm install     # once — without it the lint hook stays silent and the git pre-commit is not wired
 npm test        # tests
 npm run lint    # Biome: lint + format check (`npm run format` fixes)
 ```

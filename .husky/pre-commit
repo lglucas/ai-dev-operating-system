@@ -1,0 +1,4 @@
+#!/bin/sh
+# Git pre-commit hook: secret scan + lint on the staged files. Logic in scripts/pre-commit.js.
+# No husky dependency — `npm install` runs `git config core.hooksPath .husky` (see package.json).
+node scripts/pre-commit.js

@@ -60,6 +60,19 @@ Três decisões:
 
 ---
 
+## Fora do Claude Code: o pre-commit do git
+
+Os hooks acima só existem dentro do Claude Code. Um commit feito pelo terminal ou pelo editor nunca passava pelo scan de segredo.
+
+[`../../.husky/pre-commit`](../../.husky/pre-commit) fecha esse buraco: é um hook do próprio git, que chama `scripts/pre-commit.js` e roda **o mesmo `scan`** do `block-secret-commit.js`, mais o Biome nos arquivos staged. Um só conjunto de padrões, dois pontos de entrada.
+
+- **Como liga:** `npm install` roda o script `prepare`, que faz `git config core.hooksPath .husky`. Sem `npm install`, o hook não está ativo.
+- **Não há dependência do husky.** A pasta tem esse nome por convenção; o mecanismo é só o `core.hooksPath`.
+- **Falha aberto** fora de um repositório git, e pula o lint se o Biome não estiver instalado.
+- Dentro do Claude Code os dois rodam: o gate antes da ferramenta, o hook do git no commit. É redundante de propósito.
+
+---
+
 ## Escape hatch
 
 Falso positivo acontece. Cada hook tem uma variável de ambiente que o desliga por uma execução:
@@ -69,6 +82,8 @@ AIOS_ALLOW_SECRET_COMMIT=1 git commit -m "fixture de teste com token falso"
 AIOS_ALLOW_ENV_WRITE=1
 AIOS_SKIP_LINT_HOOK=1
 ```
+
+`AIOS_ALLOW_SECRET_COMMIT=1` vale também para o pre-commit do git.
 
 **Se usar, registre o porquê no `session-log/`.** Um escape sem justificativa vira hábito, e o hook para de servir para alguma coisa.
 

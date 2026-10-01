@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [0.5.6] — 2026-10-01 — Sensores com ponto de entrada: `npm test`, Biome e um hook de feedback
+## [0.5.6] — 2026-10-01 — Sensores com ponto de entrada: `npm test`, Biome, hook de feedback e pre-commit
 
-Um scanner externo de maturidade de harness ([harness-score](https://github.com/paladini/harness-score) v1.7.5, rodado de fora do repositório) mediu o OS em **L2, 80/108**. Quatro das seis dimensões estavam entre 78% e 100%; "Sensors & Feedback" estava em 2/20, por uma causa só: os testes existiam e rodavam no CI, mas sem `package.json` não havia ponto de entrada padrão por onde um agente — ou uma ferramenta — os encontrasse. Depois desta release o mesmo scan dá **L4, 96/108**. Raciocínio e o que ficou de fora em [`session-log/2026-10-01-v0.5.6-harness-sensors.md`](session-log/2026-10-01-v0.5.6-harness-sensors.md).
+Um scanner externo de maturidade de harness ([harness-score](https://github.com/paladini/harness-score) v1.7.5, rodado de fora do repositório) mediu o OS em **L2, 80/108**. Quatro das seis dimensões estavam entre 78% e 100%; "Sensors & Feedback" estava em 2/20, por uma causa só: os testes existiam e rodavam no CI, mas sem `package.json` não havia ponto de entrada padrão por onde um agente — ou uma ferramenta — os encontrasse. Depois desta release o mesmo scan dá **L4, 101/108**. Raciocínio e o que ficou de fora em [`session-log/2026-10-01-v0.5.6-harness-sensors.md`](session-log/2026-10-01-v0.5.6-harness-sensors.md).
 
 Tudo aqui foi desenhado para ser **herdado**: o que entra na raiz do OS entra na raiz de todo projeto derivado.
 
@@ -26,7 +26,15 @@ O README dos hooks passa a separar **gate** (irreversível, bloqueia) de **feedb
 
 ### Added — `sensor-wiring`, 12º grupo do `os-self-test`
 
-`scripts/sensor-wiring.js` verifica que existem script `test` e `lint`, configuração de linter, lockfile e hook `PostToolUse`, e que o CI roda os dois — sensor que existe e não barra nada é decoração. Sensor ausente é **erro** no repo do OS e **aviso** no projeto derivado, que pode ter trocado de stack. No derivado, avisa também enquanto o `package.json` ainda se chamar `ai-dev-operating-system`.
+`scripts/sensor-wiring.js` verifica que existem script `test` e `lint`, configuração de linter, lockfile, hook `PostToolUse` e pre-commit do git, e que o CI roda teste e lint — sensor que existe e não barra nada é decoração. Sensor ausente é **erro** no repo do OS e **aviso** no projeto derivado, que pode ter trocado de stack. No derivado, avisa também enquanto o `package.json` ainda se chamar `ai-dev-operating-system`.
+
+### Added — pre-commit do git
+
+Os hooks do Claude Code só veem o que o Claude faz; um commit pelo terminal ou pelo editor nunca passava pelo scan de segredo. `.husky/pre-commit` chama `scripts/pre-commit.js`, que roda **o mesmo `scan`** do `block-secret-commit.js` e o Biome nos arquivos staged. Sem dependência do husky: o script `prepare` faz `git config core.hooksPath .husky` no `npm install`.
+
+### Fixed — a regra de segredos era barrada pelo próprio gate
+
+`.claude/rules/secrets.md` trazia o cabeçalho literal de chave privada na lista de padrões, e o `block-secret-commit` casa com ele: editar aquela linha barraria o commit da própria regra. O teste que deveria garantir o contrário usava um trecho escrito à mão que omitia justamente essa linha. A regra passa a escrever `-----BEGIN ... PRIVATE KEY-----`, e o teste agora lê os arquivos reais — `CLAUDE.md` e todo `.md` de `.claude/`.
 
 ### Changed
 
@@ -35,7 +43,7 @@ O README dos hooks passa a separar **gate** (irreversível, bloqueia) de **feedb
 - `CLAUDE.md` ganha "Checking your work"; `code-style` registra que estilo é da ferramenta.
 - Código existente: `require('fs')` virou `require('node:fs')`, duas atribuições dentro de expressão foram abertas, e uma passada de formatação.
 
-38 testes novos, 153 no total. 79 verificações no `os-self-test`.
+46 testes novos, 161 no total. 80 verificações no `os-self-test`.
 
 ---
 

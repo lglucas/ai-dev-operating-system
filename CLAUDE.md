@@ -65,7 +65,7 @@ Do not move to code before all of Phase 1–4 is complete and approved.
 ## Checking your work
 
 ```bash
-npm install                    # once — installs Biome, the only dependency
+npm install                    # once — installs Biome and wires the git pre-commit hook
 npm test                       # unit tests for the scripts and hooks
 npm run lint                   # Biome: lint + format check (`npm run format` fixes)
 node scripts/os-self-test.js   # coherence of the OS itself

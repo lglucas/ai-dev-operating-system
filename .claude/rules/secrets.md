@@ -18,7 +18,7 @@ sk-
 ghp_
 github_pat_
 AKIA
------BEGIN PRIVATE KEY-----
+-----BEGIN ... PRIVATE KEY-----
 .env
 .pem
 .key

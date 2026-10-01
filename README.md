@@ -91,6 +91,8 @@ Patterns require the **full token shape**, not the prefix — otherwise the hook
 
 A third hook is **feedback, not a gate**: [`lint-on-edit.js`](.claude/hooks/lint-on-edit.js) runs Biome on each file Claude edits (`PostToolUse`) and hands the problems straight back, instead of leaving them for a red CI check one push later. It never blocks and never rewrites the file, and it stays silent until `npm install` has put Biome on disk.
 
+Those three only exist inside Claude Code. A git `pre-commit` hook ([`.husky/pre-commit`](.husky/pre-commit), wired by `npm install`, no husky dependency) runs the same secret scan and the lint for commits made from a terminal or an editor.
+
 All three fail **open** on a malformed payload, and each has a documented escape hatch. Details and the list of what deliberately did *not* become a hook: [`.claude/hooks/README.md`](.claude/hooks/README.md).
 
 Requires Node. Without it the hooks are skipped and the OS still works — it just loses the kernel.
@@ -279,14 +281,14 @@ Plus build-and-ship (`feature-scaffold`, `verify-build-works`, `rollback-safe`, 
 ## ✅ The OS tests itself
 
 ```bash
-npm install                               # once — Biome, the only dependency
+npm install                               # once — Biome, and the git pre-commit hook
 node scripts/os-self-test.js              # 12 coherence groups
-npm test                                  # 153 tests (147 unit, 6 that spawn a real process)
+npm test                                  # 161 tests (150 unit, 11 that spawn a real process)
 npm run lint                              # Biome: lint + format check
 node scripts/codemap.js --check           # codemap in sync with the code
 ```
 
-`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, the codemap generator, the plugin manifest against the changelog, instruction drift — agents, commands or WIZARD stages cited but missing (error) and model generations pinned in prose (warning) — and sensor wiring: a `test` and a `lint` script, a linter config, a lockfile, a feedback hook, and a CI that actually runs them. It runs in CI on every push.
+`os-self-test` verifies canonical structure, frontmatter coverage across skills/agents/commands, every relative link, registry ↔ INDEX consistency both ways, session-log indexing, hook wiring, gitignore hygiene, the codemap generator, the plugin manifest against the changelog, instruction drift — agents, commands or WIZARD stages cited but missing (error) and model generations pinned in prose (warning) — and sensor wiring: a `test` and a `lint` script, a linter config, a lockfile, a feedback hook, a git pre-commit, and a CI that actually runs them. It runs in CI on every push.
 
 It used to be a checklist a human had to remember — and three session logs record it going unrun exactly when it would have helped. That is why it is a script now.
 

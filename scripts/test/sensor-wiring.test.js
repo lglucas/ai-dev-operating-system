@@ -19,7 +19,7 @@ const { evaluate } = require('../sensor-wiring.js');
 const pkg = (over = {}) =>
   JSON.stringify({
     name: 'meu-saas',
-    scripts: { test: 'node --test', lint: 'biome check .' },
+    scripts: { test: 'node --test', lint: 'biome check .', prepare: 'git config core.hooksPath .husky' },
     devDependencies: { '@biomejs/biome': '2.5.15' },
     ...over,
   });
@@ -30,6 +30,7 @@ const wired = (over = {}) => ({
   lockfile: 'package-lock.json',
   settingsText: settings,
   ciText: 'run: npm test\nrun: npm run lint\n',
+  preCommit: true,
   isOsRepo: true,
   ...over,
 });
@@ -39,7 +40,23 @@ describe('sensor-wiring: tudo ligado', () => {
     const r = evaluate(wired());
     assert.deepEqual(r.errors, []);
     assert.deepEqual(r.warnings, []);
-    assert.equal(r.passes.length, 6);
+    assert.equal(r.passes.length, 7);
+  });
+});
+
+describe('sensor-wiring: pre-commit do git', () => {
+  test('sem .husky/pre-commit: erro no repo do OS, aviso no derivado', () => {
+    assert.match(evaluate(wired({ preCommit: false })).errors[0], /pre-commit/);
+    const derived = evaluate(wired({ preCommit: false, isOsRepo: false }));
+    assert.deepEqual(derived.errors, []);
+    assert.ok(derived.warnings.some((w) => w.includes('pre-commit')));
+  });
+
+  // The hook file alone does nothing: git only runs it once core.hooksPath points there.
+  test('hook presente sem script prepare avisa', () => {
+    const r = evaluate(wired({ pkgText: pkg({ scripts: { test: 'node --test', lint: 'biome check .' } }) }));
+    assert.deepEqual(r.errors, []);
+    assert.ok(r.warnings.some((w) => w.includes('prepare')));
   });
 });
 
