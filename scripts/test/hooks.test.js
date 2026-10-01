@@ -104,16 +104,16 @@ describe('block-secret-commit: reconhece o comando', () => {
     'git commit -m "x"',
     'git commit',
     'git   commit  --amend',
-    'git -C /tmp commit -am y',           // global flag consuming a value
-    'git -c user.name=x commit -m y',     // -c takes a value too
+    'git -C /tmp commit -am y', // global flag consuming a value
+    'git -c user.name=x commit -m y', // -c takes a value too
     'git --git-dir /r/.git commit',
-    'cd /projeto && git commit -m y',     // segundo segmento do shell
+    'cd /projeto && git commit -m y', // segundo segmento do shell
     'git add . && git commit -m y',
   ];
   const isNotCommit = [
     'git status',
     'git push',
-    'git commit-tree abc',                // subcomando diferente, prefixo igual
+    'git commit-tree abc', // subcomando diferente, prefixo igual
     'npm run commit-lint',
     'echo "git commitment"',
     'git log --format=commit',
@@ -125,9 +125,24 @@ describe('block-secret-commit: reconhece o comando', () => {
 
 describe('protect-env-files: caminhos', () => {
   const B = String.fromCharCode(92); // barra invertida, sem depender do escaping do shell
-  const blocked = ['/p/.env', '/p/.env.local', '/p/.env.production', `C:${B}p${B}.env`, `C:${B}p${B}.env.local`, '.env'];
-  const allowed = ['/p/.env.example', '/p/.env.sample', '/p/.env.template', '/p/.env.dist',
-                   '/p/src/index.ts', '/p/environment.ts', '/p/envelope.md', ''];
+  const blocked = [
+    '/p/.env',
+    '/p/.env.local',
+    '/p/.env.production',
+    `C:${B}p${B}.env`,
+    `C:${B}p${B}.env.local`,
+    '.env',
+  ];
+  const allowed = [
+    '/p/.env.example',
+    '/p/.env.sample',
+    '/p/.env.template',
+    '/p/.env.dist',
+    '/p/src/index.ts',
+    '/p/environment.ts',
+    '/p/envelope.md',
+    '',
+  ];
 
   for (const p of blocked) test(`bloqueia ${JSON.stringify(p)}`, () => assert.equal(isProtectedEnvPath(p), true));
   for (const p of allowed) test(`permite ${JSON.stringify(p)}`, () => assert.equal(isProtectedEnvPath(p), false));

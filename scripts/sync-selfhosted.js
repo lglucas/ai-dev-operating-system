@@ -84,74 +84,147 @@ function parseYaml(text) {
 // ------------------------------------- 95 upstream tags -> 12 macro-categories
 
 const MACRO = [
-  ['comunicacao', 'Comunicação',
+  [
+    'comunicacao',
+    'Comunicação',
     'Email, chat, fórum, videoconferência, XMPP, IRC, SIP, newsletters, feed readers.',
-    t => t.startsWith('communication') || t === 'feed-readers'],
+    (t) => t.startsWith('communication') || t === 'feed-readers',
+  ],
 
-  ['arquivos-backup', 'Arquivos e backup',
+  [
+    'arquivos-backup',
+    'Arquivos e backup',
     'Sincronização, object storage, gerenciadores de arquivo, P2P, backup, arquivamento digital.',
-    t => t.startsWith('file-transfer') || t === 'backup' || t.startsWith('archiving')],
+    (t) => t.startsWith('file-transfer') || t === 'backup' || t.startsWith('archiving'),
+  ],
 
-  ['midia', 'Mídia',
+  [
+    'midia',
+    'Mídia',
     'Streaming de áudio e vídeo, galerias de foto, gestão de biblioteca, videovigilância, jogos.',
-    t => t.startsWith('media') || t === 'photo-galleries' || t === 'video-surveillance'
-      || t === 'video_surveillance' || t.startsWith('games')],
+    (t) =>
+      t.startsWith('media') ||
+      t === 'photo-galleries' ||
+      t === 'video-surveillance' ||
+      t === 'video_surveillance' ||
+      t.startsWith('games'),
+  ],
 
-  ['produtividade', 'Produtividade e conhecimento',
+  [
+    'produtividade',
+    'Produtividade e conhecimento',
     'Notas, wikis, gestão documental, suítes de escritório, tarefas, bookmarks, calendário, dashboards.',
-    t => ['note-taking-editors', 'knowledge-management-tools', 'wikis', 'office-suites',
-      'bookmarks-and-link-sharing', 'pastebins', 'task-management-to-do-lists', 'time-tracking',
-      'personal-dashboards', 'recipe-management', 'travel-organization', 'groupware'].includes(t)
-      || t.startsWith('document-management') || t.startsWith('calendar-contacts')],
+    (t) =>
+      [
+        'note-taking-editors',
+        'knowledge-management-tools',
+        'wikis',
+        'office-suites',
+        'bookmarks-and-link-sharing',
+        'pastebins',
+        'task-management-to-do-lists',
+        'time-tracking',
+        'personal-dashboards',
+        'recipe-management',
+        'travel-organization',
+        'groupware',
+      ].includes(t) ||
+      t.startsWith('document-management') ||
+      t.startsWith('calendar-contacts'),
+  ],
 
-  ['negocio', 'Negócio e operações',
+  [
+    'negocio',
+    'Negócio e operações',
     'CRM, e-commerce, ERP, estoque, RH, finanças, ticketing, agendamento, eventos.',
-    t => ['customer-relationship-management-crm', 'e-commerce', 'resource-planning',
-      'inventory-management', 'human-resources-management-hrm', 'money-budgeting-management',
-      'ticketing', 'booking-and-scheduling', 'conference-management', 'manufacturing',
-      'community-supported-agriculture-csa', 'polls-and-events'].includes(t)],
+    (t) =>
+      [
+        'customer-relationship-management-crm',
+        'e-commerce',
+        'resource-planning',
+        'inventory-management',
+        'human-resources-management-hrm',
+        'money-budgeting-management',
+        'ticketing',
+        'booking-and-scheduling',
+        'conference-management',
+        'manufacturing',
+        'community-supported-agriculture-csa',
+        'polls-and-events',
+      ].includes(t),
+  ],
 
-  ['desenvolvimento', 'Desenvolvimento',
+  [
+    'desenvolvimento',
+    'Desenvolvimento',
     'CI/CD, API management, IDEs, testes, low-code, serverless, feature flags, geradores estáticos, bancos de dados.',
-    t => t.startsWith('software-development') || t === 'static-site-generators' || t === 'database-management'],
+    (t) => t.startsWith('software-development') || t === 'static-site-generators' || t === 'database-management',
+  ],
 
-  ['infraestrutura', 'Infraestrutura e rede',
+  [
+    'infraestrutura',
+    'Infraestrutura e rede',
     'DNS, proxy, VPN, servidores web, acesso remoto, IoT, painéis de self-hosting.',
-    t => ['dns', 'proxy', 'vpn', 'web-servers', 'network-utilities', 'remote-access',
-      'self-hosting-solutions', 'internet-of-things-iot'].includes(t)],
+    (t) =>
+      [
+        'dns',
+        'proxy',
+        'vpn',
+        'web-servers',
+        'network-utilities',
+        'remote-access',
+        'self-hosting-solutions',
+        'internet-of-things-iot',
+      ].includes(t),
+  ],
 
-  ['seguranca-identidade', 'Segurança e identidade',
+  [
+    'seguranca-identidade',
+    'Segurança e identidade',
     'Gerenciadores de senha, SSO, identidade federada, gestão de identidade.',
-    t => ['password-managers', 'federated-identity-authentication', 'identify-management',
-      'identity-management'].includes(t)],
+    (t) =>
+      ['password-managers', 'federated-identity-authentication', 'identify-management', 'identity-management'].includes(
+        t,
+      ),
+  ],
 
-  ['observabilidade', 'Observabilidade e busca',
+  [
+    'observabilidade',
+    'Observabilidade e busca',
     'Monitoramento, status pages, analytics, motores de busca.',
-    t => ['monitoring-status-pages', 'analytics', 'search-engines'].includes(t)],
+    (t) => ['monitoring-status-pages', 'analytics', 'search-engines'].includes(t),
+  ],
 
-  ['conteudo', 'Conteúdo e publicação',
+  [
+    'conteudo',
+    'Conteúdo e publicação',
     'CMS, blogs, encurtadores de URL, plataformas de curso.',
-    t => ['content-management-systems-cms', 'blogging-platforms', 'url-shorteners',
-      'learning-and-courses'].includes(t)],
+    (t) =>
+      ['content-management-systems-cms', 'blogging-platforms', 'url-shorteners', 'learning-and-courses'].includes(t),
+  ],
 
-  ['automacao-ia', 'Automação e IA',
+  [
+    'automacao-ia',
+    'Automação e IA',
     'Automação de fluxos e IA generativa auto-hospedada.',
-    t => t === 'automation' || t.startsWith('generative-a')],
+    (t) => t === 'automation' || t.startsWith('generative-a'),
+  ],
 
-  ['outros', 'Outros',
-    'Mapas e GPS, saúde, genealogia, e o balde "Miscellaneous" do upstream.',
-    () => true],
+  ['outros', 'Outros', 'Mapas e GPS, saúde, genealogia, e o balde "Miscellaneous" do upstream.', () => true],
 ];
 
 // Software files carry tag DISPLAY names ("Note-taking & Editors"); the tags/ directory
 // carries file slugs ("note-taking--editors"). Slugifying the display name collapses runs
 // of separators to a single dash, so both sides must be canonicalised the same way or
 // equality tests silently never match.
-const slugifyTag = name => name.toLowerCase()
-  .replace(/&/g, '-').replace(/\+/g, '-')
-  .replace(/[^a-z0-9]+/g, '-')
-  .replace(/-{2,}/g, '-')
-  .replace(/^-+|-+$/g, '');
+const slugifyTag = (name) =>
+  name
+    .toLowerCase()
+    .replace(/&/g, '-')
+    .replace(/\+/g, '-')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-+|-+$/g, '');
 
 // ---------------------------------------------------------------------- load
 
@@ -163,7 +236,9 @@ function load(dataDir) {
     const y = parseYaml(fs.readFileSync(path.join(dir, f), 'utf8'));
     entries.push({
       name: y.name || f.replace(/\.yml$/, ''),
-      description: String(y.description || '').replace(/\|/g, '\\|').trim(),
+      description: String(y.description || '')
+        .replace(/\|/g, '\\|')
+        .trim(),
       licenses: Array.isArray(y.licenses) ? y.licenses : [],
       platforms: Array.isArray(y.platforms) ? y.platforms : [],
       tags: Array.isArray(y.tags) ? y.tags : [],
@@ -181,7 +256,7 @@ function load(dataDir) {
 // Grouping sections by tags[0] instead would bury entries: something tagged
 // ["Miscellaneous", "Monitoring & Status Pages"] would render under "Miscellaneous"
 // and the monitoring signal would vanish from the catalogue entirely.
-const macroFor = e => {
+const macroFor = (e) => {
   for (const t of e.tags) {
     const s = slugifyTag(t);
     for (const [id, , , test] of MACRO) {
@@ -200,9 +275,7 @@ function row(e) {
   const link = e.website || e.source;
   const nm = link ? `[${e.name}](${link})` : e.name;
   const lic = e.licenses.length ? e.licenses.join(', ') : '—';
-  const plat = e.platforms.length
-    ? e.platforms.slice(0, 4).join(', ') + (e.platforms.length > 4 ? '…' : '')
-    : '—';
+  const plat = e.platforms.length ? e.platforms.slice(0, 4).join(', ') + (e.platforms.length > 4 ? '…' : '') : '—';
   const stars = e.stars != null ? `${(e.stars / 1000).toFixed(1)}k` : '—';
   return `| ${nm}${e.archived ? ' ⚠️' : ''} | ${e.description} | ${lic} | ${plat} | ${stars} |`;
 }

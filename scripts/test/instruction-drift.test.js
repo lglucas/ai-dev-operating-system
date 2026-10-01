@@ -19,8 +19,14 @@ const os = require('node:os');
 const path = require('node:path');
 
 const {
-  danglingCommands, danglingAgents, danglingStages, expandRange, pinnedModels,
-  wizardHeadings, instructionFiles, scanRepo,
+  danglingCommands,
+  danglingAgents,
+  danglingStages,
+  expandRange,
+  pinnedModels,
+  wizardHeadings,
+  instructionFiles,
+  scanRepo,
 } = require('../instruction-drift.js');
 
 describe('danglingCommands', () => {
@@ -111,7 +117,7 @@ describe('scanRepo', () => {
   put('docs/skill-audit-2026-08-08.md', 'lists `/feature-new`\n');
 
   const { dangling, pinned } = scanRepo(root);
-  const refs = dangling.map(d => `${d.file} ${d.ref}`);
+  const refs = dangling.map((d) => `${d.file} ${d.ref}`);
 
   test('reproduz o defeito do template', () => {
     assert.ok(refs.includes('templates/project/CLAUDE.md security-agent'), refs.join('\n'));
@@ -121,11 +127,11 @@ describe('scanRepo', () => {
     assert.ok(refs.includes('docs/guide.md /external'), refs.join('\n'));
   });
   test('skill existente invocada como /nome não é defeito', () => {
-    assert.ok(!refs.some(r => r.endsWith('/release-check')));
+    assert.ok(!refs.some((r) => r.endsWith('/release-check')));
   });
   test('histórico e registros datados ficam fora', () => {
-    assert.ok(!refs.some(r => /CHANGELOG|session-log|skill-audit/.test(r)), refs.join('\n'));
-    const files = instructionFiles(root).map(f => path.basename(f));
+    assert.ok(!refs.some((r) => /CHANGELOG|session-log|skill-audit/.test(r)), refs.join('\n'));
+    const files = instructionFiles(root).map((f) => path.basename(f));
     assert.ok(!files.includes('CHANGELOG.md'));
     assert.ok(!files.includes('skill-audit-2026-08-08.md'));
   });

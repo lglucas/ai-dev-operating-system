@@ -26,7 +26,9 @@ suite('describe: extrai o cabeçalho Purpose que a code-style exige', () => {
   });
 
   test('comentário de hash (Python, shell)', () => {
-    const r = describe(`#!/usr/bin/env python\n# Purpose: normalises the incoming webhook payload.\n# Version: v0.2.0\n`);
+    const r = describe(
+      `#!/usr/bin/env python\n# Purpose: normalises the incoming webhook payload.\n# Version: v0.2.0\n`,
+    );
     assert.equal(r.text, 'normalises the incoming webhook payload');
     assert.equal(r.missingHeader, false);
   });
@@ -111,7 +113,14 @@ suite('descoberta de arquivos', () => {
   });
 
   test('diretórios gerados são ignorados', () => {
-    for (const p of ['node_modules/x/i.js', 'dist/a.js', 'build/b.js', '.next/c.js', 'src/vendor/d.js', 'coverage/e.js']) {
+    for (const p of [
+      'node_modules/x/i.js',
+      'dist/a.js',
+      'build/b.js',
+      '.next/c.js',
+      'src/vendor/d.js',
+      'coverage/e.js',
+    ]) {
       assert.ok(SKIP_DIR.test(p), `${p} deveria ser pulado`);
     }
   });

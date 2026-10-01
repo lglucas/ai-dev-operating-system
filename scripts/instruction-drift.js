@@ -18,7 +18,7 @@ const path = require('node:path');
 
 // Tokens that look like references but name something outside this repo, each with a reason.
 const ALLOWED_COMMANDS = new Set([
-  'codex',     // gstack's external cross-review command, cited by multi-ai-review
+  'codex', // gstack's external cross-review command, cited by multi-ai-review
   'investors', // product route the pitch skill may create, not a Claude command
 ]);
 const ALLOWED_AGENT_WORDS = new Set([
@@ -46,8 +46,8 @@ function danglingAgents(text, known) {
 /** "2.4"–"2.6" → 2.4, 2.5, 2.6 within one phase; a cross-phase range keeps only its ends. */
 function expandRange(from, to) {
   if (!to) return [from];
-  const [pa, a] = from.split(".").map(Number);
-  const [pb, b] = to.split(".").map(Number);
+  const [pa, a] = from.split('.').map(Number);
+  const [pb, b] = to.split('.').map(Number);
   if (pa !== pb || b < a) return [from, to];
   return Array.from({ length: b - a + 1 }, (_, i) => `${pa}.${a + i}`);
 }
@@ -65,21 +65,24 @@ function danglingStages(text, headings) {
 /** Model generations pinned in prose ("Sonnet 4.6", "claude-opus-4-7") — they rot silently. */
 function pinnedModels(text) {
   const re = /\b(?:Opus|Sonnet|Haiku|Fable|Mythos)\s+\d+(?:\.\d+)?\b|\bclaude-(?:opus|sonnet|haiku|fable)-\d[\w-]*/g;
-  return [...text.matchAll(re)].map(m => m[0]);
+  return [...text.matchAll(re)].map((m) => m[0]);
 }
 
 /** Stage numbers that exist as `## N.N —` headings in WIZARD.md. */
 function wizardHeadings(wizardText) {
-  return new Set([...wizardText.matchAll(/^## (\d\.\d+) —/gm)].map(m => m[1]));
+  return new Set([...wizardText.matchAll(/^## (\d\.\d+) —/gm)].map((m) => m[1]));
 }
 
-const DATED = /\d{4}-\d{2}-\d{2}/;          // dated files are records, not instructions
+const DATED = /\d{4}-\d{2}-\d{2}/; // dated files are records, not instructions
 const HISTORY = /^(CHANGELOG|RELEASE-NOTES)/;
 
 /** The instruction surface: root docs, .claude/, templates/, docs/wizard/, top-level docs/. */
 function instructionFiles(root) {
   const out = [];
-  const add = (f) => { const b = path.basename(f); if (!DATED.test(b) && !HISTORY.test(b)) out.push(f); };
+  const add = (f) => {
+    const b = path.basename(f);
+    if (!DATED.test(b) && !HISTORY.test(b)) out.push(f);
+  };
   const walk = (dir) => {
     if (!fs.existsSync(dir)) return;
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -102,10 +105,15 @@ function instructionFiles(root) {
 
 // Only real targets count: command and agent .md files, and skill dirs that hold a SKILL.md.
 // A reference folder such as skills/external/ has only a README and cannot be invoked.
-const mdNames = (dir) => fs.existsSync(dir)
-  ? fs.readdirSync(dir).filter(f => f.endsWith('.md')).map(f => f.slice(0, -3)) : [];
-const skillNames = (dir) => fs.existsSync(dir)
-  ? fs.readdirSync(dir).filter(d => fs.existsSync(path.join(dir, d, 'SKILL.md'))) : [];
+const mdNames = (dir) =>
+  fs.existsSync(dir)
+    ? fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith('.md'))
+        .map((f) => f.slice(0, -3))
+    : [];
+const skillNames = (dir) =>
+  fs.existsSync(dir) ? fs.readdirSync(dir).filter((d) => fs.existsSync(path.join(dir, d, 'SKILL.md'))) : [];
 
 /** Scan the repo. Returns { dangling: [{file, kind, ref}], pinned: [{file, ref}] }. */
 function scanRepo(root) {
@@ -131,6 +139,12 @@ function scanRepo(root) {
 }
 
 module.exports = {
-  danglingCommands, danglingAgents, danglingStages, expandRange, pinnedModels,
-  wizardHeadings, instructionFiles, scanRepo,
+  danglingCommands,
+  danglingAgents,
+  danglingStages,
+  expandRange,
+  pinnedModels,
+  wizardHeadings,
+  instructionFiles,
+  scanRepo,
 };

@@ -55,13 +55,13 @@ function main() {
 
   process.stderr.write(
     `BLOQUEADO: escrita em arquivo de ambiente real (${filePath}).\n\n` +
-    `Neste OS, o .env real é do usuário — o agente não escreve nele.\n\n` +
-    `O que fazer em vez disso:\n` +
-    `  1. Adicione a variável ao .env.example, com valor placeholder e um comentário do que é.\n` +
-    `  2. Peça ao usuário para preencher o valor real no .env dele, fora do chat.\n` +
-    `  3. Nunca peça a chave colada na conversa — ela fica no histórico.\n\n` +
-    `Regra: .claude/rules/secrets.md · Workflow: .claude/skills/secrets-discipline/SKILL.md\n` +
-    `Precisa mesmo escrever? Rode uma vez com AIOS_ALLOW_ENV_WRITE=1.\n`
+      `Neste OS, o .env real é do usuário — o agente não escreve nele.\n\n` +
+      `O que fazer em vez disso:\n` +
+      `  1. Adicione a variável ao .env.example, com valor placeholder e um comentário do que é.\n` +
+      `  2. Peça ao usuário para preencher o valor real no .env dele, fora do chat.\n` +
+      `  3. Nunca peça a chave colada na conversa — ela fica no histórico.\n\n` +
+      `Regra: .claude/rules/secrets.md · Workflow: .claude/skills/secrets-discipline/SKILL.md\n` +
+      `Precisa mesmo escrever? Rode uma vez com AIOS_ALLOW_ENV_WRITE=1.\n`,
   );
   process.exit(2);
 }

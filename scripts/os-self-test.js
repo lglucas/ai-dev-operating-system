@@ -112,23 +112,34 @@ function checkRuntimeFrontmatter() {
         continue;
       }
       const fm = frontmatter(read(rel));
-      if (!fm) { fail('skills', `${entry.name} sem frontmatter — invisível para auto-invocação`); continue; }
+      if (!fm) {
+        fail('skills', `${entry.name} sem frontmatter — invisível para auto-invocação`);
+        continue;
+      }
       if (!fm.name) fail('skills', `${entry.name} sem chave name:`);
-      else if (fm.name !== entry.name) fail('skills', `${entry.name} declara name: ${fm.name} — não bate com o diretório`);
+      else if (fm.name !== entry.name)
+        fail('skills', `${entry.name} declara name: ${fm.name} — não bate com o diretório`);
       if (!fm.description) fail('skills', `${entry.name} sem chave description:`);
-      else if (!fm.description.includes('"')) warn('skills', `${entry.name} sem frase-gatilho entre aspas na description`);
+      else if (!fm.description.includes('"'))
+        warn('skills', `${entry.name} sem frase-gatilho entre aspas na description`);
       else pass(`skill ${entry.name}`);
     }
   }
 
-  for (const [dir, needsName] of [['agents', true], ['commands', false]]) {
+  for (const [dir, needsName] of [
+    ['agents', true],
+    ['commands', false],
+  ]) {
     const d = abs(`.claude/${dir}`);
     if (!fs.existsSync(d)) continue;
     for (const f of fs.readdirSync(d)) {
       if (!f.endsWith('.md')) continue;
       const slug = f.replace(/\.md$/, '');
       const fm = frontmatter(read(`.claude/${dir}/${f}`));
-      if (!fm) { fail(dir, `${slug} sem frontmatter`); continue; }
+      if (!fm) {
+        fail(dir, `${slug} sem frontmatter`);
+        continue;
+      }
       if (needsName && fm.name && fm.name !== slug) fail(dir, `${slug} declara name: ${fm.name}`);
       if (!fm.description) fail(dir, `${slug} sem description:`);
       else pass(`${dir} ${slug}`);
@@ -158,13 +169,19 @@ function checkLinks() {
 function checkRegistry() {
   if (!exists('docs/registry/INDEX.md') || !exists('docs/registry/packs')) return;
   const index = read('docs/registry/INDEX.md');
-  const packs = fs.readdirSync(abs('docs/registry/packs')).filter(f => f.endsWith('.md'));
+  const packs = fs.readdirSync(abs('docs/registry/packs')).filter((f) => f.endsWith('.md'));
   let bad = 0;
   for (const p of packs) {
-    if (!index.includes(`packs/${p}`)) { fail('registry', `pack fora do INDEX: ${p}`); bad++; }
+    if (!index.includes(`packs/${p}`)) {
+      fail('registry', `pack fora do INDEX: ${p}`);
+      bad++;
+    }
   }
   for (const m of index.matchAll(/\]\(packs\/([^)]+\.md)\)/g)) {
-    if (!packs.includes(m[1])) { fail('registry', `INDEX aponta pack inexistente: ${m[1]}`); bad++; }
+    if (!packs.includes(m[1])) {
+      fail('registry', `INDEX aponta pack inexistente: ${m[1]}`);
+      bad++;
+    }
   }
   if (bad === 0) pass(`registry coerente (${packs.length} packs)`);
 }
@@ -172,12 +189,18 @@ function checkRegistry() {
 // ─────────────────────────────────────────────── 5. session-log index
 
 function checkSessionLog() {
-  if (!exists('session-log/INDEX.md')) { warn('session-log', 'INDEX.md ausente'); return; }
+  if (!exists('session-log/INDEX.md')) {
+    warn('session-log', 'INDEX.md ausente');
+    return;
+  }
   const index = read('session-log/INDEX.md');
-  const entries = fs.readdirSync(abs('session-log')).filter(f => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(f));
+  const entries = fs.readdirSync(abs('session-log')).filter((f) => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(f));
   let bad = 0;
   for (const e of entries) {
-    if (!index.includes(e)) { fail('session-log', `entrada não indexada: ${e}`); bad++; }
+    if (!index.includes(e)) {
+      fail('session-log', `entrada não indexada: ${e}`);
+      bad++;
+    }
   }
   if (bad === 0) pass(`session-log indexado (${entries.length} entradas)`);
 }
@@ -185,15 +208,25 @@ function checkSessionLog() {
 // ─────────────────────────────────────────────── 6. hooks wired and present
 
 function checkHooks() {
-  if (!exists('.claude/settings.json')) { warn('hooks', 'settings.json ausente'); return; }
+  if (!exists('.claude/settings.json')) {
+    warn('hooks', 'settings.json ausente');
+    return;
+  }
   let cfg;
-  try { cfg = JSON.parse(read('.claude/settings.json')); }
-  catch (e) { fail('hooks', `settings.json inválido: ${e.message}`); return; }
+  try {
+    cfg = JSON.parse(read('.claude/settings.json'));
+  } catch (e) {
+    fail('hooks', `settings.json inválido: ${e.message}`);
+    return;
+  }
 
   const declared = JSON.stringify(cfg.hooks || {});
   let bad = 0;
   for (const m of declared.matchAll(/hooks\/([a-z-]+\.js)/g)) {
-    if (!exists(`.claude/hooks/${m[1]}`)) { fail('hooks', `settings.json referencia hook inexistente: ${m[1]}`); bad++; }
+    if (!exists(`.claude/hooks/${m[1]}`)) {
+      fail('hooks', `settings.json referencia hook inexistente: ${m[1]}`);
+      bad++;
+    }
   }
   if (!cfg.hooks) warn('hooks', 'nenhum hook configurado — o OS fica sem enforcement mecânico');
   else if (bad === 0) pass('hooks declarados existem no disco');
@@ -209,12 +242,22 @@ function checkHooks() {
 // ─────────────────────────────────────────────── 7. gitignore hygiene
 
 function checkGitignore() {
-  if (!exists('.gitignore')) { fail('gitignore', 'ausente'); return; }
+  if (!exists('.gitignore')) {
+    fail('gitignore', 'ausente');
+    return;
+  }
   const gi = read('.gitignore');
-  const required = [['.env', /^\.env$/m], ['node_modules/', /node_modules/], ['CLAUDE.local.md', /CLAUDE\.local\.md/]];
+  const required = [
+    ['.env', /^\.env$/m],
+    ['node_modules/', /node_modules/],
+    ['CLAUDE.local.md', /CLAUDE\.local\.md/],
+  ];
   let bad = 0;
   for (const [label, re] of required) {
-    if (!re.test(gi)) { fail('gitignore', `não ignora ${label}`); bad++; }
+    if (!re.test(gi)) {
+      fail('gitignore', `não ignora ${label}`);
+      bad++;
+    }
   }
   if (bad === 0) pass('gitignore cobre .env, node_modules, CLAUDE.local.md');
 }
@@ -222,13 +265,17 @@ function checkGitignore() {
 // ─────────────────────────────────────────────── 8. codemap wiring
 
 function checkCodemap() {
-  if (!exists('scripts/codemap.js')) { fail('codemap', 'scripts/codemap.js ausente — a camada não tem gerador'); return; }
+  if (!exists('scripts/codemap.js')) {
+    fail('codemap', 'scripts/codemap.js ausente — a camada não tem gerador');
+    return;
+  }
   pass('gerador do codemap presente');
 
   if (isOsRepo) {
     // The OS ships the machinery; the derived project owns the map.
     if (exists('CODEMAP.md')) warn('codemap', 'CODEMAP.md existe no repo do OS — deveria ser só o template');
-    if (!exists('templates/project/CODEMAP.template.md')) fail('codemap', 'falta templates/project/CODEMAP.template.md');
+    if (!exists('templates/project/CODEMAP.template.md'))
+      fail('codemap', 'falta templates/project/CODEMAP.template.md');
     else pass('template do codemap presente');
     return;
   }
@@ -244,11 +291,18 @@ function checkCodemap() {
 // release behind — it shipped "0.5.2 / 27 skills" while the repo was at 0.5.3 / 28.
 function checkPluginManifest() {
   if (!isOsRepo) return; // derived projects ship no plugin manifest
-  if (!exists('.claude-plugin/plugin.json')) { warn('plugin', 'sem .claude-plugin/plugin.json'); return; }
+  if (!exists('.claude-plugin/plugin.json')) {
+    warn('plugin', 'sem .claude-plugin/plugin.json');
+    return;
+  }
 
   let manifest;
-  try { manifest = JSON.parse(read('.claude-plugin/plugin.json')); }
-  catch { fail('plugin', 'plugin.json não é JSON válido'); return; }
+  try {
+    manifest = JSON.parse(read('.claude-plugin/plugin.json'));
+  } catch {
+    fail('plugin', 'plugin.json não é JSON válido');
+    return;
+  }
 
   const latest = (read('CHANGELOG.md').match(/^##\s*\[(\d+\.\d+\.\d+)\]/m) || [])[1];
   if (!latest) warn('plugin', 'não achei a versão mais recente no CHANGELOG');
@@ -256,8 +310,9 @@ function checkPluginManifest() {
   else pass(`plugin.json na versão do CHANGELOG (${latest})`);
 
   const skills = fs.existsSync(path.join(ROOT, '.claude/skills'))
-    ? fs.readdirSync(path.join(ROOT, '.claude/skills'), { withFileTypes: true })
-        .filter(d => d.isDirectory() && exists(`.claude/skills/${d.name}/SKILL.md`)).length
+    ? fs
+        .readdirSync(path.join(ROOT, '.claude/skills'), { withFileTypes: true })
+        .filter((d) => d.isDirectory() && exists(`.claude/skills/${d.name}/SKILL.md`)).length
     : 0;
   const claimed = (String(manifest.description || '').match(/(\d+)\s+skills/) || [])[1];
   // No claim at all is its own defect: the check would go quiet exactly when someone

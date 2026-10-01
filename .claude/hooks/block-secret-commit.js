@@ -63,7 +63,10 @@ function scan(diff, stagedFiles) {
   let currentFile = '(unknown)';
   for (const line of String(diff || '').split('\n')) {
     const header = line.match(/^\+\+\+ b\/(.+)$/);
-    if (header) { currentFile = header[1]; continue; }
+    if (header) {
+      currentFile = header[1];
+      continue;
+    }
     if (!line.startsWith('+') || line.startsWith('+++')) continue;
     for (const [label, re] of PATTERNS) {
       if (re.test(line)) findings.push({ file: currentFile, label });
@@ -79,7 +82,7 @@ function scan(diff, stagedFiles) {
 
   // Deduplicate on file+label. The matched value is deliberately never retained.
   const seen = new Set();
-  return findings.filter(f => {
+  return findings.filter((f) => {
     const k = `${f.file}::${f.label}`;
     if (seen.has(k)) return false;
     seen.add(k);
@@ -104,8 +107,11 @@ function isGitCommit(command) {
     if (gitAt === -1) continue;
     for (let i = gitAt + 1; i < tokens.length; i++) {
       const t = tokens[i];
-      if (VALUE_FLAGS.has(t)) { i++; continue; }        // flag + separate value
-      if (t.startsWith('-')) continue;                   // valueless flag or --flag=value
+      if (VALUE_FLAGS.has(t)) {
+        i++;
+        continue;
+      } // flag + separate value
+      if (t.startsWith('-')) continue; // valueless flag or --flag=value
       // First non-flag token is the subcommand. Only a match ends the search —
       // `git add . && git commit` must not be dismissed on the first segment.
       if (t === 'commit') return true;
@@ -132,24 +138,24 @@ function main() {
 
   // `git commit -a` stages tracked modifications at commit time, so also inspect unstaged.
   const includeUnstaged = /\bcommit\b[^&|;]*\s-[a-zA-Z]*a/.test(command);
-  const diff = git(['diff', '--cached', '--unified=0'], cwd)
-    + (includeUnstaged ? git(['diff', '--unified=0'], cwd) : '');
+  const diff =
+    git(['diff', '--cached', '--unified=0'], cwd) + (includeUnstaged ? git(['diff', '--unified=0'], cwd) : '');
   const staged = git(['diff', '--cached', '--name-only'], cwd).split('\n').filter(Boolean);
 
   const findings = scan(diff, staged);
   if (findings.length === 0) process.exit(0);
 
-  const lines = findings.map(f => `  • ${f.file} — ${f.label}`);
+  const lines = findings.map((f) => `  • ${f.file} — ${f.label}`);
 
   process.stderr.write(
     `BLOQUEADO: este commit parece conter credencial.\n\n${lines.join('\n')}\n\n` +
-    `O que fazer:\n` +
-    `  1. Tire o valor do código e ponha numa variável de ambiente.\n` +
-    `  2. Confirme que o arquivo real está no .gitignore.\n` +
-    `  3. Documente a variável (sem o valor) no .env.example.\n` +
-    `  4. Se a chave já foi exposta, ROTACIONE — tirar do commit não desfaz o vazamento.\n\n` +
-    `Regra: .claude/rules/secrets.md · Workflow: .claude/skills/secrets-discipline/SKILL.md\n` +
-    `Falso positivo? Rode uma vez com AIOS_ALLOW_SECRET_COMMIT=1 e registre o porquê no session-log.\n`
+      `O que fazer:\n` +
+      `  1. Tire o valor do código e ponha numa variável de ambiente.\n` +
+      `  2. Confirme que o arquivo real está no .gitignore.\n` +
+      `  3. Documente a variável (sem o valor) no .env.example.\n` +
+      `  4. Se a chave já foi exposta, ROTACIONE — tirar do commit não desfaz o vazamento.\n\n` +
+      `Regra: .claude/rules/secrets.md · Workflow: .claude/skills/secrets-discipline/SKILL.md\n` +
+      `Falso positivo? Rode uma vez com AIOS_ALLOW_SECRET_COMMIT=1 e registre o porquê no session-log.\n`,
   );
   process.exit(2);
 }
