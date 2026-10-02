@@ -64,6 +64,26 @@ Durante a verificação, o gate de escrita novo barrou um comando desta própria
 - **Histórico.** Nenhuma varredura do histórico do git com os padrões novos foi feita; só os arquivos rastreados na árvore atual.
 - **Versão.** Nada foi commitado nem lançado; a entrada do CHANGELOG está como `[Unreleased]`.
 
+## A revisão do PR #22
+
+O CodeRabbit abriu sete threads. Cada uma foi conferida contra o código antes de qualquer mudança.
+
+**Cinco procediam e foram corrigidas:**
+
+- `git -C outro commit` e `cd outro && git commit` eram escaneados em `payload.cwd`. É anterior a este PR — o `-C` já era reconhecido desde a v0.5.2 — mas reconhecer o commit e ler o repositório errado dá no mesmo que não reconhecer. O gate agora resolve cada diretório para a raiz do seu repositório e faz um scan por raiz, sempre incluindo o da sessão.
+- `commit -a` com um arquivo protegido rastreado e só modificado: o conteúdo era lido, o nome não.
+- Parênteses entre aspas partiam o comando. O divisor por regex deu lugar a um léxico de uma passada, em que um trecho entre aspas fica dentro da palavra.
+- Caminho entre aspas com espaço, e `tee` com mais de um arquivo, no gate de escrita.
+
+O teste de integração do `-C` pegou um bug da própria correção antes do push: um caminho absoluto era concatenado ao diretório base em vez de resolvido.
+
+**Duas foram recusadas, com a razão respondida na thread:**
+
+- **Detectar `DOCKER_AUTH_CONFIG`.** A regra genérica é uma rede para a stack que o `.env.example` documenta, não um scanner de propósito geral; acrescentar formato por formato é o trabalho do gitleaks, que o registry já cataloga.
+- **Tirar `|\.env$` do grep do CI.** A alternativa está lá de propósito: a regex antiga já barrava `config.env`, e removê-la afrouxaria o CI neste PR. Os gates usam a definição estrita; o CI é a rede mais larga.
+
+A leitura do comando foi para `.claude/hooks/lib/git-command.js`, o que devolveu `block-secret-commit.js` para baixo de 200 linhas. `--git-dir` e `--work-tree` continuam não sendo seguidos.
+
 ## Verificação
 
-`npm test` 217/217 · `npm run lint` limpo · `os-self-test` 81 verificações, coerente.
+`npm test` 229/229 · `npm run lint` limpo · `os-self-test` 81 verificações, coerente.

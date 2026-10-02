@@ -42,12 +42,16 @@ function isProtectedEnvPath(filePath) {
  * this reads only the two an agent reaches for. The commit gate is what stops the leak.
  */
 function envWriteTargets(command) {
-  const flat = String(command || '').replace(/["'`]/g, ' ');
-  const targets = [];
-  for (const m of flat.matchAll(/(?:>>?|\btee\b(?:\s+-\S+)*)\s*([^\s;|&<>()]+)/g)) {
-    if (isProtectedEnvPath(m[1])) targets.push(m[1]);
+  const text = String(command || '');
+  // A word is a quoted run or a bare one, so `> "my project/.env"` stays one path.
+  const word = `"[^"]*"|'[^']*'|[^\\s;|&<>()"']+`;
+  const words = [];
+  for (const m of text.matchAll(new RegExp(`>>?\\s*(${word})`, 'g'))) words.push(m[1]);
+  // `tee` writes every operand, not just the first: `tee out.log .env`.
+  for (const m of text.matchAll(/\btee\b([^;|&<>()\n]*)/g)) {
+    words.push(...(m[1].match(new RegExp(word, 'g')) || []).filter((w) => !w.startsWith('-')));
   }
-  return targets;
+  return words.map((w) => w.replace(/^(["'])(.*)\1$/, '$2')).filter(isProtectedEnvPath);
 }
 
 function readStdin() {

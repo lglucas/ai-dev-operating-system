@@ -23,6 +23,7 @@
 const { execFileSync } = require('node:child_process');
 const fs = require('node:fs');
 const { isProtectedEnvPath } = require('./protect-env-files.js');
+const { isGitCommit, commitDirs, commitsAll } = require('./lib/git-command.js');
 
 // The generic rule's value: 24+ opaque characters with a letter AND a digit, so that
 // `STRIPE_SECRET_KEY=your_secret_key_goes_here` stays a placeholder.
@@ -77,6 +78,11 @@ function stagedFiles(cwd) {
   return git(['diff', '--cached', '--name-only', '--diff-filter=d'], cwd).split('\n').filter(Boolean);
 }
 
+/** Tracked paths modified but not staged — what `git commit -a` adds on its own. */
+function unstagedFiles(cwd) {
+  return git(['diff', '--name-only', '--diff-filter=d'], cwd).split('\n').filter(Boolean);
+}
+
 /** Exported for tests: scan a unified diff and a staged file list, return findings. */
 function scan(diff, stagedFiles) {
   const findings = [];
@@ -112,53 +118,6 @@ function scan(diff, stagedFiles) {
   });
 }
 
-// Global git flags that consume the NEXT token as their value. Without this list,
-// `git -C /tmp commit` reads as "git, -C, then /tmp" and the commit is missed: a bypass.
-const VALUE_FLAGS = new Set(['-C', '-c', '--git-dir', '--work-tree', '--namespace', '--exec-path', '--config-env']);
-
-const GIT_BIN = /(^|[\\/])git(\.exe)?$/i; // `git`, `/usr/bin/git`, `git.exe`
-const QUOTE_AWARE = /(?:[^\s"']+|"[^"]*"|'[^']*')+/g; // keeps `-c "user.name=A B"` as one value
-const splitShell = (s) => s.split(/&&|\|\||\$\(|[;|&(){}\n]/);
-
-/** True when a `git` token in the segment has `commit` as its subcommand. */
-function hasCommit(segment, tokenRe) {
-  const tokens = segment.match(tokenRe) || [];
-  for (let g = 0; g < tokens.length; g++) {
-    if (!GIT_BIN.test(tokens[g])) continue;
-    for (let i = g + 1; i < tokens.length; i++) {
-      const t = tokens[i];
-      if (VALUE_FLAGS.has(t)) {
-        i++;
-        continue;
-      } // flag + separate value
-      if (t.startsWith('-')) continue; // valueless flag or --flag=value
-      // First non-flag token is the subcommand. Only a match ends the search —
-      // `git add . && git commit` must not be dismissed on the first segment.
-      if (t === 'commit') return true;
-      break;
-    }
-  }
-  return false;
-}
-
-/**
- * True when the command runs `git commit` in any segment.
- * Token-based rather than regex-based so that global flags with values are handled.
- *
- * Read twice: as written, and with quotes flattened — so `bash -c "git commit"` and
- * `$(git commit)` are seen too. The second read errs towards scanning: `echo "git commit"`
- * triggers a scan that finds nothing. Still best-effort — a git alias or `$G commit` gets
- * past it, which is why scripts/pre-commit.js runs the same scan from git itself.
- */
-function isGitCommit(command) {
-  const raw = String(command || '');
-  const flat = raw.replace(/["'`]/g, ' ');
-  return splitShell(raw).some((s) => hasCommit(s, QUOTE_AWARE)) || splitShell(flat).some((s) => hasCommit(s, /\S+/g));
-}
-
-/** True for `git commit -a` / `-am` / `--all`, which stage tracked changes at commit time. */
-const commitsAll = (command) => /\bcommit\b[^&|;]*\s(?:--all\b|-[a-zA-Z]*a)/.test(String(command || ''));
-
 function main() {
   if (process.env.AIOS_ALLOW_SECRET_COMMIT === '1') process.exit(0);
 
@@ -174,10 +133,17 @@ function main() {
 
   const cwd = payload?.cwd || process.cwd();
 
-  // `git commit -a` stages tracked modifications at commit time, so also inspect unstaged.
-  const diff =
-    git(['diff', '--cached', '--unified=0'], cwd) + (commitsAll(command) ? git(['diff', '--unified=0'], cwd) : '');
-  const findings = scan(diff, stagedFiles(cwd));
+  // One scan per repository the command commits in — `git -C other commit` and
+  // `cd other && git commit` do not commit in `cwd`. `git commit -a` stages tracked
+  // modifications at commit time, so then the unstaged diff and its filenames count too.
+  const all = commitsAll(command);
+  const roots = new Set(commitDirs(command, cwd).map((dir) => git(['rev-parse', '--show-toplevel'], dir).trim()));
+  const findings = [];
+  for (const root of roots) {
+    if (!root) continue; // not a repository — nothing can be committed there
+    const diff = git(['diff', '--cached', '--unified=0'], root) + (all ? git(['diff', '--unified=0'], root) : '');
+    findings.push(...scan(diff, stagedFiles(root).concat(all ? unstagedFiles(root) : [])));
+  }
   if (findings.length === 0) process.exit(0);
 
   const lines = findings.map((f) => `  • ${f.file} — ${f.label}`);
@@ -195,6 +161,6 @@ function main() {
   process.exit(2);
 }
 
-module.exports = { scan, stagedFiles, isGitCommit, commitsAll, isForbiddenFile, PATTERNS };
+module.exports = { scan, stagedFiles, isGitCommit, commitDirs, commitsAll, isForbiddenFile, PATTERNS };
 
 if (require.main === module) main();

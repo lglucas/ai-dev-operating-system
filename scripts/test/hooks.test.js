@@ -17,12 +17,12 @@
 
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
-const { spawnSync } = require('node:child_process');
+const { execFileSync, spawnSync } = require('node:child_process');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 
-const { scan, isGitCommit, commitsAll } = require('../../.claude/hooks/block-secret-commit.js');
+const { scan, isGitCommit, commitDirs, commitsAll } = require('../../.claude/hooks/block-secret-commit.js');
 const { isProtectedEnvPath, envWriteTargets } = require('../../.claude/hooks/protect-env-files.js');
 const { isLintable, isInside, findBiome } = require('../../.claude/hooks/lint-on-edit.js');
 
@@ -217,6 +217,76 @@ describe('block-secret-commit: reconhece o comando', () => {
   for (const c of ['git commit -m x', 'git commit --amend', 'git commit --allow-empty -m x']) {
     test(`só o staged: ${c}`, () => assert.equal(commitsAll(c), false));
   }
+
+  // Separators inside quotes are part of the argument, not the end of the command.
+  test('parênteses entre aspas não partem o comando', () => {
+    assert.equal(isGitCommit('git -C "/tmp/project (1)" commit -m x'), true);
+  });
+});
+
+// The scan has to read the repository the commit happens in, which is not always `cwd`.
+describe('block-secret-commit: em qual repositório', () => {
+  const at = (...parts) => path.resolve('/p', ...parts);
+  const cases = [
+    ['git commit -m x', [at()]],
+    ['git -C other commit -m x', [at(), at('other')]],
+    ['cd other && git commit -m x', [at(), at('other')]],
+    ['cd a && git -C b commit', [at(), at('a', 'b')]],
+    ['git -C "my repo (1)" commit', [at(), at('my repo (1)')]],
+    ['bash -c "git -C other commit -m x"', [at(), at('other')]],
+  ];
+  for (const [command, dirs] of cases) {
+    test(command, () => assert.deepEqual(commitDirs(command, at()), dirs));
+  }
+});
+
+describe('block-secret-commit: o hook de ponta a ponta', () => {
+  const HOOK = path.join(__dirname, '..', '..', '.claude', 'hooks', 'block-secret-commit.js');
+  const identity = ['-c', 'user.name=test', '-c', 'user.email=test@example.com'];
+  const run = (command, cwd) =>
+    spawnSync(process.execPath, [HOOK], {
+      input: JSON.stringify({ tool_input: { command }, cwd }),
+      encoding: 'utf8',
+      env: { ...process.env, AIOS_ALLOW_SECRET_COMMIT: '' },
+    });
+  const withRepo = (fn) => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aios-gate-'));
+    try {
+      execFileSync('git', ['init', '-q'], { cwd: dir });
+      return fn(dir);
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  };
+
+  // `commit -a` picks up tracked edits that were never staged — content and filename.
+  test('commit -a vê um .env rastreado e só modificado', () => {
+    withRepo((dir) => {
+      fs.writeFileSync(path.join(dir, '.env.local'), 'PORT=3000\n');
+      execFileSync('git', ['add', '-f', '.env.local'], { cwd: dir });
+      execFileSync('git', [...identity, 'commit', '-q', '--no-verify', '-m', 'seed'], { cwd: dir });
+      fs.writeFileSync(path.join(dir, '.env.local'), 'PORT=4000\n');
+
+      assert.equal(run('git commit -m x', dir).status, 0, 'sem -a o arquivo não entra no commit');
+      const r = run('git commit -am x', dir);
+      assert.equal(r.status, 2);
+      assert.match(r.stderr, /\.env\.local/);
+    });
+  });
+
+  test('git -C lê o repositório do commit, não o da sessão', () => {
+    withRepo((repo) => {
+      const elsewhere = fs.mkdtempSync(path.join(os.tmpdir(), 'aios-elsewhere-'));
+      try {
+        fs.writeFileSync(path.join(repo, '.env.staging'), 'PORT=3000\n');
+        execFileSync('git', ['add', '-f', '.env.staging'], { cwd: repo });
+        assert.equal(run(`git -C "${repo}" commit -m x`, elsewhere).status, 2);
+        assert.equal(run('git commit -m x', elsewhere).status, 0);
+      } finally {
+        fs.rmSync(elsewhere, { recursive: true, force: true });
+      }
+    });
+  });
 });
 
 describe('protect-env-files: caminhos', () => {
@@ -254,6 +324,9 @@ describe('protect-env-files: escrita pelo shell', () => {
     ['printf "K=x" > "apps/web/.env.staging"', 'apps/web/.env.staging'],
     ['echo KEY=x | tee .env', '.env'],
     ['echo KEY=x | tee -a .env.production', '.env.production'],
+    ['echo KEY=x > "my project/.env"', 'my project/.env'], // a quoted path with a space
+    ['echo KEY=x | tee out.log .env.development', '.env.development'], // tee writes every operand
+    ['bash -c "echo KEY=x > .env"', '.env'],
   ];
   for (const [command, target] of writes) {
     test(`bloqueia: ${command}`, () => assert.deepEqual(envWriteTargets(command), [target]));

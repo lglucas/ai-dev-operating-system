@@ -37,7 +37,15 @@ O `.env.example` lista Supabase, NextAuth, Resend e Stripe, e nenhum dos formato
 - README dos hooks: seção "O que conta como `.env` real" e seção "O que os gates não pegam", com os limites escritos — alias do git, comando em variável, `cp`.
 - `secrets-discipline`: a regra deixa de nomear três arquivos e passa a dizer "qualquer `.env.<estágio>`".
 
-54 testes novos, 217 no total. 81 verificações no `os-self-test`.
+### Fixed — apontado na revisão do PR
+
+- `git -C outro commit` e `cd outro && git commit` eram lidos no repositório da sessão, não no do commit. O gate agora faz um scan por repositório em que o comando commita.
+- `git commit -a` lia o conteúdo do diff não staged, mas não os nomes: um `.env.local` rastreado e só modificado passava.
+- Parênteses dentro de aspas (`git -C "/tmp/projeto (1)" commit`) partiam o comando e escondiam o commit.
+- O gate de escrita cortava um caminho entre aspas no primeiro espaço, e do `tee` só olhava o primeiro arquivo.
+- A leitura do comando saiu para `.claude/hooks/lib/git-command.js`; `block-secret-commit.js` volta a ficar abaixo de 200 linhas.
+
+66 testes novos, 229 no total. 81 verificações no `os-self-test`.
 
 ---
 

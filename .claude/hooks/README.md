@@ -63,8 +63,8 @@ Até a v0.5.6 cada camada tinha a própria lista de nomes, e as listas divergiam
 
 Os dois gates do Claude Code leem o **texto** do comando, e shell tem formas demais de dizer a mesma coisa.
 
-- O gate de commit reconhece `git commit` direto, com caminho (`/usr/bin/git`), dentro de `bash -c "…"`, de `$(…)` e de parênteses. **Não** reconhece um alias do git (`git ci`) nem um comando montado em variável.
-- O gate de escrita vê redirecionamento (`>`, `>>`) e `tee`. **Não** vê `cp`, `mv`, `sed -i` ou um script que escreve o arquivo.
+- O gate de commit reconhece `git commit` direto, com caminho (`/usr/bin/git`), dentro de `bash -c "…"`, de `$(…)` e de parênteses, e segue `cd` e `git -C` para ler o repositório certo. **Não** reconhece um alias do git (`git ci`), um comando montado em variável, nem segue `--git-dir`/`--work-tree`. A leitura do comando vive em [`lib/git-command.js`](lib/git-command.js).
+- O gate de escrita vê redirecionamento (`>`, `>>`) e todos os arquivos de um `tee`. **Não** vê `cp`, `mv`, `sed -i` ou um script que escreve o arquivo.
 
 Por isso existe a segunda camada, abaixo: o pre-commit do git não depende de como o commit foi digitado.
 
