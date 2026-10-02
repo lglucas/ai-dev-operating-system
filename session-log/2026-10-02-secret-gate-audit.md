@@ -62,7 +62,7 @@ Durante a verificação, o gate de escrita novo barrou um comando desta própria
 - **AIOS-005, `core.hooksPath` no `prepare`.** Documentado no README dos hooks e é o mecanismo que liga o pre-commit. Mantido.
 - **Projeto derivado sem `npm install`.** Sem ele não há pre-commit do git, e sobra só o gate do Claude Code. Não mudou.
 - **Histórico.** Nenhuma varredura do histórico do git com os padrões novos foi feita; só os arquivos rastreados na árvore atual.
-- **Versão.** Nada foi commitado nem lançado; a entrada do CHANGELOG está como `[Unreleased]`.
+- **Versão.** O trabalho foi para a `main` pelo PR #22, mas não houve tag nem release; a entrada do CHANGELOG continua como `[Unreleased]`.
 
 ## A revisão do PR #22
 
@@ -83,6 +83,30 @@ O teste de integração do `-C` pegou um bug da própria correção antes do pus
 - **Tirar `|\.env$` do grep do CI.** A alternativa está lá de propósito: a regex antiga já barrava `config.env`, e removê-la afrouxaria o CI neste PR. Os gates usam a definição estrita; o CI é a rede mais larga.
 
 A leitura do comando foi para `.claude/hooks/lib/git-command.js`, o que devolveu `block-secret-commit.js` para baixo de 200 linhas. `--git-dir` e `--work-tree` continuam não sendo seguidos.
+
+O segundo commit (`52ff4c1`) **não foi revisado pelo CodeRabbit** — o check saiu como "Review rate limited". Passou pelo CI e pelos testes novos, e é o commit que extraiu `lib/git-command.js`. O PR foi mergeado como `e78210d`.
+
+A primeira rodada do CI falhou no lychee por três 504 do próprio github.com, em arquivos que o PR não tocava; a segunda passou.
+
+## Depois do merge: o selo e o retorno ao autor da ferramenta
+
+O usuário perguntou se o site da auditoria dava um selo para o README dizendo que o repo passou.
+
+O site gera um badge por execução (`/badge/<run>.svg`). O desta rodada diz **"2 proven findings · PoC verified"**. Decisão: **não usar**, por três razões.
+
+1. Ele anuncia achados, não aprovação. Pelo código do badge, o texto só vira "clean hunt · no survivors" quando a rodada não encontra nada.
+2. Ele atesta o commit `9b8037d`, anterior às correções. Nada no site verifica o que foi corrigido depois.
+3. O site está num endereço `*.ts.net` (Tailscale Funnel). Se sair do ar, a imagem quebra no README.
+
+O caminho para um selo honesto é uma nova rodada sobre a `main` corrigida. Mesmo saindo limpa, o selo entra como o do Harness Score entrou: com data, modo e escopo, dizendo que não é certificação — a ferramenta é feita para programas Solana e tratou este repo como caso à parte.
+
+A ferramenta é o repositório público `jazzautomations/cachorro-solana`, identificado pelo código do badge em `web/app/badge/[id]/route.ts`; o site não linka para ele. Não foi confirmado que o dono do repositório é o amigo que rodou a auditoria.
+
+Foi aberto o issue [jazzautomations/cachorro-solana#1](https://github.com/jazzautomations/cachorro-solana/issues/1), com a conta do usuário e a pedido dele: o que foi corrigido achado por achado, os buracos extras encontrados na reprodução, a inconsistência de contagem na página (cabeçalho "0 FINDINGS", corpo "1 validated", badge "2 proven findings") e o pedido de nova rodada sobre `e78210d`.
+
+**Em aberto:** o AIOS-005 continua sem correção, então a nova rodada pode voltar com ele e o badge não sair limpo. Corrigi-lo antes da nova rodada foi oferecido e não decidido.
+
+Um detalhe operacional: a conta ativa do `gh` na máquina era outra, sem permissão no repo, e o primeiro push deu 403. Os comandos de push, PR, merge e issue usaram a credencial da conta dona do repo por comando, sem trocar a conta ativa global.
 
 ## Verificação
 

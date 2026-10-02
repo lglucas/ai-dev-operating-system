@@ -47,6 +47,10 @@ O `.env.example` lista Supabase, NextAuth, Resend e Stripe, e nenhum dos formato
 
 66 testes novos, 229 no total. 81 verificações no `os-self-test`.
 
+### Not changed — o selo da auditoria não entrou no README
+
+O serviço gera um badge por execução, e o desta diz "2 proven findings · PoC verified" sobre o commit anterior às correções. Colocá-lo no README anunciaria o contrário do que se queria dizer. Foi pedida uma nova rodada sobre a `main` corrigida ([cachorro-solana#1](https://github.com/jazzautomations/cachorro-solana/issues/1)); o selo fica condicionado a ela. O achado AIOS-005 (injeção de markdown no `sync-selfhosted.js`) segue aberto.
+
 ---
 
 ## [0.5.6] — 2026-10-01 — Sensores com ponto de entrada: `npm test`, Biome, hook de feedback e pre-commit
