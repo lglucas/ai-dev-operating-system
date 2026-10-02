@@ -6,6 +6,49 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [Unreleased] — os gates de segredo depois de uma auditoria externa
+
+Uma auditoria automatizada de terceiros, rodada sobre o commit `9b8037d`, mostrou que um `.env.development` com uma chave `service_role` do Supabase passava por todas as camadas: `.gitignore`, gate do Claude Code, pre-commit do git e CI. Os achados foram reproduzidos localmente antes de qualquer correção. Raciocínio, o que foi confirmado e o que ficou de fora em [`session-log/2026-10-02-secret-gate-audit.md`](session-log/2026-10-02-secret-gate-audit.md).
+
+### Fixed — `.env.<estágio>` era commitável
+
+Cada camada enumerava nomes — `.env`, `.env.local`, `.env.production` — e nenhuma lista tinha `.env.development`, `.env.staging` ou `.env.test`, que são a convenção do Next.js e do Vite. O gate de escrita usava uma regex mais larga, então os dois gates discordavam sobre o que era um `.env` real; e o de escrita, por sua vez, deixava passar `.env.development.local`.
+
+Agora há **uma definição**, em `protect-env-files.js`: `.env` mais qualquer número de sufixos, exceto quando o último é `example`, `sample`, `template` ou `dist`. O gate de commit a importa; `.gitignore` e o grep do CI foram alargados para o mesmo conjunto.
+
+### Fixed — os formatos da stack documentada não eram reconhecidos
+
+O `.env.example` lista Supabase, NextAuth, Resend e Stripe, e nenhum dos formatos de chave deles casava com os padrões. Entram: JWT (o formato das chaves do Supabase), `whsec_`, `sb_secret_` / `sbp_`, `re_`, e uma regra genérica para variável com `SECRET`, `TOKEN`, `PASSWORD` ou `API_KEY` no nome recebendo um valor opaco — a rede para o `NEXTAUTH_SECRET`, que não tem prefixo. Uma linha agora gera um achado só: o primeiro padrão que casar.
+
+### Fixed — formas de `git commit` que o gate não via
+
+`bash -c "git commit"`, `$(git commit)`, `(git commit)`, `/usr/bin/git commit` e `git.exe commit` saíam com 0 sem scan. O comando passa a ser lido duas vezes, como escrito e com as aspas achatadas. `git commit --all` não acionava a leitura do diff não staged, só `-a`. E o matcher era só `Bash`: um commit feito pela ferramenta `PowerShell` nunca chegava ao gate.
+
+### Added — o gate de escrita vê o shell
+
+`protect-env-files.js` passa a rodar também em `Bash` e `PowerShell`, e bloqueia redirecionamento (`>`, `>>`) e `tee` para um `.env` real. É melhor esforço e está documentado como tal: `cp` e `sed -i` não são vistos.
+
+### Added — a divergência vira check
+
+`os-self-test` pergunta ao git (`check-ignore`) se cada nome de `.env` é ignorado, compara com a definição do gate, e falha se houver um `.env` real rastreado. As listas não podem mais divergir em silêncio.
+
+### Changed
+
+- README dos hooks: seção "O que conta como `.env` real" e seção "O que os gates não pegam", com os limites escritos — alias do git, comando em variável, `cp`.
+- `secrets-discipline`: a regra deixa de nomear três arquivos e passa a dizer "qualquer `.env.<estágio>`".
+
+### Fixed — apontado na revisão do PR
+
+- `git -C outro commit` e `cd outro && git commit` eram lidos no repositório da sessão, não no do commit. O gate agora faz um scan por repositório em que o comando commita.
+- `git commit -a` lia o conteúdo do diff não staged, mas não os nomes: um `.env.local` rastreado e só modificado passava.
+- Parênteses dentro de aspas (`git -C "/tmp/projeto (1)" commit`) partiam o comando e escondiam o commit.
+- O gate de escrita cortava um caminho entre aspas no primeiro espaço, e do `tee` só olhava o primeiro arquivo.
+- A leitura do comando saiu para `.claude/hooks/lib/git-command.js`; `block-secret-commit.js` volta a ficar abaixo de 200 linhas.
+
+66 testes novos, 229 no total. 81 verificações no `os-self-test`.
+
+---
+
 ## [0.5.6] — 2026-10-01 — Sensores com ponto de entrada: `npm test`, Biome, hook de feedback e pre-commit
 
 Um scanner externo de maturidade de harness ([harness-score](https://github.com/paladini/harness-score) v1.7.5, rodado de fora do repositório) mediu o OS em **L2, 80/108**. Quatro das seis dimensões estavam entre 78% e 100%; "Sensors & Feedback" estava em 2/20, por uma causa só: os testes existiam e rodavam no CI, mas sem `package.json` não havia ponto de entrada padrão por onde um agente — ou uma ferramenta — os encontrasse. Depois desta release o mesmo scan dá **L4, 101/108**. Raciocínio e o que ficou de fora em [`session-log/2026-10-01-v0.5.6-harness-sensors.md`](session-log/2026-10-01-v0.5.6-harness-sensors.md).

@@ -22,6 +22,13 @@
 
 const { execFileSync } = require('node:child_process');
 const fs = require('node:fs');
+const { isProtectedEnvPath } = require('./protect-env-files.js');
+const { isGitCommit, commitDirs, commitsAll } = require('./lib/git-command.js');
+
+// The generic rule's value: 24+ opaque characters with a letter AND a digit, so that
+// `STRIPE_SECRET_KEY=your_secret_key_goes_here` stays a placeholder.
+const OPAQUE = '(?=[A-Za-z0-9+/_=-]*\\d)(?=[A-Za-z0-9+/_=-]*[A-Za-z])[A-Za-z0-9+/_=-]{24,}';
+const SECRET_NAME = '[A-Z0-9_]*(?:SECRET|TOKEN|PASSWORD|API_KEY|PRIVATE_KEY|SERVICE_ROLE_KEY)[A-Z0-9_]*';
 
 const PATTERNS = [
   ['OpenAI-style key', /\bsk-[A-Za-z0-9_-]{20,}/],
@@ -32,12 +39,19 @@ const PATTERNS = [
   ['Slack token', /\bxox[baprs]-[A-Za-z0-9-]{10,}/],
   ['Private key block', /-----BEGIN (?:[A-Z ]+ )?PRIVATE KEY-----/],
   ['Stripe secret key', /\b[sr]k_live_[A-Za-z0-9]{20,}/],
+  ['Stripe webhook secret', /\bwhsec_[A-Za-z0-9+/=]{24,}/],
+  ['Supabase secret key', /\bsb_secret_[A-Za-z0-9_-]{20,}|\bsbp_[A-Za-z0-9]{30,}/],
+  ['Resend API key', /\bre_(?=[A-Za-z0-9_]*\d)[A-Za-z0-9_]{24,}\b/],
+  // Supabase's anon and service_role keys are both JWTs; neither belongs in a literal.
+  ['JWT', /\beyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/],
+  // The backstop for secrets with no prefix at all (NEXTAUTH_SECRET is plain base64).
+  ['opaque value in a secret-named variable', new RegExp(`\\b${SECRET_NAME}\\s*[:=]\\s*["'\`]?${OPAQUE}`)],
 ];
 
-// Staged filenames that should never be committed. `.env.example` is the documented
-// exception — it is how the OS tells you which variables exist, without their values.
-const FORBIDDEN_FILE = /(^|\/)\.env(\.local|\.production|\.[a-z]+\.local)?$|\.pem$|\.key$|\.p12$|\.pfx$/i;
-const ALLOWED_FILE = /(^|\/)\.env\.(example|sample|template)$/i;
+// Staged filenames that should never be committed. What counts as a real env file is
+// decided in one place, protect-env-files.js; `.env.example` and other templates pass.
+const KEY_FILE = /\.(pem|key|p12|pfx)$/i;
+const isForbiddenFile = (file) => isProtectedEnvPath(file) || KEY_FILE.test(file);
 
 function readStdin() {
   try {
@@ -64,6 +78,11 @@ function stagedFiles(cwd) {
   return git(['diff', '--cached', '--name-only', '--diff-filter=d'], cwd).split('\n').filter(Boolean);
 }
 
+/** Tracked paths modified but not staged — what `git commit -a` adds on its own. */
+function unstagedFiles(cwd) {
+  return git(['diff', '--name-only', '--diff-filter=d'], cwd).split('\n').filter(Boolean);
+}
+
 /** Exported for tests: scan a unified diff and a staged file list, return findings. */
 function scan(diff, stagedFiles) {
   const findings = [];
@@ -77,14 +96,14 @@ function scan(diff, stagedFiles) {
       continue;
     }
     if (!line.startsWith('+') || line.startsWith('+++')) continue;
-    for (const [label, re] of PATTERNS) {
-      if (re.test(line)) findings.push({ file: currentFile, label });
-    }
+    // One finding per line: the first match wins, and the generic rule is last in the list.
+    const hit = PATTERNS.find(([, re]) => re.test(line));
+    if (hit) findings.push({ file: currentFile, label: hit[0] });
   }
 
   // 2. Forbidden files being staged at all.
   for (const f of stagedFiles || []) {
-    if (FORBIDDEN_FILE.test(f) && !ALLOWED_FILE.test(f)) {
+    if (isForbiddenFile(f)) {
       findings.push({ file: f, label: 'secret-bearing file staged' });
     }
   }
@@ -97,37 +116,6 @@ function scan(diff, stagedFiles) {
     seen.add(k);
     return true;
   });
-}
-
-// Global git flags that consume the NEXT token as their value. Without this list,
-// `git -C /tmp commit` reads as "git, flag -C, then /tmp" and the commit is missed —
-// which is a bypass, not a cosmetic bug. Caught by scripts/test/hooks.test.js.
-const VALUE_FLAGS = new Set(['-C', '-c', '--git-dir', '--work-tree', '--namespace', '--exec-path', '--config-env']);
-
-/**
- * True when the command runs `git commit` in any segment.
- * Token-based rather than regex-based so that global flags with values are handled.
- */
-function isGitCommit(command) {
-  const segments = String(command || '').split(/&&|\|\||;|\|/);
-  for (const segment of segments) {
-    const tokens = segment.trim().split(/\s+/).filter(Boolean);
-    const gitAt = tokens.indexOf('git');
-    if (gitAt === -1) continue;
-    for (let i = gitAt + 1; i < tokens.length; i++) {
-      const t = tokens[i];
-      if (VALUE_FLAGS.has(t)) {
-        i++;
-        continue;
-      } // flag + separate value
-      if (t.startsWith('-')) continue; // valueless flag or --flag=value
-      // First non-flag token is the subcommand. Only a match ends the search —
-      // `git add . && git commit` must not be dismissed on the first segment.
-      if (t === 'commit') return true;
-      break;
-    }
-  }
-  return false;
 }
 
 function main() {
@@ -145,11 +133,17 @@ function main() {
 
   const cwd = payload?.cwd || process.cwd();
 
-  // `git commit -a` stages tracked modifications at commit time, so also inspect unstaged.
-  const includeUnstaged = /\bcommit\b[^&|;]*\s-[a-zA-Z]*a/.test(command);
-  const diff =
-    git(['diff', '--cached', '--unified=0'], cwd) + (includeUnstaged ? git(['diff', '--unified=0'], cwd) : '');
-  const findings = scan(diff, stagedFiles(cwd));
+  // One scan per repository the command commits in — `git -C other commit` and
+  // `cd other && git commit` do not commit in `cwd`. `git commit -a` stages tracked
+  // modifications at commit time, so then the unstaged diff and its filenames count too.
+  const all = commitsAll(command);
+  const roots = new Set(commitDirs(command, cwd).map((dir) => git(['rev-parse', '--show-toplevel'], dir).trim()));
+  const findings = [];
+  for (const root of roots) {
+    if (!root) continue; // not a repository — nothing can be committed there
+    const diff = git(['diff', '--cached', '--unified=0'], root) + (all ? git(['diff', '--unified=0'], root) : '');
+    findings.push(...scan(diff, stagedFiles(root).concat(all ? unstagedFiles(root) : [])));
+  }
   if (findings.length === 0) process.exit(0);
 
   const lines = findings.map((f) => `  • ${f.file} — ${f.label}`);
@@ -167,6 +161,6 @@ function main() {
   process.exit(2);
 }
 
-module.exports = { scan, stagedFiles, isGitCommit, PATTERNS, FORBIDDEN_FILE, ALLOWED_FILE };
+module.exports = { scan, stagedFiles, isGitCommit, commitDirs, commitsAll, isForbiddenFile, PATTERNS };
 
 if (require.main === module) main();

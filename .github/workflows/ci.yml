@@ -82,7 +82,9 @@ jobs:
       - name: Reject committed secrets / archives / OS junk
         run: |
           set -e
-          if git ls-files | grep -E '\.(env|env\.local|env\.production)$' ; then
+          # Any .env or .env.<stage>, minus templates. The authoritative check is the
+          # one in os-self-test, which uses the hooks' own definition; this is the net.
+          if git ls-files | grep -E '(^|/)\.env(\.[A-Za-z0-9_-]+)*$|\.env$' | grep -vE '\.(example|sample|template|dist)$' ; then
             echo "::error::.env file committed."
             exit 1
           fi

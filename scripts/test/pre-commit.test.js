@@ -67,6 +67,21 @@ describe('pre-commit: credencial no stage', () => {
       assert.equal(runHook(dir).status, 1);
     });
   });
+
+  // The external audit's reproduction: a stage-named env file went through every layer.
+  test('um .env.development staged também para', () => {
+    inTempDir({ gitRepo: true, files: { '.env.development': 'PORT=3000\n' } }, (dir) => {
+      const r = runHook(dir);
+      assert.equal(r.status, 1);
+      assert.match(r.stderr, /\.env\.development/);
+    });
+  });
+
+  test('o template .env.example passa', () => {
+    inTempDir({ gitRepo: true, files: { '.env.example': 'NEXTAUTH_SECRET=\n' } }, (dir) => {
+      assert.equal(runHook(dir).status, 0);
+    });
+  });
 });
 
 describe('pre-commit: sai do caminho', () => {
