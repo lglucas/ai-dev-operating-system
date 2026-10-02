@@ -8,10 +8,18 @@ CLAUDE.local.md
 .claude/settings.local.json
 
 # === Environment ===
+# Every .env.<anything> is a real env file unless it is a template. Listing stages by
+# name left .env.development and .env.staging committable; os-self-test now checks this.
 .env
-.env.local
-.env.*.local
-.env.production
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+!.env.dist
+!.env.*.example
+!.env.*.sample
+!.env.*.template
+!.env.*.dist
 
 # === Dependencies ===
 node_modules/

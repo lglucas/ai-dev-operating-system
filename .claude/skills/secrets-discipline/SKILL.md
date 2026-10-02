@@ -16,7 +16,7 @@ description: Enforce safe handling of API keys, tokens, passwords, and credentia
 
 1. **Never paste real secrets into source code.** Always use `process.env.X` (or framework equivalent).
 2. **Always update `.env.example`** when introducing a new env var. The example file documents the existence of the variable, not its value.
-3. **Never commit `.env`, `.env.local`, `.env.production`.** They are gitignored — verify before commit.
+3. **Never commit `.env` or any `.env.<stage>`** — `.env.local`, `.env.development`, `.env.staging`, `.env.production`. Only the templates (`.env.example`, `.sample`, `.template`, `.dist`) are committed. The rest are gitignored — verify before commit.
 4. **Server-only secrets must stay server-only.** In Next.js, anything starting with `NEXT_PUBLIC_` is shipped to the browser. If it's a secret, do NOT prefix it.
 5. **One secret, one env var.** Don't reuse the same key for unrelated services.
 6. **Rotate after exposure.** If a secret was committed at any point (even in a deleted file), rotate it. Git history retains it.
@@ -30,7 +30,7 @@ description: Enforce safe handling of API keys, tokens, passwords, and credentia
 1. Identify all secret-like values in the proposed change.
 2. Confirm each is referenced via `process.env.X` (or equivalent).
 3. Confirm `.env.example` documents each new variable with a comment explaining purpose.
-4. Confirm `.env`, `.env.local` are in `.gitignore`.
+4. Confirm `.env` and `.env.*` are in `.gitignore`, with the templates excepted (`git check-ignore .env.development` must print the name).
 5. Run a quick scan: search for accidental literal API keys — the patterns in [`.claude/rules/secrets.md`](../../rules/secrets.md) (`sk-`, `ghp_`, `github_pat_`, `AKIA`, private-key headers) — the hook in [`.claude/hooks/`](../../hooks/README.md) blocks the same set at commit time — plus `sk_[a-zA-Z0-9]{20,}`, `pk_[a-zA-Z0-9]{20,}`, `re_[a-zA-Z0-9]{20,}`, `AIza[a-zA-Z0-9\-_]{35}`.
 6. If any literal secret is found in a tracked file, stop and ask the user to rotate.
 

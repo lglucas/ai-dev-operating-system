@@ -21,15 +21,33 @@
 
 const fs = require('node:fs');
 
-const REAL_ENV = /(^|[\\/])\.env(\.[A-Za-z0-9_-]+)?$/i;
-const TEMPLATE_ENV = /(^|[\\/])\.env\.(example|sample|template|dist)$/i;
+// THE definition of "real env file" for the whole OS: `.env` plus any number of suffixes
+// (`.env.staging`, `.env.development.local`), unless the last one marks a template.
+// block-secret-commit.js imports it, and os-self-test.js checks `.gitignore` against it.
+// An earlier version enumerated names per gate, and each gate had a different list.
+const REAL_ENV = /(^|[\\/])\.env(\.[A-Za-z0-9_-]+)*$/i;
+const TEMPLATE_ENV = /(^|[\\/])\.env(\.[A-Za-z0-9_-]+)*\.(example|sample|template|dist)$/i;
 
-/** Exported for tests. True when the path is a real env file, not a template. */
+/** True when the path is a real env file, not a template. */
 function isProtectedEnvPath(filePath) {
   const p = String(filePath || '');
   if (!p) return false;
   if (TEMPLATE_ENV.test(p)) return false;
   return REAL_ENV.test(p);
+}
+
+/**
+ * Real env files a shell command writes through a redirect or `tee`.
+ * Best-effort: a shell has endless ways to write a file (`cp`, `sed -i`, a script), and
+ * this reads only the two an agent reaches for. The commit gate is what stops the leak.
+ */
+function envWriteTargets(command) {
+  const flat = String(command || '').replace(/["'`]/g, ' ');
+  const targets = [];
+  for (const m of flat.matchAll(/(?:>>?|\btee\b(?:\s+-\S+)*)\s*([^\s;|&<>()]+)/g)) {
+    if (isProtectedEnvPath(m[1])) targets.push(m[1]);
+  }
+  return targets;
 }
 
 function readStdin() {
@@ -50,8 +68,11 @@ function main() {
     process.exit(0); // fail open on a malformed payload
   }
 
-  const filePath = payload?.tool_input?.file_path || payload?.tool_input?.notebook_path || '';
-  if (!isProtectedEnvPath(filePath)) process.exit(0);
+  // Write/Edit carry a path; Bash and PowerShell carry a command.
+  const input = payload?.tool_input || {};
+  const edited = input.file_path || input.notebook_path || '';
+  const filePath = isProtectedEnvPath(edited) ? edited : envWriteTargets(input.command)[0];
+  if (!filePath) process.exit(0);
 
   process.stderr.write(
     `BLOQUEADO: escrita em arquivo de ambiente real (${filePath}).\n\n` +
@@ -66,6 +87,6 @@ function main() {
   process.exit(2);
 }
 
-module.exports = { isProtectedEnvPath, REAL_ENV, TEMPLATE_ENV };
+module.exports = { isProtectedEnvPath, envWriteTargets, REAL_ENV, TEMPLATE_ENV };
 
 if (require.main === module) main();

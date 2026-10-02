@@ -22,6 +22,12 @@
 
 const { execFileSync } = require('node:child_process');
 const fs = require('node:fs');
+const { isProtectedEnvPath } = require('./protect-env-files.js');
+
+// The generic rule's value: 24+ opaque characters with a letter AND a digit, so that
+// `STRIPE_SECRET_KEY=your_secret_key_goes_here` stays a placeholder.
+const OPAQUE = '(?=[A-Za-z0-9+/_=-]*\\d)(?=[A-Za-z0-9+/_=-]*[A-Za-z])[A-Za-z0-9+/_=-]{24,}';
+const SECRET_NAME = '[A-Z0-9_]*(?:SECRET|TOKEN|PASSWORD|API_KEY|PRIVATE_KEY|SERVICE_ROLE_KEY)[A-Z0-9_]*';
 
 const PATTERNS = [
   ['OpenAI-style key', /\bsk-[A-Za-z0-9_-]{20,}/],
@@ -32,12 +38,19 @@ const PATTERNS = [
   ['Slack token', /\bxox[baprs]-[A-Za-z0-9-]{10,}/],
   ['Private key block', /-----BEGIN (?:[A-Z ]+ )?PRIVATE KEY-----/],
   ['Stripe secret key', /\b[sr]k_live_[A-Za-z0-9]{20,}/],
+  ['Stripe webhook secret', /\bwhsec_[A-Za-z0-9+/=]{24,}/],
+  ['Supabase secret key', /\bsb_secret_[A-Za-z0-9_-]{20,}|\bsbp_[A-Za-z0-9]{30,}/],
+  ['Resend API key', /\bre_(?=[A-Za-z0-9_]*\d)[A-Za-z0-9_]{24,}\b/],
+  // Supabase's anon and service_role keys are both JWTs; neither belongs in a literal.
+  ['JWT', /\beyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/],
+  // The backstop for secrets with no prefix at all (NEXTAUTH_SECRET is plain base64).
+  ['opaque value in a secret-named variable', new RegExp(`\\b${SECRET_NAME}\\s*[:=]\\s*["'\`]?${OPAQUE}`)],
 ];
 
-// Staged filenames that should never be committed. `.env.example` is the documented
-// exception — it is how the OS tells you which variables exist, without their values.
-const FORBIDDEN_FILE = /(^|\/)\.env(\.local|\.production|\.[a-z]+\.local)?$|\.pem$|\.key$|\.p12$|\.pfx$/i;
-const ALLOWED_FILE = /(^|\/)\.env\.(example|sample|template)$/i;
+// Staged filenames that should never be committed. What counts as a real env file is
+// decided in one place, protect-env-files.js; `.env.example` and other templates pass.
+const KEY_FILE = /\.(pem|key|p12|pfx)$/i;
+const isForbiddenFile = (file) => isProtectedEnvPath(file) || KEY_FILE.test(file);
 
 function readStdin() {
   try {
@@ -77,14 +90,14 @@ function scan(diff, stagedFiles) {
       continue;
     }
     if (!line.startsWith('+') || line.startsWith('+++')) continue;
-    for (const [label, re] of PATTERNS) {
-      if (re.test(line)) findings.push({ file: currentFile, label });
-    }
+    // One finding per line: the first match wins, and the generic rule is last in the list.
+    const hit = PATTERNS.find(([, re]) => re.test(line));
+    if (hit) findings.push({ file: currentFile, label: hit[0] });
   }
 
   // 2. Forbidden files being staged at all.
   for (const f of stagedFiles || []) {
-    if (FORBIDDEN_FILE.test(f) && !ALLOWED_FILE.test(f)) {
+    if (isForbiddenFile(f)) {
       findings.push({ file: f, label: 'secret-bearing file staged' });
     }
   }
@@ -100,21 +113,19 @@ function scan(diff, stagedFiles) {
 }
 
 // Global git flags that consume the NEXT token as their value. Without this list,
-// `git -C /tmp commit` reads as "git, flag -C, then /tmp" and the commit is missed —
-// which is a bypass, not a cosmetic bug. Caught by scripts/test/hooks.test.js.
+// `git -C /tmp commit` reads as "git, -C, then /tmp" and the commit is missed: a bypass.
 const VALUE_FLAGS = new Set(['-C', '-c', '--git-dir', '--work-tree', '--namespace', '--exec-path', '--config-env']);
 
-/**
- * True when the command runs `git commit` in any segment.
- * Token-based rather than regex-based so that global flags with values are handled.
- */
-function isGitCommit(command) {
-  const segments = String(command || '').split(/&&|\|\||;|\|/);
-  for (const segment of segments) {
-    const tokens = segment.trim().split(/\s+/).filter(Boolean);
-    const gitAt = tokens.indexOf('git');
-    if (gitAt === -1) continue;
-    for (let i = gitAt + 1; i < tokens.length; i++) {
+const GIT_BIN = /(^|[\\/])git(\.exe)?$/i; // `git`, `/usr/bin/git`, `git.exe`
+const QUOTE_AWARE = /(?:[^\s"']+|"[^"]*"|'[^']*')+/g; // keeps `-c "user.name=A B"` as one value
+const splitShell = (s) => s.split(/&&|\|\||\$\(|[;|&(){}\n]/);
+
+/** True when a `git` token in the segment has `commit` as its subcommand. */
+function hasCommit(segment, tokenRe) {
+  const tokens = segment.match(tokenRe) || [];
+  for (let g = 0; g < tokens.length; g++) {
+    if (!GIT_BIN.test(tokens[g])) continue;
+    for (let i = g + 1; i < tokens.length; i++) {
       const t = tokens[i];
       if (VALUE_FLAGS.has(t)) {
         i++;
@@ -129,6 +140,24 @@ function isGitCommit(command) {
   }
   return false;
 }
+
+/**
+ * True when the command runs `git commit` in any segment.
+ * Token-based rather than regex-based so that global flags with values are handled.
+ *
+ * Read twice: as written, and with quotes flattened — so `bash -c "git commit"` and
+ * `$(git commit)` are seen too. The second read errs towards scanning: `echo "git commit"`
+ * triggers a scan that finds nothing. Still best-effort — a git alias or `$G commit` gets
+ * past it, which is why scripts/pre-commit.js runs the same scan from git itself.
+ */
+function isGitCommit(command) {
+  const raw = String(command || '');
+  const flat = raw.replace(/["'`]/g, ' ');
+  return splitShell(raw).some((s) => hasCommit(s, QUOTE_AWARE)) || splitShell(flat).some((s) => hasCommit(s, /\S+/g));
+}
+
+/** True for `git commit -a` / `-am` / `--all`, which stage tracked changes at commit time. */
+const commitsAll = (command) => /\bcommit\b[^&|;]*\s(?:--all\b|-[a-zA-Z]*a)/.test(String(command || ''));
 
 function main() {
   if (process.env.AIOS_ALLOW_SECRET_COMMIT === '1') process.exit(0);
@@ -146,9 +175,8 @@ function main() {
   const cwd = payload?.cwd || process.cwd();
 
   // `git commit -a` stages tracked modifications at commit time, so also inspect unstaged.
-  const includeUnstaged = /\bcommit\b[^&|;]*\s-[a-zA-Z]*a/.test(command);
   const diff =
-    git(['diff', '--cached', '--unified=0'], cwd) + (includeUnstaged ? git(['diff', '--unified=0'], cwd) : '');
+    git(['diff', '--cached', '--unified=0'], cwd) + (commitsAll(command) ? git(['diff', '--unified=0'], cwd) : '');
   const findings = scan(diff, stagedFiles(cwd));
   if (findings.length === 0) process.exit(0);
 
@@ -167,6 +195,6 @@ function main() {
   process.exit(2);
 }
 
-module.exports = { scan, stagedFiles, isGitCommit, PATTERNS, FORBIDDEN_FILE, ALLOWED_FILE };
+module.exports = { scan, stagedFiles, isGitCommit, commitsAll, isForbiddenFile, PATTERNS };
 
 if (require.main === module) main();

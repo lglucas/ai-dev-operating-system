@@ -23,6 +23,8 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
+const { isProtectedEnvPath } = require('../.claude/hooks/protect-env-files.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const QUIET = process.argv.includes('--quiet');
@@ -260,6 +262,40 @@ function checkGitignore() {
     }
   }
   if (bad === 0) pass('gitignore cobre .env, node_modules, CLAUDE.local.md');
+
+  checkEnvCoverage();
+}
+
+/**
+ * `.gitignore`, the commit gate and the tracked files must agree on what a real env file
+ * is. They once kept separate lists, and `.env.development` fell through all of them.
+ * The probes are asked to git itself, so the answer does not depend on how the
+ * `.gitignore` happens to be written.
+ */
+function checkEnvCoverage() {
+  const git = (args) => spawnSync('git', args, { cwd: ROOT, encoding: 'utf8' });
+  if (git(['rev-parse', '--git-dir']).status !== 0) return; // not a git checkout — nothing to ask
+
+  const probes = ['.env', '.env.local', '.env.development', '.env.staging', '.env.production', '.env.test.local'];
+  const templates = ['.env.example', '.env.sample', '.env.template'];
+  const ignored = (p) => git(['check-ignore', '-q', '--no-index', p]).status === 0;
+  let bad = 0;
+
+  for (const p of [...probes, ...templates]) {
+    const real = isProtectedEnvPath(p);
+    if (real !== probes.includes(p)) {
+      fail('env', `o gate de commit classifica ${p} errado`);
+      bad++;
+    } else if (ignored(p) !== real) {
+      fail('env', real ? `.gitignore não ignora ${p}` : `.gitignore ignora o template ${p}`);
+      bad++;
+    }
+  }
+  for (const f of git(['ls-files']).stdout.split('\n').filter(isProtectedEnvPath)) {
+    fail('env', `arquivo de ambiente real rastreado pelo git: ${f}`);
+    bad++;
+  }
+  if (bad === 0) pass('.gitignore e gate de commit concordam sobre arquivos .env');
 }
 
 // ─────────────────────────────────────────────── 8. codemap wiring

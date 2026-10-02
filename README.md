@@ -85,8 +85,8 @@ Hooks are the one layer that **does not depend on cooperation**.
 
 | Hook | Fires on | Blocks |
 |---|---|---|
-| [`block-secret-commit.js`](.claude/hooks/block-secret-commit.js) | `Bash` → any `git commit` | a diff that adds something credential-shaped, or stages `.env`/`.pem`/`.key` |
-| [`protect-env-files.js`](.claude/hooks/protect-env-files.js) | `Write`, `Edit`, `MultiEdit`, `NotebookEdit` | writing into a real `.env` (`.env.example` allowed) |
+| [`block-secret-commit.js`](.claude/hooks/block-secret-commit.js) | `Bash`, `PowerShell` → any `git commit` | a diff that adds something credential-shaped, or stages `.env`, any `.env.<stage>`, `.pem` or `.key` |
+| [`protect-env-files.js`](.claude/hooks/protect-env-files.js) | `Write`, `Edit`, `MultiEdit`, `NotebookEdit`; shell `>` and `tee` | writing into a real `.env` (`.env.example` allowed) |
 
 Patterns require the **full token shape**, not the prefix — otherwise the hook would block committing `.claude/rules/secrets.md`, the file that documents those prefixes. The hook **never prints the matched value**: an alert that echoes a credential spreads it instead of containing it.
 

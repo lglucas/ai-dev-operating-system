@@ -15,8 +15,8 @@ Há dois tipos aqui, e a diferença importa:
 
 | Hook | Tipo | Dispara em | Efeito |
 |---|---|---|---|
-| [`block-secret-commit.js`](block-secret-commit.js) | gate | `Bash` → qualquer `git commit` | bloqueia commit cujo diff adiciona algo com formato de credencial, ou que staged um `.env`/`.pem`/`.key` |
-| [`protect-env-files.js`](protect-env-files.js) | gate | `Write`, `Edit`, `MultiEdit`, `NotebookEdit` | bloqueia escrita em `.env` real (libera `.env.example`) |
+| [`block-secret-commit.js`](block-secret-commit.js) | gate | `Bash`, `PowerShell` → qualquer `git commit` | bloqueia commit cujo diff adiciona algo com formato de credencial, ou que staged um `.env`, `.env.<qualquer coisa>`, `.pem` ou `.key` |
+| [`protect-env-files.js`](protect-env-files.js) | gate | `Write`, `Edit`, `MultiEdit`, `NotebookEdit`; `Bash` e `PowerShell` com `>` ou `tee` | bloqueia escrita em `.env` real (libera `.env.example`) |
 | [`lint-on-edit.js`](lint-on-edit.js) | feedback | `Write`, `Edit`, `MultiEdit` | roda o Biome no arquivo recém-editado e devolve os problemas ao Claude; não bloqueia nada |
 
 Configurados em [`../settings.json`](../settings.json). Contrato dos gates: **exit 0 permite, exit 2 bloqueia** e mostra o stderr ao Claude. No hook de feedback a ferramenta já rodou — o exit 2 só entrega o stderr.
@@ -38,9 +38,35 @@ Então os padrões exigem o formato inteiro:
 | Google | `AIza` + exatamente 35 |
 | Slack | `xox[baprs]-` + 10 ou mais |
 | Stripe | `sk_live_` / `rk_live_` + 20 ou mais |
+| Stripe webhook | `whsec_` + 24 ou mais |
+| Supabase | `sb_secret_` + 20 ou mais, ou `sbp_` + 30 ou mais |
+| Resend | `re_` + 24 ou mais, com pelo menos um dígito |
+| JWT | três segmentos base64url, os dois primeiros começando em `eyJ` — é o formato das chaves `anon` e `service_role` do Supabase |
 | Chave privada | bloco `-----BEGIN ... PRIVATE KEY-----` |
+| Genérico | variável em maiúsculas com `SECRET`, `TOKEN`, `PASSWORD`, `API_KEY`, `PRIVATE_KEY` ou `SERVICE_ROLE_KEY` no nome, recebendo 24+ caracteres opacos com letra **e** dígito |
 
 Documentação que menciona o prefixo passa. Uma chave real, não.
+
+O padrão genérico é a rede para segredo sem prefixo — `NEXTAUTH_SECRET` é base64 puro. Exigir letra e dígito deixa passar placeholder do tipo `your_secret_key_goes_here`. É heurística: pega menos que um scanner dedicado como o [gitleaks](../../docs/registry/packs/gitleaks.md), e não substitui um.
+
+---
+
+## O que conta como `.env` real
+
+Uma definição só, em `protect-env-files.js`, usada pelos dois gates: **`.env` seguido de qualquer número de sufixos** — `.env.local`, `.env.development`, `.env.staging`, `.env.test.local` — exceto quando o último sufixo é `example`, `sample`, `template` ou `dist`.
+
+Até a v0.5.6 cada camada tinha a própria lista de nomes, e as listas divergiam: `.env.development` não estava no gate de commit, nem no `.gitignore`, nem no CI. O `os-self-test` agora pergunta ao git se cada nome é ignorado e compara com a definição do gate, então a divergência vira erro de CI.
+
+---
+
+## O que os gates não pegam
+
+Os dois gates do Claude Code leem o **texto** do comando, e shell tem formas demais de dizer a mesma coisa.
+
+- O gate de commit reconhece `git commit` direto, com caminho (`/usr/bin/git`), dentro de `bash -c "…"`, de `$(…)` e de parênteses. **Não** reconhece um alias do git (`git ci`) nem um comando montado em variável.
+- O gate de escrita vê redirecionamento (`>`, `>>`) e `tee`. **Não** vê `cp`, `mv`, `sed -i` ou um script que escreve o arquivo.
+
+Por isso existe a segunda camada, abaixo: o pre-commit do git não depende de como o commit foi digitado.
 
 **O hook nunca imprime o valor encontrado** — só o arquivo e o nome do padrão. Um alerta que ecoa a credencial no terminal a espalha em vez de contê-la.
 
